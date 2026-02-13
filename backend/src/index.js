@@ -19,10 +19,12 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/gardens', require('./routes/gardens'));
 app.use('/api/classrooms', require('./routes/classrooms'));
 app.use('/api/children', require('./routes/children'));
-// app.use('/api/attendance', require('./routes/attendance'));
-// app.use('/api/daily-entries', require('./routes/dailyEntries'));
-// app.use('/api/announcements', require('./routes/announcements'));
-// app.use('/api/payments', require('./routes/payments'));
+app.use('/api/attendance', require('./routes/attendance'));
+app.use('/api/daily-entries', require('./routes/dailyEntries'));
+app.use('/api/announcements', require('./routes/announcements'));
+app.use('/api/payments', require('./routes/payments'));
+app.use('/api/messages', require('./routes/messages'));
+app.use('/api/calendar', require('./routes/calendarEvents'));
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mi-nido';
