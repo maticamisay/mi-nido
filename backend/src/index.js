@@ -14,8 +14,8 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', name: 'Mi Nido API' });
 });
 
-// Routes (se agregan después)
-// app.use('/api/auth', require('./routes/auth'));
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/gardens', require('./routes/gardens'));
 // app.use('/api/classrooms', require('./routes/classrooms'));
 // app.use('/api/children', require('./routes/children'));
