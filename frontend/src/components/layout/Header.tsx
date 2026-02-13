@@ -17,7 +17,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         className="-m-2.5 p-2.5 text-[var(--color-text-secondary)] lg:hidden"
         onClick={onMenuClick}
       >
-        <span className="sr-only">Abrir sidebar</span>
+        <span className="sr-only">Abrir menú</span>
         <svg
           className="h-6 w-6"
           fill="none"
@@ -48,7 +48,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <div className="relative w-full max-w-lg">
             <input
               type="search"
-              placeholder="Buscar niños, familias..."
+              placeholder="Buscar nenes, familias..."
               className="input w-full pl-10 text-sm"
             />
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]">

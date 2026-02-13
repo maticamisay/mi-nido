@@ -12,7 +12,7 @@ export default function DashboardPage() {
             ¡Buen día, María! 🌅
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Aquí tienes un resumen de lo que está pasando en el jardín hoy.
+            Acá tenés un resumen de lo que está pasando en el jardín hoy.
           </p>
         </div>
 
@@ -25,7 +25,7 @@ export default function DashboardPage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Niños presentes
+                  Nenes presentes
                 </p>
                 <p className="text-2xl font-bold text-[var(--color-text)]">
                   28 / 35
@@ -130,7 +130,7 @@ export default function DashboardPage() {
             </div>
             
             <button className="btn btn-secondary w-full mt-4">
-              Ver asistencia completa
+              Ver toda la asistencia
             </button>
           </div>
 
@@ -190,7 +190,7 @@ export default function DashboardPage() {
             </div>
             
             <button className="btn btn-secondary w-full mt-4">
-              Ver todas las actividades
+              Ver todo
             </button>
           </div>
         </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <button className="card hover:shadow-lg transition-shadow text-center p-6">
               <div className="text-2xl mb-2">📒</div>
-              <p className="text-sm font-medium">Crear entrada de cuaderno</p>
+              <p className="text-sm font-medium">Escribir en el cuaderno</p>
             </button>
             
             <button className="card hover:shadow-lg transition-shadow text-center p-6">
@@ -219,7 +219,7 @@ export default function DashboardPage() {
             
             <button className="card hover:shadow-lg transition-shadow text-center p-6">
               <div className="text-2xl mb-2">👶</div>
-              <p className="text-sm font-medium">Agregar niño</p>
+              <p className="text-sm font-medium">Agregar nene</p>
             </button>
           </div>
         </div>

@@ -116,7 +116,7 @@ export default function RegisterPage() {
       router.push('/dashboard')
       
     } catch (err: any) {
-      setError(err.message || 'Error al conectar con el servidor')
+      setError(err.message || 'Ups, algo salió mal. Intentá de nuevo 🤔')
     } finally {
       setIsLoading(false)
     }
@@ -131,10 +131,10 @@ export default function RegisterPage() {
             <span className="text-4xl">🐣</span>
           </div>
           <h1 className="text-3xl font-bold text-[var(--color-text)] font-display mb-2">
-            Registra tu jardín
+            Registrá tu jardín
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Crea tu cuenta y empieza a digitalizar tu jardín maternal
+            Creá tu cuenta y empezá a gestionar tu jardín maternal
           </p>
         </div>
 
@@ -168,7 +168,7 @@ export default function RegisterPage() {
                   Tus datos personales
                 </h2>
                 <p className="text-sm text-[var(--color-text-secondary)]">
-                  Como dueño/directora del jardín
+                  Como directora/propietaria del jardín
                 </p>
               </div>
 
@@ -214,7 +214,7 @@ export default function RegisterPage() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="input"
-                  placeholder="maria@ejemplo.com"
+                  placeholder="Ej: maria@rayitodesol.com"
                 />
               </div>
 
@@ -229,7 +229,7 @@ export default function RegisterPage() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     className="input"
-                    placeholder="2644123456"
+                    placeholder="Ej: 2644123456"
                   />
                 </div>
                 <div>
@@ -242,7 +242,7 @@ export default function RegisterPage() {
                     value={formData.dni}
                     onChange={handleInputChange}
                     className="input"
-                    placeholder="30123456"
+                    placeholder="Ej: 30123456"
                   />
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function RegisterPage() {
                   value={formData.password}
                   onChange={handleInputChange}
                   className="input"
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Elegí una contraseña (min. 6 caracteres)"
                 />
               </div>
 
@@ -273,7 +273,7 @@ export default function RegisterPage() {
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   className="input"
-                  placeholder="Repite tu contraseña"
+                  placeholder="Repetí tu contraseña"
                 />
               </div>
 
@@ -282,7 +282,7 @@ export default function RegisterPage() {
                 onClick={handleNext}
                 className="btn btn-primary w-full"
               >
-                Continuar →
+                Seguir →
               </button>
             </div>
           ) : (
@@ -308,7 +308,7 @@ export default function RegisterPage() {
                   value={formData.gardenName}
                   onChange={handleInputChange}
                   className="input"
-                  placeholder="Jardín Rayito de Sol"
+                  placeholder="Ej: Jardín Rayito de Sol 🌟"
                 />
               </div>
 
@@ -322,7 +322,7 @@ export default function RegisterPage() {
                   value={formData.gardenAddress.street}
                   onChange={handleInputChange}
                   className="input"
-                  placeholder="Av. San Martín 1234"
+                  placeholder="Ej: Av. San Martín 1234"
                 />
               </div>
 
@@ -350,7 +350,7 @@ export default function RegisterPage() {
                     onChange={handleInputChange}
                     className="input"
                   >
-                    <option value="">Seleccionar...</option>
+                    <option value="">Elegí tu provincia...</option>
                     <option value="Buenos Aires">Buenos Aires</option>
                     <option value="Catamarca">Catamarca</option>
                     <option value="Chaco">Chaco</option>
@@ -415,10 +415,10 @@ export default function RegisterPage() {
                   {isLoading ? (
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Creando cuenta...
+                      Creando tu jardín...
                     </div>
                   ) : (
-                    'Crear cuenta'
+                    '¡Crear mi jardín!'
                   )}
                 </button>
               </div>
@@ -429,9 +429,9 @@ export default function RegisterPage() {
         {/* Link a login */}
         <div className="text-center mt-6">
           <p className="text-sm text-[var(--color-text-secondary)]">
-            ¿Ya tienes una cuenta?{' '}
+            ¿Ya tenés cuenta?{' '}
             <Link href="/login" className="text-[var(--color-primary)] font-semibold hover:underline">
-              Iniciar sesión
+              Ingresar
             </Link>
           </p>
         </div>

@@ -9,7 +9,7 @@ export default function PagosPage() {
             💰 Gestión de Pagos
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Control de cuotas y pagos de las familias.
+            Controlá las cuotas y pagos de las familias.
           </p>
         </div>
 
@@ -36,12 +36,12 @@ export default function PagosPage() {
 
         <div className="card p-8 text-center">
           <div className="text-6xl mb-4">🏗️</div>
-          <h2 className="text-xl font-semibold mb-2">En construcción</h2>
+          <h2 className="text-xl font-semibold mb-2">¡Próximamente! 💳</h2>
           <p className="text-[var(--color-text-secondary)] mb-6">
-            El sistema de gestión de pagos estará disponible próximamente.
+            Estamos preparando el sistema de pagos con mucho cariño.
           </p>
           <button className="btn btn-primary">
-            Notificarme cuando esté listo
+            Avisarme cuando esté listo
           </button>
         </div>
       </div>

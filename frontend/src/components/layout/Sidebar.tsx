@@ -24,11 +24,11 @@ const icons = {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: icons.home },
+  { name: 'Inicio', href: '/dashboard', icon: icons.home },
   { name: 'Salas', href: '/salas', icon: icons.classrooms },
-  { name: 'Niños', href: '/niños', icon: icons.children },
+  { name: 'Nenes', href: '/niños', icon: icons.children },
   { name: 'Asistencia', href: '/asistencia', icon: icons.attendance },
-  { name: 'Cuaderno Digital', href: '/cuaderno', icon: icons.notebook },
+  { name: 'Cuaderno', href: '/cuaderno', icon: icons.notebook },
   { name: 'Comunicados', href: '/comunicados', icon: icons.announcements },
   { name: 'Pagos', href: '/pagos', icon: icons.payments },
   { name: 'Mensajes', href: '/mensajes', icon: icons.messages },
@@ -36,7 +36,7 @@ const navigation = [
 ]
 
 const secondaryNavigation = [
-  { name: 'Configuración', href: '/configuracion', icon: icons.settings },
+  { name: 'Ajustes', href: '/configuracion', icon: icons.settings },
 ]
 
 export default function Sidebar({ onClose }: SidebarProps) {
@@ -169,7 +169,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
                   className="group flex w-full gap-x-3 rounded-xl p-3 text-sm leading-6 font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-error-text)] hover:bg-red-50 transition-colors"
                 >
                   <span className="text-lg">{icons.logout}</span>
-                  Cerrar Sesión
+                  Salir
                 </button>
               </li>
             </ul>

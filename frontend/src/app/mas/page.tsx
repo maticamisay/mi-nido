@@ -2,12 +2,12 @@ import AppLayout from '@/components/layout/AppLayout'
 import Link from 'next/link'
 
 const moreOptions = [
-  { name: 'Salas', href: '/salas', icon: '🏫', description: 'Gestionar salas y docentes' },
-  { name: 'Niños', href: '/niños', icon: '👶', description: 'Fichas y legajos de los niños' },
-  { name: 'Asistencia', href: '/asistencia', icon: '✅', description: 'Control de asistencia diaria' },
+  { name: 'Salas', href: '/salas', icon: '🏫', description: 'Administrar salas y seños' },
+  { name: 'Nenes', href: '/niños', icon: '👶', description: 'Fichas y legajos de los nenes' },
+  { name: 'Asistencia', href: '/asistencia', icon: '✅', description: 'Controlar la asistencia diaria' },
   { name: 'Mensajes', href: '/mensajes', icon: '💬', description: 'Comunicación con familias' },
   { name: 'Calendario', href: '/calendario', icon: '📅', description: 'Eventos y actividades' },
-  { name: 'Configuración', href: '/configuracion', icon: '⚙️', description: 'Ajustes del jardín' },
+  { name: 'Ajustes', href: '/configuracion', icon: '⚙️', description: 'Configuración del jardín' },
 ]
 
 export default function MasPage() {
@@ -19,7 +19,7 @@ export default function MasPage() {
             ⋯ Más Opciones
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Accede a todas las funciones de Mi Nido.
+            Accedé a todas las funciones de Mi Nido.
           </p>
         </div>
 
@@ -49,10 +49,10 @@ export default function MasPage() {
             <div className="text-3xl">💡</div>
             <div>
               <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
-                ¿Necesitas ayuda?
+                ¿Necesitás ayuda?
               </h3>
               <p className="text-[var(--color-text-secondary)] mb-4">
-                Si tienes dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
+                Si tenés dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <button className="btn btn-secondary">

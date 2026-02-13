@@ -39,7 +39,7 @@ export default function LoginPage() {
       router.push('/dashboard')
       
     } catch (err: any) {
-      setError(err.message || 'Error al conectar con el servidor')
+      setError(err.message || 'Ups, algo salió mal. Intentá de nuevo 🤔')
     } finally {
       setIsLoading(false)
     }
@@ -54,10 +54,10 @@ export default function LoginPage() {
             <span className="text-4xl">🐣</span>
           </div>
           <h1 className="text-3xl font-bold text-[var(--color-text)] font-display mb-2">
-            Bienvenido a Mi Nido
+            ¡Buen día! Te damos la bienvenida a Mi Nido 🐣
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Ingresa a tu cuenta para continuar
+            Ingresá a tu cuenta para seguir
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export default function LoginPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="input"
-                placeholder="tu@email.com"
+                placeholder="Ej: directora@rayitodesol.com"
               />
             </div>
 
@@ -101,7 +101,7 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={handleInputChange}
                 className="input"
-                placeholder="Tu contraseña"
+                placeholder="Ingresá tu contraseña"
               />
             </div>
 
@@ -124,7 +124,7 @@ export default function LoginPage() {
                 href="/forgot-password" 
                 className="text-sm text-[var(--color-primary)] hover:underline"
               >
-                ¿Olvidaste tu contraseña?
+                ¿Te olvidaste la contraseña?
               </Link>
             </div>
 
@@ -136,10 +136,10 @@ export default function LoginPage() {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Iniciando sesión...
+                  Ingresando...
                 </div>
               ) : (
-                'Iniciar Sesión'
+                'Ingresar'
               )}
             </button>
           </form>
@@ -148,9 +148,9 @@ export default function LoginPage() {
         {/* Link a registro */}
         <div className="text-center mt-6">
           <p className="text-sm text-[var(--color-text-secondary)]">
-            ¿No tienes una cuenta?{' '}
+            ¿No tenés cuenta?{' '}
             <Link href="/register" className="text-[var(--color-primary)] font-semibold hover:underline">
-              Registra tu jardín
+              Registrá tu jardín
             </Link>
           </p>
         </div>

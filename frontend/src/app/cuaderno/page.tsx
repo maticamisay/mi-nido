@@ -9,15 +9,15 @@ export default function CuadernoPage() {
             📒 Cuaderno Digital del Día
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Registra las actividades, comidas y descanso de cada niño.
+            Registrá las actividades, comidas y descanso de cada nene.
           </p>
         </div>
 
         <div className="card p-8 text-center">
           <div className="text-6xl mb-4">🏗️</div>
-          <h2 className="text-xl font-semibold mb-2">En construcción</h2>
+          <h2 className="text-xl font-semibold mb-2">¡Próximamente! 🎨</h2>
           <p className="text-[var(--color-text-secondary)]">
-            Esta página estará disponible próximamente.
+            Estamos preparando esta sección con mucho cariño.
           </p>
         </div>
       </div>

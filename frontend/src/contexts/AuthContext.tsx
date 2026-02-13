@@ -33,7 +33,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = 'http://localhost:3001/api'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -75,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al iniciar sesión')
+        throw new Error(data.error || 'Ups, no pudimos ingresar. Verificá tus datos 🤔')
       }
 
       // Guardar en estado
@@ -116,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al crear la cuenta')
+        throw new Error(data.error || 'Ups, algo salió mal al crear tu cuenta. Intentá de nuevo 🤔')
       }
 
       // Guardar en estado

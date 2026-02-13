@@ -9,15 +9,15 @@ export default function ComunicadosPage() {
             📢 Comunicados
           </h1>
           <p className="text-[var(--color-text-secondary)]">
-            Envía comunicados y noticias a las familias.
+            Enviá comunicados y noticias a las familias.
           </p>
         </div>
 
         <div className="card p-8 text-center">
           <div className="text-6xl mb-4">🏗️</div>
-          <h2 className="text-xl font-semibold mb-2">En construcción</h2>
+          <h2 className="text-xl font-semibold mb-2">¡Próximamente! 📬</h2>
           <p className="text-[var(--color-text-secondary)]">
-            Esta página estará disponible próximamente.
+            Estamos preparando esta sección con mucho cariño.
           </p>
         </div>
       </div>
