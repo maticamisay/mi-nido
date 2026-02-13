@@ -1,7 +1,7 @@
-import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
+import API_BASE_URL from '@/config/api'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
