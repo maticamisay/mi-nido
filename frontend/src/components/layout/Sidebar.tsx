@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 
 interface SidebarProps {
   onClose?: () => void
@@ -40,6 +41,24 @@ const secondaryNavigation = [
 
 export default function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    router.push('/login')
+  }
+
+  // Obtener iniciales del usuario
+  const getInitials = () => {
+    if (!user) return 'US'
+    const firstName = user.profile.firstName || ''
+    const lastName = user.profile.lastName || ''
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+  }
+
+  // Obtener jardín principal del usuario
+  const primaryGarden = user?.gardens?.[0]
 
   const isActiveLink = (href: string) => {
     if (href === '/dashboard') {
@@ -59,7 +78,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
               Mi Nido
             </h1>
             <p className="text-xs text-[var(--color-text-secondary)]">
-              Jardín Rayito de Sol
+              {primaryGarden?.name || 'Mi Jardín'}
             </p>
           </div>
         </div>
@@ -77,14 +96,18 @@ export default function Sidebar({ onClose }: SidebarProps) {
       {/* Usuario actual */}
       <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--color-nido-50)]">
         <div className="avatar size-md bg-[var(--color-primary)]">
-          MG
+          {user?.profile.avatar ? (
+            <img src={user.profile.avatar} alt="Avatar" className="w-full h-full object-cover rounded-full" />
+          ) : (
+            getInitials()
+          )}
         </div>
         <div>
           <p className="font-semibold text-sm text-[var(--color-text)]">
-            María González
+            {user ? `${user.profile.firstName} ${user.profile.lastName}` : 'Usuario'}
           </p>
-          <p className="text-xs text-[var(--color-text-secondary)]">
-            Directora
+          <p className="text-xs text-[var(--color-text-secondary)] capitalize">
+            {primaryGarden?.role || 'Usuario'}
           </p>
         </div>
       </div>
@@ -142,6 +165,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
               {/* Logout */}
               <li>
                 <button
+                  onClick={handleLogout}
                   className="group flex w-full gap-x-3 rounded-xl p-3 text-sm leading-6 font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-error-text)] hover:bg-red-50 transition-colors"
                 >
                   <span className="text-lg">{icons.logout}</span>

@@ -1,8 +1,10 @@
 import AppLayout from '@/components/layout/AppLayout'
+import ProtectedRoute from '@/components/ui/ProtectedRoute'
 
 export default function DashboardPage() {
   return (
-    <AppLayout>
+    <ProtectedRoute>
+      <AppLayout>
       <div className="py-8">
         {/* Header */}
         <div className="mb-8">
@@ -223,5 +225,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </AppLayout>
+    </ProtectedRoute>
   )
 }
