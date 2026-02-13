@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -179,7 +180,7 @@ export default function CuadernoPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/classrooms', {
+      const response = await fetch(API_BASE_URL + '/classrooms', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -211,7 +212,7 @@ export default function CuadernoPage() {
 
     try {
       // Obtener niños de la sala
-      const childrenResponse = await fetch(`http://localhost:3001/api/children?classroomId=${selectedClassroom}`, {
+      const childrenResponse = await fetch(`/children?classroomId=${selectedClassroom}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -226,7 +227,7 @@ export default function CuadernoPage() {
 
       // Obtener entradas del cuaderno para esta fecha y sala
       const entriesResponse = await fetch(
-        `http://localhost:3001/api/daily-entries?classroomId=${selectedClassroom}&date=${selectedDate}`,
+        `/daily-entries?classroomId=${selectedClassroom}&date=${selectedDate}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -304,8 +305,8 @@ export default function CuadernoPage() {
 
     try {
       const url = editingEntry 
-        ? `http://localhost:3001/api/daily-entries/${editingEntry._id}`
-        : 'http://localhost:3001/api/daily-entries'
+        ? `/daily-entries/${editingEntry._id}`
+        : API_BASE_URL + '/daily-entries'
       
       const method = editingEntry ? 'PUT' : 'POST'
 

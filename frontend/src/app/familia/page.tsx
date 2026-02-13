@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -170,7 +171,7 @@ export default function FamiliaPage() {
   const fetchMyChildren = async () => {
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:3001/api/families/my-children', {
+      const response = await fetch(API_BASE_URL + '/families/my-children', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
 
@@ -198,7 +199,7 @@ export default function FamiliaPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/families/daily-entries?childId=${selectedChild._id}&date=${selectedDate}`,
+        `/families/daily-entries?childId=${selectedChild._id}&date=${selectedDate}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }
@@ -216,7 +217,7 @@ export default function FamiliaPage() {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/families/announcements', {
+      const response = await fetch(API_BASE_URL + '/families/announcements', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
 
@@ -235,7 +236,7 @@ export default function FamiliaPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/families/payments?childId=${selectedChild._id}`,
+        `/families/payments?childId=${selectedChild._id}`,
         {
           headers: { 'Authorization': `Bearer ${token}` }
         }
@@ -253,7 +254,7 @@ export default function FamiliaPage() {
 
   const handleAcknowledge = async (announcementId: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/announcements/${announcementId}/acknowledge`, {
+      const response = await fetch(`/announcements/${announcementId}/acknowledge`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

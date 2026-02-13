@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -85,10 +86,10 @@ export default function ComunicadosPage() {
     try {
       // Obtener comunicados y salas en paralelo
       const [announcementsRes, classroomsRes] = await Promise.all([
-        fetch('http://localhost:3001/api/announcements', {
+        fetch(API_BASE_URL + '/announcements', {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://localhost:3001/api/classrooms', {
+        fetch(API_BASE_URL + '/classrooms', {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ])
@@ -153,8 +154,8 @@ export default function ComunicadosPage() {
       }
 
       const url = editingAnnouncement 
-        ? `http://localhost:3001/api/announcements/${editingAnnouncement._id}`
-        : 'http://localhost:3001/api/announcements'
+        ? `/announcements/${editingAnnouncement._id}`
+        : API_BASE_URL + '/announcements'
       
       const method = editingAnnouncement ? 'PUT' : 'POST'
 
@@ -197,7 +198,7 @@ export default function ComunicadosPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/announcements/${announcementId}`, {
+      const response = await fetch(`/announcements/${announcementId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -219,7 +220,7 @@ export default function ComunicadosPage() {
 
   const handleAcknowledge = async (announcementId: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/announcements/${announcementId}/acknowledge`, {
+      const response = await fetch(`/announcements/${announcementId}/acknowledge`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

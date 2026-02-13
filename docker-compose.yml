@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://minido:miNido2026$ecure!@host.docker.internal:27017/mi_nido?authSource=mi_nido
+      - JWT_SECRET=mi_nido_secret_key_super_seguro_2026_jardines_maternales_produccion
+      - CORS_ORIGINS=https://mi-nido.38.105.232.177.sslip.io,http://localhost:3000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/uploads:/app/uploads
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mi-nido-backend.rule=Host(`mi-nido-api.38.105.232.177.sslip.io`)"
+      - "traefik.http.services.mi-nido-backend.loadbalancer.server.port=5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_API_URL=https://mi-nido-api.38.105.232.177.sslip.io/api
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mi-nido-frontend.rule=Host(`mi-nido.38.105.232.177.sslip.io`)"
+      - "traefik.http.services.mi-nido-frontend.loadbalancer.server.port=3000"

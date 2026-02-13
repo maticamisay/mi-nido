@@ -6,8 +6,14 @@ require('dotenv').config();
 
 const app = express();
 
+// CORS configuration
+const corsOptions = {
+  origin: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : '*',
+  credentials: true
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Servir archivos estáticos (uploads)

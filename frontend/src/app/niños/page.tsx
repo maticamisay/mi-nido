@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -166,7 +167,7 @@ export default function NiñosPage() {
 
   const fetchChildren = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/children', {
+      const response = await fetch(API_BASE_URL + '/children', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -187,7 +188,7 @@ export default function NiñosPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/classrooms', {
+      const response = await fetch(API_BASE_URL + '/classrooms', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -210,8 +211,8 @@ export default function NiñosPage() {
 
     try {
       const url = editingChild 
-        ? `http://localhost:3001/api/children/${editingChild._id}`
-        : 'http://localhost:3001/api/children'
+        ? `/children/${editingChild._id}`
+        : API_BASE_URL + '/children'
       
       const method = editingChild ? 'PUT' : 'POST'
 
@@ -287,7 +288,7 @@ export default function NiñosPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/children/${child._id}`, {
+      const response = await fetch(`/children/${child._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

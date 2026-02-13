@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -65,7 +66,7 @@ export default function AsistenciaPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/classrooms', {
+      const response = await fetch(API_BASE_URL + '/classrooms', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -97,7 +98,7 @@ export default function AsistenciaPage() {
 
     try {
       // Obtener niños de la sala
-      const childrenResponse = await fetch(`http://localhost:3001/api/children?classroomId=${selectedClassroom}`, {
+      const childrenResponse = await fetch(`/children?classroomId=${selectedClassroom}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -112,7 +113,7 @@ export default function AsistenciaPage() {
 
       // Obtener asistencia existente para esta fecha y sala
       const attendanceResponse = await fetch(
-        `http://localhost:3001/api/attendance?classroomId=${selectedClassroom}&date=${selectedDate}`,
+        `/attendance?classroomId=${selectedClassroom}&date=${selectedDate}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -196,8 +197,8 @@ export default function AsistenciaPage() {
     try {
       const method = attendance._id ? 'PUT' : 'POST'
       const url = attendance._id 
-        ? `http://localhost:3001/api/attendance/${attendance._id}`
-        : 'http://localhost:3001/api/attendance'
+        ? `/attendance/${attendance._id}`
+        : API_BASE_URL + '/attendance'
 
       const response = await fetch(url, {
         method,

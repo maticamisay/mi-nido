@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -85,7 +86,7 @@ export default function SalasPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/classrooms', {
+      const response = await fetch(API_BASE_URL + '/classrooms', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -110,8 +111,8 @@ export default function SalasPage() {
 
     try {
       const url = editingClassroom 
-        ? `http://localhost:3001/api/classrooms/${editingClassroom._id}`
-        : 'http://localhost:3001/api/classrooms'
+        ? `/classrooms/${editingClassroom._id}`
+        : API_BASE_URL + '/classrooms'
       
       const method = editingClassroom ? 'PUT' : 'POST'
 
@@ -164,7 +165,7 @@ export default function SalasPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/classrooms/${classroom._id}`, {
+      const response = await fetch(`/classrooms/${classroom._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

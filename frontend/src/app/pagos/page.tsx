@@ -1,3 +1,4 @@
+import API_BASE_URL from '@/config/api'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -140,10 +141,10 @@ export default function PagosPage() {
     try {
       // Obtener niños, salas y pagos en paralelo
       const [childrenRes, classroomsRes] = await Promise.all([
-        fetch('http://localhost:3001/api/children', {
+        fetch(API_BASE_URL + '/children', {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://localhost:3001/api/classrooms', {
+        fetch(API_BASE_URL + '/classrooms', {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ])
@@ -170,7 +171,7 @@ export default function PagosPage() {
 
   const fetchPayments = async () => {
     try {
-      let url = `http://localhost:3001/api/payments?period=${filterPeriod}`
+      let url = `/payments?period=${filterPeriod}`
       
       if (filterStatus !== 'all') {
         url += `&status=${filterStatus}`
@@ -196,7 +197,7 @@ export default function PagosPage() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/payments/stats?period=${filterPeriod}`, {
+      const response = await fetch(`/payments/stats?period=${filterPeriod}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
 
@@ -278,8 +279,8 @@ export default function PagosPage() {
       const total = formData.amount + formData.lateFee - formData.discount
 
       const url = editingPayment 
-        ? `http://localhost:3001/api/payments/${editingPayment._id}`
-        : 'http://localhost:3001/api/payments'
+        ? `/payments/${editingPayment._id}`
+        : API_BASE_URL + '/payments'
       
       const method = editingPayment ? 'PUT' : 'POST'
 
@@ -330,7 +331,7 @@ export default function PagosPage() {
         throw new Error('El monto pagado debe ser mayor a 0')
       }
 
-      const response = await fetch(`http://localhost:3001/api/payments/${paymentToRecord._id}/record-payment`, {
+      const response = await fetch(`/payments/${paymentToRecord._id}/record-payment`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -365,7 +366,7 @@ export default function PagosPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/payments/${paymentId}`, {
+      const response = await fetch(`/payments/${paymentId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
