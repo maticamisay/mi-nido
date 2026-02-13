@@ -85,7 +85,7 @@ interface CreateChildData {
     medications: Array<{
       name: string
       dosage: string
-      notes: string
+      notes?: string
     }>
     healthInsurance: {
       provider: string

@@ -48,7 +48,7 @@ interface CreateAnnouncementData {
   scope: 'garden' | 'classroom'
   classroomIds: string[]
   requiresAck: boolean
-  status: 'draft' | 'published'
+  status: 'draft' | 'published' | 'archived'
   pinned: boolean
   urgent: boolean
 }
