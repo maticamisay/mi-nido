@@ -16,9 +16,9 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/gardens', require('./routes/gardens'));
-// app.use('/api/classrooms', require('./routes/classrooms'));
-// app.use('/api/children', require('./routes/children'));
+app.use('/api/gardens', require('./routes/gardens'));
+app.use('/api/classrooms', require('./routes/classrooms'));
+app.use('/api/children', require('./routes/children'));
 // app.use('/api/attendance', require('./routes/attendance'));
 // app.use('/api/daily-entries', require('./routes/dailyEntries'));
 // app.use('/api/announcements', require('./routes/announcements'));
