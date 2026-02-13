@@ -23,17 +23,30 @@ const icons = {
   logout: '👋'
 }
 
-const navigation = [
-  { name: 'Inicio', href: '/dashboard', icon: icons.home },
-  { name: 'Salas', href: '/salas', icon: icons.classrooms },
-  { name: 'Nenes', href: '/niños', icon: icons.children },
-  { name: 'Asistencia', href: '/asistencia', icon: icons.attendance },
-  { name: 'Cuaderno', href: '/cuaderno', icon: icons.notebook },
-  { name: 'Comunicados', href: '/comunicados', icon: icons.announcements },
-  { name: 'Pagos', href: '/pagos', icon: icons.payments },
-  { name: 'Mensajes', href: '/mensajes', icon: icons.messages },
-  { name: 'Calendario', href: '/calendario', icon: icons.calendar },
-]
+const getNavigationByRole = (role?: string) => {
+  if (role === 'family') {
+    return [
+      { name: 'Portal Familiar', href: '/familia', icon: '👨‍👩‍👧‍👦' },
+      { name: 'Cuaderno', href: '/cuaderno', icon: icons.notebook },
+      { name: 'Comunicados', href: '/comunicados', icon: icons.announcements },
+      { name: 'Estado de Cuenta', href: '/pagos', icon: icons.payments },
+      { name: 'Mensajes', href: '/mensajes', icon: icons.messages },
+    ]
+  }
+  
+  // Navegación para staff (teachers, admin, owner)
+  return [
+    { name: 'Inicio', href: '/dashboard', icon: icons.home },
+    { name: 'Salas', href: '/salas', icon: icons.classrooms },
+    { name: 'Nenes', href: '/niños', icon: icons.children },
+    { name: 'Asistencia', href: '/asistencia', icon: icons.attendance },
+    { name: 'Cuaderno', href: '/cuaderno', icon: icons.notebook },
+    { name: 'Comunicados', href: '/comunicados', icon: icons.announcements },
+    { name: 'Pagos', href: '/pagos', icon: icons.payments },
+    { name: 'Mensajes', href: '/mensajes', icon: icons.messages },
+    { name: 'Calendario', href: '/calendario', icon: icons.calendar },
+  ]
+}
 
 const secondaryNavigation = [
   { name: 'Ajustes', href: '/configuracion', icon: icons.settings },
@@ -59,10 +72,14 @@ export default function Sidebar({ onClose }: SidebarProps) {
 
   // Obtener jardín principal del usuario
   const primaryGarden = user?.gardens?.[0]
+  const navigation = getNavigationByRole(primaryGarden?.role)
 
   const isActiveLink = (href: string) => {
     if (href === '/dashboard') {
       return pathname === '/dashboard' || pathname === '/'
+    }
+    if (href === '/familia') {
+      return pathname === '/familia' || pathname === '/'
     }
     return pathname.startsWith(href)
   }

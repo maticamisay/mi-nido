@@ -2,25 +2,41 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-const bottomNavigation = [
-  { name: 'Inicio', href: '/dashboard', icon: '🏠' },
-  { name: 'Cuaderno', href: '/cuaderno', icon: '📒' },
-  { name: 'Comunicados', href: '/comunicados', icon: '📢' },
-  { name: 'Pagos', href: '/pagos', icon: '💰' },
-  { name: 'Más', href: '/mas', icon: '⋯' },
-]
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function MobileBottomNav() {
   const pathname = usePathname()
+  const { user } = useAuth()
+
+  // Verificar si el usuario es familia
+  const isFamily = user?.gardens?.[0]?.role === 'family'
+
+  const bottomNavigation = isFamily ? [
+    { name: 'Familia', href: '/familia', icon: '👨‍👩‍👧‍👦' },
+    { name: 'Cuaderno', href: '/cuaderno', icon: '📒' },
+    { name: 'Comunicados', href: '/comunicados', icon: '📢' },
+    { name: 'Pagos', href: '/pagos', icon: '💰' },
+    { name: 'Más', href: '/mas', icon: '⋯' },
+  ] : [
+    { name: 'Inicio', href: '/dashboard', icon: '🏠' },
+    { name: 'Cuaderno', href: '/cuaderno', icon: '📒' },
+    { name: 'Comunicados', href: '/comunicados', icon: '📢' },
+    { name: 'Pagos', href: '/pagos', icon: '💰' },
+    { name: 'Más', href: '/mas', icon: '⋯' },
+  ]
 
   const isActiveLink = (href: string) => {
     if (href === '/dashboard') {
       return pathname === '/dashboard' || pathname === '/'
     }
+    if (href === '/familia') {
+      return pathname === '/familia' || pathname === '/'
+    }
     if (href === '/mas') {
       // "Más" es activo para todas las páginas que no están en el bottom nav
-      const mainPaths = ['/dashboard', '/cuaderno', '/comunicados', '/pagos']
+      const mainPaths = isFamily 
+        ? ['/familia', '/cuaderno', '/comunicados', '/pagos']
+        : ['/dashboard', '/cuaderno', '/comunicados', '/pagos']
       return !mainPaths.some(path => pathname.startsWith(path)) && pathname !== '/'
     }
     return pathname.startsWith(href)
