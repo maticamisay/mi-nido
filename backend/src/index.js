@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { serveUploads } = require('./middleware/upload');
 require('dotenv').config();
 
 const app = express();
@@ -8,6 +9,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Servir archivos estáticos (uploads)
+serveUploads(app);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -25,6 +29,7 @@ app.use('/api/announcements', require('./routes/announcements'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/messages', require('./routes/messages'));
 app.use('/api/calendar', require('./routes/calendarEvents'));
+app.use('/api/upload', require('./routes/upload'));
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mi-nido';
