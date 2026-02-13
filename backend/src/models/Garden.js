@@ -13,14 +13,14 @@ const gardenSchema = new mongoose.Schema({
     lowercase: true
   },
   address: {
-    street: { type: String, required: true },
-    city: { type: String, required: true },
-    province: { type: String, required: true },
-    zip: { type: String }
+    street: { type: String, default: '' },
+    city: { type: String, default: '' },
+    province: { type: String, default: '' },
+    zip: { type: String, default: '' }
   },
   phone: {
     type: String,
-    required: true
+    default: ''
   },
   email: {
     type: String,
