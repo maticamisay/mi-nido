@@ -68,33 +68,33 @@ export default function DashboardPage() {
       <AppLayout>
         <div className="py-10">
           {/* Header */}
-          <div className="mb-8 animate-fade-in-up">
-            <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+          <div className="mb-10 animate-fade-in-up">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] mb-2" style={{ fontFamily: 'var(--font-display)' }}>
               {getGreeting()}, {firstName}! 👋
             </h1>
-            <p className="text-[var(--color-text-secondary)]">
+            <p className="text-[var(--color-text-secondary)] leading-relaxed">
               Acá tenés un resumen de lo que pasa hoy en el jardín.
             </p>
           </div>
 
           {/* Stats cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8 stagger-children">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10 stagger-children">
             {[
               { icon: '👶', label: 'Nenes presentes', value: attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
               { icon: '📒', label: 'Cuadernos (mes)', value: stats ? `${stats.dailyEntries.lastMonth}` : '—', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
               { icon: '💰', label: 'Pagos pendientes', value: stats ? `${stats.payments.pending}` : '—', color: 'var(--color-celeste-100)', accent: 'var(--color-celeste-300)' },
               { icon: '🏫', label: 'Salas / Nenes', value: stats ? `${stats.classrooms} / ${stats.children.active}` : '—', color: 'var(--color-lila-100)', accent: 'var(--color-lila-300)' },
             ].map((stat) => (
-              <div key={stat.label} className="card animate-fade-in-up group cursor-default">
-                <div className="flex items-start gap-3">
-                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ backgroundColor: stat.color }}>
+              <div key={stat.label} className="card animate-fade-in-up group cursor-default p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center text-lg sm:text-xl shrink-0" style={{ backgroundColor: stat.color }}>
                     {stat.icon}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-medium text-[var(--color-text-secondary)] mb-0.5 truncate" style={{ fontFamily: 'var(--font-display)' }}>
+                    <p className="text-[11px] sm:text-xs font-medium text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
                       {stat.label}
                     </p>
-                    <p className="text-xl font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+                    <p className="text-lg sm:text-xl font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
                       {stat.value}
                     </p>
                   </div>
@@ -104,7 +104,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 mb-10">
             {/* Attendance */}
             <div className="card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
               <div className="flex items-center justify-between mb-5">
