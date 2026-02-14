@@ -54,9 +54,9 @@ export default function Sidebar({ onClose }: SidebarProps) {
   }
 
   return (
-    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-[var(--color-warm-100)] px-6 py-7">
+    <div className="flex h-full flex-col overflow-y-auto bg-white border-r border-[var(--color-warm-100)] px-5 sm:px-6 py-6">
       {/* Logo */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-xl" style={{ background: 'linear-gradient(135deg, var(--color-nido-300), var(--color-nido-400))' }}>
             🐣
@@ -79,7 +79,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
       </div>
 
       {/* User card */}
-      <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-[var(--color-nido-50)] to-[var(--color-melocoton-100)]">
+      <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-[var(--color-nido-50)] to-[var(--color-melocoton-100)] mb-2">
         <div className="avatar size-md" style={{ background: 'linear-gradient(135deg, var(--color-nido-300), var(--color-nido-500))' }}>
           {user?.profile.avatar ? (
             <img src={user.profile.avatar} alt="Avatar" className="w-full h-full object-cover rounded-full" />
@@ -98,10 +98,10 @@ export default function Sidebar({ onClose }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex flex-1 flex-col mt-2">
-        <ul role="list" className="flex flex-1 flex-col gap-y-6">
+      <nav className="flex flex-1 flex-col mt-4">
+        <ul role="list" className="flex flex-1 flex-col gap-y-8">
           <li>
-            <ul role="list" className="space-y-1.5">
+            <ul role="list" className="space-y-2">
               {navigation.map((item) => (
                 <li key={item.name}>
                   <Link
@@ -125,7 +125,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
           </li>
           
           {/* Bottom section */}
-          <li className="mt-auto space-y-1.5">
+          <li className="mt-auto pt-4 border-t border-[var(--color-warm-100)] space-y-2">
             <Link
               href="/configuracion"
               onClick={onClose}
