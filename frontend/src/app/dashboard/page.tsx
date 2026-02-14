@@ -66,19 +66,19 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div className="py-6 sm:py-10">
           {/* Header */}
-          <div className="mb-10 animate-fade-in-up">
-            <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+          <div className="page-header animate-fade-in-up">
+            <h1>
               {getGreeting()}, {firstName}! 👋
             </h1>
-            <p className="text-[var(--color-text-secondary)] leading-relaxed">
+            <p>
               Acá tenés un resumen de lo que pasa hoy en el jardín.
             </p>
           </div>
 
           {/* Stats cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10 stagger-children">
+          <div className="grid-stats page-section stagger-children">
             {[
               { icon: '👶', label: 'Nenes presentes', value: attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
               { icon: '📒', label: 'Cuadernos (mes)', value: stats ? `${stats.dailyEntries.lastMonth}` : '—', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
@@ -104,7 +104,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 mb-10">
+          <div className="grid-cards page-section">
             {/* Attendance */}
             <div className="card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
               <div className="flex items-center justify-between mb-5">
@@ -165,11 +165,11 @@ export default function DashboardPage() {
 
           {/* Quick actions */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-            <h3 className="text-lg font-bold text-[var(--color-text)] mb-4" style={{ fontFamily: 'var(--font-display)' }}>
+            <h3 className="page-section-title">
               Acciones Rápidas
             </h3>
             
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+            <div className="grid-actions stagger-children">
               {[
                 { emoji: '📒', label: 'Escribir cuaderno', href: '/cuaderno' },
                 { emoji: '✅', label: 'Tomar asistencia', href: '/asistencia' },

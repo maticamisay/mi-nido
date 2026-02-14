@@ -233,18 +233,193 @@ h3 { font-size: 1.125rem; font-weight: 600; }
   transform: translateY(0);
 }
 
+/* ─── Layout Containers ─── */
+.page-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .page-header {
+    margin-bottom: 2.5rem;
+  }
+  .page-header h1 {
+    font-size: 1.875rem;
+  }
+}
+
+.page-section {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .page-section {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.page-section-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
 /* ─── Cards ─── */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-warm-100);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 20px;
   box-shadow: var(--shadow-card);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media (min-width: 640px) {
+  .card {
+    padding: 24px;
+  }
+}
+
 .card:hover {
   box-shadow: var(--shadow-card-hover);
+}
+
+/* Card variants */
+.card-compact {
+  padding: 16px;
+}
+
+@media (min-width: 640px) {
+  .card-compact {
+    padding: 20px;
+  }
+}
+
+.card-spacious {
+  padding: 28px;
+}
+
+@media (min-width: 640px) {
+  .card-spacious {
+    padding: 32px;
+  }
+}
+
+/* ─── Grid Layouts ─── */
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .grid-stats {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .grid-cards {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+.grid-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .grid-actions {
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-actions {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── Form Layouts ─── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .form-group {
+    gap: 24px;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (min-width: 640px) {
+  .form-actions {
+    gap: 16px;
+    margin-top: 12px;
+  }
 }
 
 /* ─── Inputs ─── */

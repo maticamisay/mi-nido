@@ -34,8 +34,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <Header onMenuClick={() => setSidebarOpen(true)} />
         
         <main className="pb-24 lg:pb-10 pt-4 sm:pt-6">
-          <div className="px-4 sm:px-8 lg:px-10">
-            {children}
+          <div className="px-4 sm:px-6 lg:px-10">
+            <div className="page-container">
+              {children}
+            </div>
           </div>
         </main>
       </div>
