@@ -6,8 +6,14 @@ const {
   createMonthlyFees,
   recordPayment,
   getFamilyAccountStatus,
-  getOverdueReport
+  getOverdueReport,
+  getPaymentStats,
+  deletePayment
 } = require('../controllers/paymentController');
+
+// Obtener estadísticas de pagos
+// GET /api/payments/stats?gardenId=xxx&period=YYYY-MM
+router.get('/stats', authenticate, requireGardenAccess('gardenId'), getPaymentStats);
 
 // Obtener reporte de morosos (solo admin)
 // GET /api/payments/overdue?gardenId=xxx
@@ -28,5 +34,9 @@ router.post('/create-monthly', authenticate, requireGardenAccess(), requireAdmin
 // Registrar pago (solo admin)
 // POST /api/payments/:paymentId/record
 router.post('/:paymentId/record', authenticate, requireGardenAccess(), requireAdmin, recordPayment);
+
+// Eliminar pago (solo admin)
+// DELETE /api/payments/:paymentId
+router.delete('/:paymentId', authenticate, requireGardenAccess(), requireAdmin, deletePayment);
 
 module.exports = router;

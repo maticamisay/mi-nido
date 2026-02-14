@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Payment, Child, Classroom } = require('../models');
 
 // Obtener pagos del jardín con filtros
@@ -255,10 +256,64 @@ const getOverdueReport = async (req, res) => {
   }
 };
 
+// Obtener estadísticas de pagos
+const getPaymentStats = async (req, res) => {
+  try {
+    const { period } = req.query;
+    const gardenId = new mongoose.Types.ObjectId(req.gardenId);
+
+    const matchQuery = { gardenId };
+    if (period) matchQuery.period = period;
+
+    const stats = await Payment.aggregate([
+      { $match: matchQuery },
+      {
+        $group: {
+          _id: null,
+          totalExpected: { $sum: '$total' },
+          totalPaidThisMonth: { $sum: '$paidAmount' },
+          pendingPayments: { $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] } },
+          overduePayments: { $sum: { $cond: [{ $eq: ['$status', 'overdue'] }, 1, 0] } },
+          paidPayments: { $sum: { $cond: [{ $eq: ['$status', 'paid'] }, 1, 0] } },
+          totalPayments: { $sum: 1 }
+        }
+      }
+    ]);
+
+    const result = stats[0] || { totalExpected: 0, totalPaidThisMonth: 0, pendingPayments: 0, overduePayments: 0, paidPayments: 0, totalPayments: 0 };
+    result.collectionRate = result.totalPayments > 0 ? Math.round((result.paidPayments / result.totalPayments) * 100) : 0;
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error obteniendo estadísticas de pagos:', error);
+    res.status(500).json({ error: 'Error interno del servidor', code: 'INTERNAL_ERROR' });
+  }
+};
+
+// Eliminar pago
+const deletePayment = async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+
+    const payment = await Payment.findById(paymentId);
+    if (!payment || payment.gardenId.toString() !== req.gardenId.toString()) {
+      return res.status(404).json({ error: 'Pago no encontrado', code: 'PAYMENT_NOT_FOUND' });
+    }
+
+    await Payment.findByIdAndDelete(paymentId);
+    res.json({ message: 'Pago eliminado correctamente ✅' });
+  } catch (error) {
+    console.error('Error eliminando pago:', error);
+    res.status(500).json({ error: 'Error interno del servidor', code: 'INTERNAL_ERROR' });
+  }
+};
+
 module.exports = {
   getPayments,
   createMonthlyFees,
   recordPayment,
   getFamilyAccountStatus,
-  getOverdueReport
+  getOverdueReport,
+  getPaymentStats,
+  deletePayment
 };

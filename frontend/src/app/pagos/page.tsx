@@ -191,8 +191,12 @@ export default function PagosPage() {
 
   const fetchStats = async () => {
     try {
-      // Stats endpoint not available yet - skip for now
-      // TODO: Implement GET /api/payments/stats endpoint
+      const response = await apiFetch(`/payments/stats?period=${filterPeriod}`, { token, gardenId })
+
+      if (response.ok) {
+        const data = await response.json()
+        setStats(data)
+      }
 
     } catch (err: any) {
       console.error('Error al cargar estadísticas:', err.message)
@@ -319,7 +323,12 @@ export default function PagosPage() {
         method: 'POST',
         token,
         gardenId,
-        body: paymentFormData
+        body: {
+          amount: paymentFormData.paidAmount,
+          method: paymentFormData.paymentMethod,
+          reference: paymentFormData.paymentReference,
+          notes: paymentFormData.paymentNotes
+        }
       })
 
       if (!response.ok) {

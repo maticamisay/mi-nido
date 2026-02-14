@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Classroom, Child, User } = require('../models');
 
 // Obtener todas las salas del jardín
@@ -10,22 +11,21 @@ const getClassrooms = async (req, res) => {
     .populate('teacherIds', 'profile.firstName profile.lastName')
     .sort({ name: 1 });
 
-    // Agregar conteo de niños por sala
-    const classroomsWithCounts = await Promise.all(
-      classrooms.map(async (classroom) => {
-        const childCount = await Child.countDocuments({
-          classroomId: classroom._id,
-          status: 'active',
-          deletedAt: null
-        });
+    // Agregar conteo de niños por sala (single aggregated query instead of N+1)
+    const childCounts = await Child.aggregate([
+      { $match: { gardenId: new mongoose.Types.ObjectId(req.gardenId), status: 'active', deletedAt: null } },
+      { $group: { _id: '$classroomId', count: { $sum: 1 } } }
+    ]);
+    const countMap = Object.fromEntries(childCounts.map(c => [c._id.toString(), c.count]));
 
-        return {
-          ...classroom.toObject(),
-          childCount,
-          hasCapacity: childCount < classroom.capacity
-        };
-      })
-    );
+    const classroomsWithCounts = classrooms.map(classroom => {
+      const childCount = countMap[classroom._id.toString()] || 0;
+      return {
+        ...classroom.toObject(),
+        childCount,
+        hasCapacity: childCount < classroom.capacity
+      };
+    });
 
     res.json({ classrooms: classroomsWithCounts });
 

@@ -187,7 +187,9 @@ const dailyEntrySchema = new mongoose.Schema({
   // Visto por la familia
   seenBy: [seenBySchema]
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Índices

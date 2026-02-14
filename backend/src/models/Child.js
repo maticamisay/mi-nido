@@ -132,7 +132,9 @@ const childSchema = new mongoose.Schema({
     default: null
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Índices
