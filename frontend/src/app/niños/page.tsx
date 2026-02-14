@@ -470,7 +470,7 @@ export default function NiñosPage() {
             {filteredChildren.length === 0 && (
               <div className="col-span-full">
                 <EmptyState
-                  emoji="👶"
+                  icon="👶"
                   title={children.length === 0 ? 'Todavía no hay nenes registrados 👶' : 'No hay nenes que coincidan'}
                   description={children.length === 0 ? '¡Comenzá registrando el primer nene del jardín!' : 'Intentá cambiar los filtros de búsqueda'}
                   action={children.length === 0 ? { label: 'Registrar primer nene', onClick: () => setShowModal(true) } : undefined}
