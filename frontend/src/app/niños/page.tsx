@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Child {
   _id: string
@@ -114,7 +114,7 @@ interface CreateChildData {
 }
 
 export default function NiñosPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [children, setChildren] = useState<Child[]>([])
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
   const [loading, setLoading] = useState(true)
@@ -167,18 +167,14 @@ export default function NiñosPage() {
 
   const fetchChildren = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/children', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await apiFetch('/children', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Ups, no pudimos cargar los nenes. Intentá de nuevo 🤔')
       }
 
-      const data = await response.json()
-      setChildren(data)
+      const result = await response.json()
+      setChildren(result.children || result)
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -188,18 +184,14 @@ export default function NiñosPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/classrooms', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await apiFetch('/classrooms', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Ups, no pudimos cargar las salas. Intentá de nuevo 🤔')
       }
 
-      const data = await response.json()
-      setClassrooms(data)
+      const result = await response.json()
+      setClassrooms(result.classrooms || result)
     } catch (err: any) {
       console.error('Error al cargar salas:', err)
     }
@@ -212,17 +204,15 @@ export default function NiñosPage() {
     try {
       const url = editingChild 
         ? `/children/${editingChild._id}`
-        : API_BASE_URL + '/children'
+        : '/children'
       
       const method = editingChild ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        token,
+        gardenId,
+        body: formData
       })
 
       if (!response.ok) {
@@ -288,11 +278,10 @@ export default function NiñosPage() {
     }
 
     try {
-      const response = await fetch(`/children/${child._id}`, {
+      const response = await apiFetch(`/children/${child._id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId
       })
 
       if (!response.ok) {

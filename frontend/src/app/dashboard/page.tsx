@@ -1,13 +1,60 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
+import { apiFetch } from '@/lib/api'
 import Link from 'next/link'
 
+interface GardenStats {
+  classrooms: number
+  children: { total: number; active: number }
+  dailyEntries: { lastMonth: number }
+  payments: { pending: number; monthlyIncome: number; monthlyPaidCount: number }
+}
+
+interface AttendanceSummary {
+  gardenSummary: { totalChildren: number; present: number; attendanceRate: number }
+  classrooms: Array<{
+    classroom: { id: string; name: string; emoji: string; color: string }
+    totalChildren: number
+    attendance: { present: number; total: number; attendanceRate: number }
+  }>
+}
+
 export default function DashboardPage() {
-  const { user } = useAuth()
+  const { user, token, gardenId } = useAuth()
   const firstName = user?.profile.firstName || 'María'
+  const [stats, setStats] = useState<GardenStats | null>(null)
+  const [attendance, setAttendance] = useState<AttendanceSummary | null>(null)
+
+  useEffect(() => {
+    if (token && gardenId) {
+      fetchDashboardData()
+    }
+  }, [token, gardenId])
+
+  const fetchDashboardData = async () => {
+    try {
+      const [statsRes, attendanceRes] = await Promise.all([
+        apiFetch(`/gardens/${gardenId}/stats`, { token, gardenId }),
+        apiFetch('/attendance/summary', { token, gardenId })
+      ])
+
+      if (statsRes.ok) {
+        const data = await statsRes.json()
+        setStats(data.stats)
+      }
+
+      if (attendanceRes.ok) {
+        const data = await attendanceRes.json()
+        setAttendance(data)
+      }
+    } catch (err) {
+      console.error('Error loading dashboard data:', err)
+    }
+  }
 
   const getGreeting = () => {
     const hour = new Date().getHours()
@@ -33,10 +80,10 @@ export default function DashboardPage() {
           {/* Stats cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 stagger-children">
             {[
-              { icon: '👶', label: 'Nenes presentes', value: '28 / 35', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
-              { icon: '📒', label: 'Cuadernos hoy', value: '12 / 28', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
-              { icon: '💰', label: 'Pagos pendientes', value: '7', color: 'var(--color-celeste-100)', accent: 'var(--color-celeste-300)' },
-              { icon: '📢', label: 'Comunicados', value: '2', color: 'var(--color-lila-100)', accent: 'var(--color-lila-300)' },
+              { icon: '👶', label: 'Nenes presentes', value: attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
+              { icon: '📒', label: 'Cuadernos (mes)', value: stats ? `${stats.dailyEntries.lastMonth}` : '—', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
+              { icon: '💰', label: 'Pagos pendientes', value: stats ? `${stats.payments.pending}` : '—', color: 'var(--color-celeste-100)', accent: 'var(--color-celeste-300)' },
+              { icon: '🏫', label: 'Salas / Nenes', value: stats ? `${stats.classrooms} / ${stats.children.active}` : '—', color: 'var(--color-lila-100)', accent: 'var(--color-lila-300)' },
             ].map((stat) => (
               <div key={stat.label} className="card animate-fade-in-up group cursor-default">
                 <div className="flex items-start gap-3">
@@ -64,22 +111,18 @@ export default function DashboardPage() {
                 <h3 className="text-lg font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
                   Asistencia de Hoy
                 </h3>
-                <span className="badge success">80%</span>
+                <span className="badge success">{attendance ? `${attendance.gardenSummary.attendanceRate}%` : '—'}</span>
               </div>
               
               <div className="space-y-3">
-                {[
-                  { emoji: '🐥', name: 'Pollitos', count: '8 / 10', color: 'var(--color-pollito-100)' },
-                  { emoji: '🐻', name: 'Ositos', count: '12 / 15', color: 'var(--color-menta-100)' },
-                  { emoji: '⭐', name: 'Estrellitas', count: '8 / 10', color: 'var(--color-celeste-100)' },
-                ].map((sala) => (
-                  <div key={sala.name} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[var(--color-warm-50)]" style={{ backgroundColor: sala.color + '60' }}>
+                {(attendance?.classrooms || []).map((sala) => (
+                  <div key={sala.classroom.id} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[var(--color-warm-50)]" style={{ backgroundColor: (sala.classroom.color || 'var(--color-pollito-100)') + '60' }}>
                     <div className="flex items-center gap-3">
-                      <span className="text-lg">{sala.emoji}</span>
-                      <span className="font-semibold text-sm" style={{ fontFamily: 'var(--font-display)' }}>{sala.name}</span>
+                      <span className="text-lg">{sala.classroom.emoji}</span>
+                      <span className="font-semibold text-sm" style={{ fontFamily: 'var(--font-display)' }}>{sala.classroom.name}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold">{sala.count}</p>
+                      <p className="text-sm font-bold">{sala.attendance.present} / {sala.totalChildren}</p>
                       <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">presentes</p>
                     </div>
                   </div>

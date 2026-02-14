@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Child {
   _id: string
@@ -43,7 +43,7 @@ interface Attendance {
 }
 
 export default function AsistenciaPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
   const [children, setChildren] = useState<Child[]>([])
   const [attendance, setAttendance] = useState<Attendance | null>(null)
@@ -66,18 +66,14 @@ export default function AsistenciaPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/classrooms', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await apiFetch('/classrooms', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Error al cargar las salas')
       }
 
       const data = await response.json()
-      setClassrooms(data)
+      setClassrooms(data.classrooms || data)
       
       // Seleccionar la primera sala por defecto
       if (data.length > 0 && !selectedClassroom) {
@@ -98,31 +94,26 @@ export default function AsistenciaPage() {
 
     try {
       // Obtener niños de la sala
-      const childrenResponse = await fetch(`/children?classroomId=${selectedClassroom}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const childrenResponse = await apiFetch(`/children?classroomId=${selectedClassroom}`, { token, gardenId })
 
       if (!childrenResponse.ok) {
         throw new Error('Error al cargar los niños')
       }
 
-      const childrenData = await childrenResponse.json()
+      const childrenResult = await childrenResponse.json()
+      const childrenData = childrenResult.children || childrenResult
       setChildren(childrenData)
 
       // Obtener asistencia existente para esta fecha y sala
-      const attendanceResponse = await fetch(
+      const attendanceResponse = await apiFetch(
         `/attendance?classroomId=${selectedClassroom}&date=${selectedDate}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        { token, gardenId
         }
       )
 
       if (attendanceResponse.ok) {
-        const attendanceData = await attendanceResponse.json()
+        const attendanceResult = await attendanceResponse.json()
+        const attendanceData = attendanceResult.attendance || attendanceResult
         if (attendanceData) {
           setAttendance(attendanceData)
         } else {
@@ -195,18 +186,12 @@ export default function AsistenciaPage() {
     setSuccessMessage('')
 
     try {
-      const method = attendance._id ? 'PUT' : 'POST'
-      const url = attendance._id 
-        ? `/attendance/${attendance._id}`
-        : API_BASE_URL + '/attendance'
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(attendance)
+      // Backend uses PUT /api/attendance for creating/updating attendance
+      const response = await apiFetch('/attendance', {
+        method: 'PUT',
+        token,
+        gardenId,
+        body: attendance
       })
 
       if (!response.ok) {

@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import API_BASE_URL from '@/config/api'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Child {
   _id: string
@@ -82,7 +82,7 @@ interface PaymentStats {
 }
 
 export default function PagosPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [payments, setPayments] = useState<Payment[]>([])
   const [children, setChildren] = useState<Child[]>([])
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
@@ -141,22 +141,18 @@ export default function PagosPage() {
     try {
       // Obtener niños, salas y pagos en paralelo
       const [childrenRes, classroomsRes] = await Promise.all([
-        fetch(API_BASE_URL + '/children', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch(API_BASE_URL + '/classrooms', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+        apiFetch('/children', { token, gardenId }),
+        apiFetch('/classrooms', { token, gardenId })
       ])
 
       if (childrenRes.ok) {
-        const childrenData = await childrenRes.json()
-        setChildren(childrenData)
+        const result = await childrenRes.json()
+        setChildren(result.children || result)
       }
 
       if (classroomsRes.ok) {
-        const classroomsData = await classroomsRes.json()
-        setClassrooms(classroomsData)
+        const result = await classroomsRes.json()
+        setClassrooms(result.classrooms || result)
       }
 
       await fetchPayments()
@@ -181,13 +177,11 @@ export default function PagosPage() {
         url += `&classroomId=${filterClassroom}`
       }
 
-      const response = await fetch(url, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
+      const response = await apiFetch(url, { token, gardenId })
 
       if (response.ok) {
-        const data = await response.json()
-        setPayments(data)
+        const result = await response.json()
+        setPayments(result.payments || result)
       }
 
     } catch (err: any) {
@@ -197,14 +191,8 @@ export default function PagosPage() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`/payments/stats?period=${filterPeriod}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setStats(data)
-      }
+      // Stats endpoint not available yet - skip for now
+      // TODO: Implement GET /api/payments/stats endpoint
 
     } catch (err: any) {
       console.error('Error al cargar estadísticas:', err.message)
@@ -278,22 +266,18 @@ export default function PagosPage() {
       // Calcular total
       const total = formData.amount + formData.lateFee - formData.discount
 
+      // For new payments, use create-monthly; for existing, no update route exists yet
       const url = editingPayment 
         ? `/payments/${editingPayment._id}`
-        : API_BASE_URL + '/payments'
+        : '/payments/create-monthly'
       
-      const method = editingPayment ? 'PUT' : 'POST'
+      const method = 'POST'
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...formData,
-          total
-        })
+        token,
+        gardenId,
+        body: { ...formData, total }
       })
 
       if (!response.ok) {
@@ -331,13 +315,11 @@ export default function PagosPage() {
         throw new Error('El monto pagado debe ser mayor a 0')
       }
 
-      const response = await fetch(`/payments/${paymentToRecord._id}/record-payment`, {
+      const response = await apiFetch(`/payments/${paymentToRecord._id}/record`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(paymentFormData)
+        token,
+        gardenId,
+        body: paymentFormData
       })
 
       if (!response.ok) {
@@ -366,11 +348,10 @@ export default function PagosPage() {
     }
 
     try {
-      const response = await fetch(`/payments/${paymentId}`, {
+      const response = await apiFetch(`/payments/${paymentId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId
       })
 
       if (!response.ok) {

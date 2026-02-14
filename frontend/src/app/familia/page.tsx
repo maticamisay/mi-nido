@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Child {
   _id: string
@@ -115,7 +115,7 @@ interface Payment {
 }
 
 export default function FamiliaPage() {
-  const { token, user } = useAuth()
+  const { token, user, gardenId } = useAuth()
   const [children, setChildren] = useState<Child[]>([])
   const [selectedChild, setSelectedChild] = useState<Child | null>(null)
   const [dailyEntries, setDailyEntries] = useState<DailyEntry[]>([])
@@ -171,15 +171,15 @@ export default function FamiliaPage() {
   const fetchMyChildren = async () => {
     setLoading(true)
     try {
-      const response = await fetch(API_BASE_URL + '/families/my-children', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
+      // Use existing /children endpoint - families see their own children via requireGardenAccess
+      const response = await apiFetch('/children', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Error al cargar tus hijos')
       }
 
-      const data = await response.json()
+      const result = await response.json()
+      const data = result.children || result
       setChildren(data)
       
       // Seleccionar el primer hijo por defecto
@@ -198,16 +198,15 @@ export default function FamiliaPage() {
     if (!selectedChild) return
 
     try {
-      const response = await fetch(
-        `/families/daily-entries?childId=${selectedChild._id}&date=${selectedDate}`,
-        {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }
+      // Use existing daily-entries feed endpoint for families
+      const response = await apiFetch(
+        `/daily-entries/feed?childId=${selectedChild._id}`,
+        { token, gardenId }
       )
 
       if (response.ok) {
-        const data = await response.json()
-        setDailyEntries(data)
+        const result = await response.json()
+        setDailyEntries(result.entries || result)
       }
 
     } catch (err: any) {
@@ -217,13 +216,11 @@ export default function FamiliaPage() {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/families/announcements', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
+      const response = await apiFetch('/announcements?status=published', { token, gardenId })
 
       if (response.ok) {
-        const data = await response.json()
-        setAnnouncements(data)
+        const result = await response.json()
+        setAnnouncements(result.announcements || result)
       }
 
     } catch (err: any) {
@@ -235,16 +232,15 @@ export default function FamiliaPage() {
     if (!selectedChild) return
 
     try {
-      const response = await fetch(
-        `/families/payments?childId=${selectedChild._id}`,
-        {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }
+      // Use existing payments endpoint with childId filter
+      const response = await apiFetch(
+        `/payments/child/${selectedChild._id}`,
+        { token, gardenId }
       )
 
       if (response.ok) {
-        const data = await response.json()
-        setPayments(data)
+        const result = await response.json()
+        setPayments(result.payments || result)
       }
 
     } catch (err: any) {
@@ -254,11 +250,11 @@ export default function FamiliaPage() {
 
   const handleAcknowledge = async (announcementId: string) => {
     try {
-      const response = await fetch(`/announcements/${announcementId}/acknowledge`, {
+      const response = await apiFetch(`/announcements/${announcementId}/acknowledge`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId,
+        body: {}
       })
 
       if (response.ok) {

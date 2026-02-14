@@ -1,4 +1,7 @@
+'use client'
+
 import AppLayout from '@/components/layout/AppLayout'
+import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import Link from 'next/link'
 
 const moreOptions = [
@@ -12,60 +15,62 @@ const moreOptions = [
 
 export default function MasPage() {
   return (
-    <AppLayout>
-      <div className="py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-            ⋯ Más Opciones
-          </h1>
-          <p className="text-[var(--color-text-secondary)]">
-            Accedé a todas las funciones de Mi Nido.
-          </p>
-        </div>
+    <ProtectedRoute>
+      <AppLayout>
+        <div className="py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
+              ⋯ Más Opciones
+            </h1>
+            <p className="text-[var(--color-text-secondary)]">
+              Accedé a todas las funciones de Mi Nido.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {moreOptions.map((option) => (
-            <Link
-              key={option.name}
-              href={option.href}
-              className="card hover:shadow-lg transition-shadow p-6 text-center group"
-            >
-              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
-                {option.icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
-                {option.name}
-              </h3>
-              <p className="text-sm text-[var(--color-text-secondary)]">
-                {option.description}
-              </p>
-            </Link>
-          ))}
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {moreOptions.map((option) => (
+              <Link
+                key={option.name}
+                href={option.href}
+                className="card hover:shadow-lg transition-shadow p-6 text-center group"
+              >
+                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                  {option.icon}
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
+                  {option.name}
+                </h3>
+                <p className="text-sm text-[var(--color-text-secondary)]">
+                  {option.description}
+                </p>
+              </Link>
+            ))}
+          </div>
 
-        {/* Sección de ayuda */}
-        <div className="mt-12 card p-6">
-          <div className="flex items-start gap-4">
-            <div className="text-3xl">💡</div>
-            <div>
-              <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
-                ¿Necesitás ayuda?
-              </h3>
-              <p className="text-[var(--color-text-secondary)] mb-4">
-                Si tenés dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button className="btn btn-secondary">
-                  📖 Guía de uso
-                </button>
-                <button className="btn btn-secondary">
-                  📞 Contactar soporte
-                </button>
+          {/* Sección de ayuda */}
+          <div className="mt-12 card p-6">
+            <div className="flex items-start gap-4">
+              <div className="text-3xl">💡</div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
+                  ¿Necesitás ayuda?
+                </h3>
+                <p className="text-[var(--color-text-secondary)] mb-4">
+                  Si tenés dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button className="btn btn-secondary">
+                    📖 Guía de uso
+                  </button>
+                  <button className="btn btn-secondary">
+                    📞 Contactar soporte
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </AppLayout>
+      </AppLayout>
+    </ProtectedRoute>
   )
 }

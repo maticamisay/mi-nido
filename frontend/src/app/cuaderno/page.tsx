@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Child {
   _id: string
@@ -108,7 +108,7 @@ interface CreateDailyEntryData {
 }
 
 export default function CuadernoPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
   const [children, setChildren] = useState<Child[]>([])
   const [dailyEntries, setDailyEntries] = useState<DailyEntry[]>([])
@@ -180,17 +180,14 @@ export default function CuadernoPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/classrooms', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await apiFetch('/classrooms', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Error al cargar las salas')
       }
 
-      const data = await response.json()
+      const result = await response.json()
+      const data = result.classrooms || result
       setClassrooms(data)
       
       // Seleccionar la primera sala por defecto
@@ -212,32 +209,24 @@ export default function CuadernoPage() {
 
     try {
       // Obtener niños de la sala
-      const childrenResponse = await fetch(`/children?classroomId=${selectedClassroom}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const childrenResponse = await apiFetch(`/children?classroomId=${selectedClassroom}`, { token, gardenId })
 
       if (!childrenResponse.ok) {
         throw new Error('Error al cargar los niños')
       }
 
-      const childrenData = await childrenResponse.json()
-      setChildren(childrenData)
+      const childrenResult = await childrenResponse.json()
+      setChildren(childrenResult.children || childrenResult)
 
       // Obtener entradas del cuaderno para esta fecha y sala
-      const entriesResponse = await fetch(
+      const entriesResponse = await apiFetch(
         `/daily-entries?classroomId=${selectedClassroom}&date=${selectedDate}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }
+        { token, gardenId }
       )
 
       if (entriesResponse.ok) {
-        const entriesData = await entriesResponse.json()
-        setDailyEntries(entriesData)
+        const entriesResult = await entriesResponse.json()
+        setDailyEntries(entriesResult.entries || entriesResult)
       }
 
     } catch (err: any) {
@@ -304,19 +293,14 @@ export default function CuadernoPage() {
     setSaving(true)
 
     try {
-      const url = editingEntry 
-        ? `/daily-entries/${editingEntry._id}`
-        : API_BASE_URL + '/daily-entries'
-      
+      // Backend uses POST/PUT /api/daily-entries (createOrUpdate by childId+date)
       const method = editingEntry ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await apiFetch('/daily-entries', {
         method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        token,
+        gardenId,
+        body: formData
       })
 
       if (!response.ok) {

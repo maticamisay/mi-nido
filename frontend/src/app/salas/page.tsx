@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Classroom {
   _id: string
@@ -45,7 +45,7 @@ interface CreateClassroomData {
 }
 
 export default function SalasPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -86,18 +86,14 @@ export default function SalasPage() {
 
   const fetchClassrooms = async () => {
     try {
-      const response = await fetch(API_BASE_URL + '/classrooms', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await apiFetch('/classrooms', { token, gardenId })
 
       if (!response.ok) {
         throw new Error('Ups, no pudimos cargar las salas. Intentá de nuevo 🤔')
       }
 
-      const data = await response.json()
-      setClassrooms(data)
+      const result = await response.json()
+      setClassrooms(result.classrooms || result)
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -112,17 +108,15 @@ export default function SalasPage() {
     try {
       const url = editingClassroom 
         ? `/classrooms/${editingClassroom._id}`
-        : API_BASE_URL + '/classrooms'
+        : '/classrooms'
       
       const method = editingClassroom ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        token,
+        gardenId,
+        body: formData
       })
 
       if (!response.ok) {
@@ -165,11 +159,10 @@ export default function SalasPage() {
     }
 
     try {
-      const response = await fetch(`/classrooms/${classroom._id}`, {
+      const response = await apiFetch(`/classrooms/${classroom._id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId
       })
 
       if (!response.ok) {

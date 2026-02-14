@@ -24,6 +24,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   token: string | null
+  gardenId: string | null
   login: (email: string, password: string) => Promise<void>
   logout: () => void
   register: (userData: any) => Promise<void>
@@ -41,6 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const isAuthenticated = !!user && !!token
+  const gardenId = user?.gardens?.[0]?.id || null
 
   // Cargar usuario del localStorage al iniciar
   useEffect(() => {
@@ -144,6 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value = {
     user,
     token,
+    gardenId,
     login,
     logout,
     register,

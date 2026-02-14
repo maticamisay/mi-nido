@@ -1,10 +1,10 @@
 'use client'
-import API_BASE_URL from '@/config/api'
 
 import { useState, useEffect } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiFetch } from '@/lib/api'
 
 interface Classroom {
   _id: string
@@ -55,7 +55,7 @@ interface CreateAnnouncementData {
 }
 
 export default function ComunicadosPage() {
-  const { token } = useAuth()
+  const { token, gardenId } = useAuth()
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [classrooms, setClassrooms] = useState<Classroom[]>([])
   const [showModal, setShowModal] = useState(false)
@@ -86,22 +86,18 @@ export default function ComunicadosPage() {
     try {
       // Obtener comunicados y salas en paralelo
       const [announcementsRes, classroomsRes] = await Promise.all([
-        fetch(API_BASE_URL + '/announcements', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch(API_BASE_URL + '/classrooms', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+        apiFetch('/announcements', { token, gardenId }),
+        apiFetch('/classrooms', { token, gardenId })
       ])
 
       if (announcementsRes.ok) {
-        const announcementsData = await announcementsRes.json()
-        setAnnouncements(announcementsData)
+        const result = await announcementsRes.json()
+        setAnnouncements(result.announcements || result)
       }
 
       if (classroomsRes.ok) {
-        const classroomsData = await classroomsRes.json()
-        setClassrooms(classroomsData)
+        const result = await classroomsRes.json()
+        setClassrooms(result.classrooms || result)
       }
 
     } catch (err: any) {
@@ -155,17 +151,15 @@ export default function ComunicadosPage() {
 
       const url = editingAnnouncement 
         ? `/announcements/${editingAnnouncement._id}`
-        : API_BASE_URL + '/announcements'
+        : '/announcements'
       
       const method = editingAnnouncement ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        token,
+        gardenId,
+        body: formData
       })
 
       if (!response.ok) {
@@ -198,11 +192,10 @@ export default function ComunicadosPage() {
     }
 
     try {
-      const response = await fetch(`/announcements/${announcementId}`, {
+      const response = await apiFetch(`/announcements/${announcementId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId
       })
 
       if (!response.ok) {
@@ -220,11 +213,11 @@ export default function ComunicadosPage() {
 
   const handleAcknowledge = async (announcementId: string) => {
     try {
-      const response = await fetch(`/announcements/${announcementId}/acknowledge`, {
+      const response = await apiFetch(`/announcements/${announcementId}/acknowledge`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        token,
+        gardenId,
+        body: {}
       })
 
       if (!response.ok) {

@@ -2189,4 +2189,265 @@ TOKEN: (se obtiene al hacer login)
 ### [FE-009] Página Comunicados (`/comunicados`)
 - **Flujo:** Frontend > Comunicados
 - **Precondiciones:** Usuario autenticado
+- **Pasos:**  1. Abrir `/comunicados`
+  2. Ver listado de comunicados
+  3. Crear comunicado
+  4. Editar comunicado
+  5. Eliminar comunicado
+- **Endpoint(s) que llama:**
+  - `GET /api/announcements?gardenId=xxx&status=published`
+  - `GET /api/classrooms?gardenId=xxx` (para selector de salas)
+  - `POST /api/announcements` (crear)
+  - `PUT /api/announcements/:id` (editar)
+  - `DELETE /api/announcements/:id` (eliminar)
+- **Datos que envía:** gardenId, title, body, scope, classroomIds, requiresAck, status, pinned, urgent
+- **Respuesta esperada:** Lista de comunicados con badges (urgente, fijado). Modal de creación con scope garden/classroom.
+- **Verificar:**
+  - Filtro por estado (all/published/draft)
+  - Scope: si classroom, selector de salas aparece
+  - Toggle de requiresAck, pinned, urgent
+  - Preview del comunicado antes de publicar
+
+### [FE-010] Página Pagos (`/pagos`)
+- **Flujo:** Frontend > Pagos
+- **Precondiciones:** Usuario autenticado, pagos creados
 - **Pasos:**
+  1. Abrir `/pagos`
+  2. Ver listado de pagos con filtros
+  3. Generar cuotas mensuales
+  4. Registrar pago
+- **Endpoint(s) que llama:**
+  - `GET /api/payments?gardenId=xxx`
+  - `GET /api/classrooms?gardenId=xxx`
+  - `POST /api/payments/create-monthly` (generar cuotas)
+  - `POST /api/payments/:id/record` (registrar pago)
+  - `GET /api/payments/overdue?gardenId=xxx` (morosos)
+- **Datos que envía:** gardenId, period, amount, method, reference, notes
+- **Respuesta esperada:** Lista de pagos con status visual (pendiente/pagado/parcial/vencido). Botón generar cuotas. Botón registrar pago.
+- **Verificar:**
+  - Filtros por status, período, sala
+  - Stats cards (total, pendientes, vencidos)
+  - Modal de registrar pago con método de pago
+  - Reporte de morosos accesible
+
+### [FE-011] Página Familia (`/familia`)
+- **Flujo:** Frontend > Vista Familia
+- **Precondiciones:** Usuario family autenticado
+- **Pasos:**
+  1. Abrir `/familia`
+  2. Ver feed del cuaderno de sus hijos
+  3. Ver comunicados
+  4. Ver pagos
+- **Endpoint(s) que llama:**
+  - `GET /api/daily-entries/feed?gardenId=xxx`
+  - `GET /api/announcements?gardenId=xxx`
+  - `GET /api/payments?gardenId=xxx`
+  - `GET /api/children?gardenId=xxx` (sus hijos)
+- **Datos que envía:** gardenId
+- **Respuesta esperada:** Feed del cuaderno con entradas de sus hijos. Comunicados relevantes. Estado de pagos.
+- **Verificar:**
+  - Solo ve datos de sus propios hijos
+  - Entradas del cuaderno con fotos, comidas, actividades
+  - Comunicados filtrados por sus salas
+
+### [FE-012] Página Más (`/mas`)
+- **Flujo:** Frontend > Más opciones
+- **Precondiciones:** Ninguna (no requiere datos dinámicos)
+- **Pasos:**
+  1. Abrir `/mas`
+- **Endpoint(s) que llama:** Ninguno (página estática con links)
+- **Datos que envía:** N/A
+- **Respuesta esperada:** Grid de opciones: Salas, Nenes, Asistencia, Mensajes, Calendario, Ajustes. Sección de ayuda.
+- **Verificar:**
+  - Todos los links funcionan
+  - Responsive: grid se adapta a 1/2/3 columnas
+
+### [FE-013] ProtectedRoute redirige si no autenticado
+- **Flujo:** Frontend > Protección de rutas
+- **Precondiciones:** No autenticado (sin token en localStorage)
+- **Pasos:**
+  1. Abrir `/dashboard` sin estar logueado
+  2. Abrir `/salas` sin estar logueado
+  3. Abrir `/niños` sin estar logueado
+- **Endpoint(s) que llama:** Ninguno
+- **Datos que envía:** N/A
+- **Respuesta esperada:** Redirect a `/login` en todos los casos. Muestra loading spinner mientras verifica autenticación.
+- **Verificar:**
+  - Loading spinner visible brevemente
+  - Redirect limpio a `/login`
+  - No flash de contenido protegido
+
+### [FE-014] Logout desde frontend
+- **Flujo:** Frontend > Logout
+- **Precondiciones:** Usuario autenticado
+- **Pasos:**
+  1. Hacer click en logout (desde Header o menú)
+  2. Verificar que se borra token y user de localStorage
+  3. Verificar redirect a `/login`
+- **Endpoint(s) que llama:** `POST /api/auth/logout` (opcional, no critical)
+- **Datos que envía:** N/A
+- **Respuesta esperada:** localStorage limpio. Redirect a login.
+- **Verificar:**
+  - localStorage.getItem('token') === null
+  - localStorage.getItem('user') === null
+  - No se puede volver a páginas protegidas con back button
+
+### [FE-015] Navegación y Layout
+- **Flujo:** Frontend > Navegación
+- **Precondiciones:** Usuario autenticado
+- **Pasos:**
+  1. Verificar Header con logo y nombre de usuario
+  2. Verificar Sidebar con links de navegación (desktop)
+  3. Verificar MobileBottomNav (mobile)
+  4. Navegar entre todas las páginas
+- **Endpoint(s) que llama:** N/A
+- **Datos que envía:** N/A
+- **Respuesta esperada:** Navegación fluida. Sidebar visible en desktop. BottomNav visible en mobile.
+- **Verificar:**
+  - AppLayout envuelve todas las páginas protegidas
+  - Sidebar highlights la página actual
+  - Mobile bottom nav tiene iconos correctos
+
+---
+
+## 15. Responsive y UI
+
+### [UI-001] Login responsive
+- **Flujo:** UI > Login
+- **Verificar en:** Mobile (375px), Tablet (768px), Desktop (1280px)
+- **Qué verificar:**
+  - Mobile: Panel izquierdo decorativo oculto. Form centrado.
+  - Tablet: Form centrado con padding.
+  - Desktop: Panel izquierdo visible (45% ancho) con animaciones floating. Form a la derecha.
+  - Animaciones smooth (floating shapes, fade-in-up)
+  - Inputs con labels legibles
+  - Botón de submit ocupa ancho correcto
+
+### [UI-002] Register responsive
+- **Flujo:** UI > Register
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Steps indicator visible y legible
+  - Campos del form se apilan en mobile
+  - Botones Siguiente/Atrás accesibles
+  - Campos de dirección del jardín legibles
+
+### [UI-003] Dashboard responsive
+- **Flujo:** UI > Dashboard
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Stats cards: 2 columnas en mobile, 4 en desktop
+  - Secciones de asistencia y eventos: 1 columna mobile, 2 desktop
+  - Saludo no se trunca en mobile
+  - Cards con emojis y colores correctos
+
+### [UI-004] Salas responsive
+- **Flujo:** UI > Salas
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Cards de salas: 1 columna mobile, 2 tablet, 3 desktop
+  - Modal de crear/editar: fullscreen en mobile, centrado en desktop
+  - Selector de emoji y color usable en mobile
+  - Botón de crear visible en todas las resoluciones
+
+### [UI-005] Niños responsive
+- **Flujo:** UI > Niños
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Lista de niños con fotos legibles
+  - Filtros accesibles (búsqueda, selector de sala)
+  - Formulario de creación con múltiples secciones scrollable
+  - Secciones médicas legibles y editables
+  - Array de contactos de emergencia manejable
+
+### [UI-006] Asistencia responsive
+- **Flujo:** UI > Asistencia
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Selectores de sala y fecha usables en mobile
+  - Lista de niños con botones de estado touch-friendly
+  - Botones de status (presente/ausente/etc.) suficientemente grandes para tap
+  - Resumen visible sin scroll
+
+### [UI-007] Cuaderno responsive
+- **Flujo:** UI > Cuaderno
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Formulario de entrada con muchas secciones scrollable
+  - Selector de comidas usable
+  - Time pickers para siesta funcionales
+  - Grilla de fotos adaptable
+  - Selector de mood con emojis touch-friendly
+
+### [UI-008] Comunicados responsive
+- **Flujo:** UI > Comunicados
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Lista de comunicados legible
+  - Badges (urgente, fijado) visibles
+  - Modal de creación funcional
+  - Toggle switches (requiresAck, pinned, urgent) usables
+  - Textarea para body suficientemente grande
+
+### [UI-009] Pagos responsive
+- **Flujo:** UI > Pagos
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Stats cards legibles
+  - Tabla/lista de pagos scrollable horizontalmente en mobile
+  - Status badges con colores claros
+  - Modal de registrar pago funcional
+  - Montos formateados en ARS
+
+### [UI-010] Familia responsive
+- **Flujo:** UI > Familia
+- **Verificar en:** Mobile, Tablet, Desktop
+- **Qué verificar:**
+  - Feed del cuaderno como timeline/cards
+  - Fotos del cuaderno en galería adaptable
+  - Comunicados legibles
+  - Pagos con badges de status claros
+
+### [UI-011] Navegación mobile
+- **Flujo:** UI > Navegación
+- **Verificar en:** Mobile (< 768px)
+- **Qué verificar:**
+  - Sidebar oculta
+  - MobileBottomNav visible con iconos correctos
+  - Tab activa highlighted
+  - Safe area respetada (notch de iPhone)
+  - No overlap con contenido
+
+### [UI-012] Design system y consistencia visual
+- **Flujo:** UI > Design System
+- **Verificar en:** Todas las resoluciones
+- **Qué verificar:**
+  - Colores del design system usados correctamente (Rosa Nido, Amarillo Pollito, Verde Menta, Celeste Bebé, Lila Pastel)
+  - Fuentes: display font para títulos, body font para texto
+  - Cards con bordes redondeados y sombras consistentes
+  - Botones con estados hover/active
+  - Emoji usados consistentemente
+  - Mensajes de éxito con ✅, de error con mensaje claro
+
+---
+
+## Resumen de Cobertura
+
+| Módulo | Tests API | Tests Frontend | Tests E2E | Total |
+|--------|-----------|----------------|-----------|-------|
+| Autenticación | 19 | 3 | - | 22 |
+| Jardines | 11 | - | - | 11 |
+| Salas | 13 | 1 | - | 14 |
+| Niños | 17 | 1 | - | 18 |
+| Asistencia | 9 | 1 | - | 10 |
+| Cuaderno Digital | 13 | 1 | - | 14 |
+| Comunicados | 12 | 1 | - | 13 |
+| Pagos | 12 | 1 | - | 13 |
+| Mensajes | 9 | - | - | 9 |
+| Calendario | 11 | - | - | 11 |
+| Uploads | 10 | - | - | 10 |
+| E2E | - | - | 6 | 6 |
+| Edge Cases | 14 | - | - | 14 |
+| UI/Responsive | - | 12 | - | 12 |
+| Navegación | - | 3 | - | 3 |
+| **TOTAL** | **150** | **24** | **6** | **180** |
