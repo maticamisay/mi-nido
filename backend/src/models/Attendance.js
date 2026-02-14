@@ -106,7 +106,7 @@ attendanceSchema.methods.setChildAttendance = function(childId, attendanceData) 
   
   if (existingIndex >= 0) {
     // Actualizar registro existente
-    this.records[existingIndex] = { ...this.records[existingIndex], ...attendanceData, childId };
+    Object.assign(this.records[existingIndex], attendanceData, { childId });
   } else {
     // Agregar nuevo registro
     this.records.push({ ...attendanceData, childId });
@@ -150,9 +150,14 @@ attendanceSchema.statics.createDailyAttendance = async function(classroomId, dat
     status: 'absent'
   }));
   
+  const classroom = await mongoose.model('Classroom').findById(classroomId);
+  if (!classroom) {
+    throw new Error('Sala no encontrada');
+  }
+  
   return this.create({
     classroomId,
-    gardenId: (await mongoose.model('Classroom').findById(classroomId)).gardenId,
+    gardenId: classroom.gardenId,
     date,
     records,
     recordedBy: recordedById

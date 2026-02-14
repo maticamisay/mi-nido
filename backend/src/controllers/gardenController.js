@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Garden, User } = require('../models');
 
 // Obtener jardines del usuario
@@ -137,7 +138,7 @@ const getGardenStats = async (req, res) => {
     const monthlyIncomeData = await Payment.aggregate([
       {
         $match: {
-          gardenId: garden._id,
+          gardenId: new mongoose.Types.ObjectId(req.gardenId),
           period: currentPeriod,
           status: 'paid'
         }

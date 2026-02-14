@@ -32,6 +32,6 @@ router.put('/:eventId', authenticate, requireGardenAccess(), requireTeacher, upd
 
 // Eliminar evento
 // DELETE /api/calendar/:eventId
-router.delete('/:eventId', authenticate, requireGardenAccess(), deleteEvent);
+router.delete('/:eventId', authenticate, requireGardenAccess(), requireTeacher, deleteEvent);
 
 module.exports = router;

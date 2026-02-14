@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 const { serveUploads } = require('./middleware/upload');
 require('dotenv').config();
 
@@ -12,20 +14,29 @@ const corsOptions = {
   credentials: true
 };
 
+// Rate limiting for auth routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { error: 'Demasiados intentos. Intentá de nuevo en 15 minutos.', code: 'RATE_LIMITED' }
+});
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(mongoSanitize());
 
 // Servir archivos estáticos (uploads)
 serveUploads(app);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', name: 'Mi Nido API' });
+  const mongoStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  res.json({ status: mongoStatus === 'connected' ? 'ok' : 'degraded', name: 'Mi Nido API', mongo: mongoStatus });
 });
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', authLimiter, require('./routes/auth'));
 app.use('/api/gardens', require('./routes/gardens'));
 app.use('/api/classrooms', require('./routes/classrooms'));
 app.use('/api/children', require('./routes/children'));
@@ -36,6 +47,15 @@ app.use('/api/payments', require('./routes/payments'));
 app.use('/api/messages', require('./routes/messages'));
 app.use('/api/calendar', require('./routes/calendarEvents'));
 app.use('/api/upload', require('./routes/upload'));
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(err.status || 500).json({
+    error: process.env.NODE_ENV === 'production' ? 'Error interno del servidor' : err.message,
+    code: 'INTERNAL_ERROR'
+  });
+});
 
 // MongoDB connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mi-nido';

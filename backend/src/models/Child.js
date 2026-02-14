@@ -172,7 +172,7 @@ childSchema.virtual('isDeleted').get(function() {
 // Validación: debe tener al menos un contacto de emergencia
 childSchema.pre('validate', function(next) {
   if (this.emergencyContacts.length === 0) {
-    next(new Error('Debe tener al menos un contacto de emergencia'));
+    return next(new Error('Debe tener al menos un contacto de emergencia'));
   }
   next();
 });
@@ -181,7 +181,7 @@ childSchema.pre('validate', function(next) {
 childSchema.pre('validate', function(next) {
   const primaryContacts = this.emergencyContacts.filter(contact => contact.isPrimary);
   if (primaryContacts.length > 1) {
-    next(new Error('Solo puede haber un contacto de emergencia primario'));
+    return next(new Error('Solo puede haber un contacto de emergencia primario'));
   }
   next();
 });

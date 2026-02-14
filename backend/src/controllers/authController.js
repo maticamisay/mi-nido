@@ -24,6 +24,15 @@ const register = async (req, res) => {
       });
     }
 
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: 'El formato del email no es válido',
+        code: 'INVALID_EMAIL_FORMAT'
+      });
+    }
+
     // Verificar si el email ya existe
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {

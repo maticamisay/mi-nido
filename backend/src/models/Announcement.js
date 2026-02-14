@@ -138,7 +138,7 @@ announcementSchema.virtual('preview').get(function() {
 // Validación: si scope es 'classroom', debe tener classroomIds
 announcementSchema.pre('validate', function(next) {
   if (this.scope === 'classroom' && (!this.classroomIds || this.classroomIds.length === 0)) {
-    next(new Error('Los comunicados por sala deben especificar al menos una sala'));
+    return next(new Error('Los comunicados por sala deben especificar al menos una sala'));
   }
   if (this.scope === 'garden') {
     this.classroomIds = []; // Limpiar classroomIds si es para todo el jardín

@@ -11,8 +11,8 @@ RUN npm ci --only=production
 # Copiar código fuente
 COPY src/ ./src/
 
-# Crear directorio uploads
-RUN mkdir -p /app/uploads
+# Crear directorio uploads con permisos correctos
+RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
 
 # Exponer puerto
 EXPOSE ${PORT:-5000}

@@ -32,6 +32,6 @@ router.post('/:announcementId/acknowledge', authenticate, requireGardenAccess(),
 
 // Eliminar comunicado (solo admin o autor)
 // DELETE /api/announcements/:announcementId
-router.delete('/:announcementId', authenticate, requireGardenAccess(), deleteAnnouncement);
+router.delete('/:announcementId', authenticate, requireGardenAccess(), requireTeacher, deleteAnnouncement);
 
 module.exports = router;

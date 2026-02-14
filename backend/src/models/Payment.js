@@ -103,7 +103,7 @@ const paymentSchema = new mongoose.Schema({
 
 // Índices
 paymentSchema.index({ gardenId: 1, period: 1 });
-paymentSchema.index({ childId: 1, period: 1 }, { unique: true }); // Un pago por niño por período
+paymentSchema.index({ childId: 1, period: 1, concept: 1 }, { unique: true }); // Un pago por niño por período por concepto
 paymentSchema.index({ gardenId: 1, status: 1 });
 paymentSchema.index({ gardenId: 1, dueDate: 1 });
 paymentSchema.index({ dueDate: 1, status: 1 }); // Para consultar vencimientos

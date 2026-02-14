@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { DailyEntry, Child, Classroom } = require('../models');
 
 // Obtener entradas del cuaderno por fecha y sala
@@ -366,11 +367,11 @@ const getDailyEntryStats = async (req, res) => {
     const { classroomId, startDate, endDate } = req.query;
 
     let matchQuery = {
-      gardenId: req.gardenId,
+      gardenId: new mongoose.Types.ObjectId(req.gardenId),
       status: 'published'
     };
 
-    if (classroomId) matchQuery.classroomId = classroomId;
+    if (classroomId) matchQuery.classroomId = new mongoose.Types.ObjectId(classroomId);
     if (startDate && endDate) {
       matchQuery.date = { $gte: startDate, $lte: endDate };
     }
