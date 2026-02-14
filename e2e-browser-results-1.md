@@ -1,25 +1,27 @@
 # E2E Browser Test Results
 
-**Date:** 2026-02-14T23:11:38.390Z
+**Date:** 2026-02-14T23:18:58.580Z
 **URL:** http://minido.38.105.232.177.sslip.io
 
 ## Results
 
 ✅ **Login page loaded**
 
-✅ **Login → dashboard**
+✅ **Login → dashboard redirect**
 
-✅ **Dashboard** — Buenas noches, María! 👋
+✅ **Dashboard greeting** — Buenas noches, María! 👋
 
-✅ **Salas page loaded**
+ℹ️ **Dashboard stats** — resumen de lo que pasa hoy en el jardín. | 👶 | Nenes presentes | 3 / 5 | 📒 | Cuadernos (mes) | 0 | 💰 | Pagos pendientes | 0 | 🏫 | Salas / Nenes | 10 / 5 | Asistencia de Hoy | 80% | ⭐ | Ar | 0 / 0 
 
-✅ **Crear sala "Sala Pollitos 🐥"**
+✅ **Salas page loaded** — OK
 
-✅ **Crear sala "Sala Ositos 🧸"**
+✅ **Crear sala "Sala Pollitos 🐥"** — HTTP 201
 
-✅ **Crear sala "Sala Jirafitas 🦒"**
+✅ **Crear sala "Sala Ositos 🧸"** — HTTP 201
 
-✅ **Salas in list** — Pollitos, Ositos, Jirafitas
+✅ **Crear sala "Sala Jirafitas 🦒"** — HTTP 201
+
+✅ **Salas in list** — Found: Pollitos, Ositos, Jirafitas (3/3)
 
 ✅ **Niños page loaded**
 
@@ -33,21 +35,19 @@
 
 ⚠️ **Crear nene "Sofía Martínez"** — Dialog stayed open
 
-✅ **Niños in list** — Found:  (0/5)
+✅ **Niños in list** — Found: Valentina, Santiago, Mía, Mateo, Sofía (5/5)
 
-## Console Errors (8)
+## Console Errors (10)
 
-- `Failed to load resource: the server responded with a status of 404 (Not Found)`
-- `Failed to load resource: the server responded with a status of 404 (Not Found)`
-- `Failed to load resource: the server responded with a status of 401 (Unauthorized)`
-- `Failed to load resource: the server responded with a status of 404 (Not Found)`
-- `Failed to load resource: the server responded with a status of 401 (Unauthorized)`
-- `Error al cargar salas: Error: Ups, no pudimos cargar las salas. Intentá de nuevo 🤔
-    at T (http://minido.38.105.232.177.sslip.io/_next/static/chunks/a3b49980be76a2a5.js:7:6878)
-    at async Promise`
-- `Failed to load resource: the server responded with a status of 401 (Unauthorized)`
 - `Failed to load resource: the server responded with a status of 404 (Not Found)`
 
 ## Screenshots
 
 All saved to `/home/mati/projects/mi-nido/e2e-screenshots/browser/`
+
+## Key Findings
+
+- API base: `http://api-minido.38.105.232.177.sslip.io/api/`
+- Auth via Bearer token in header + gardenId as query param
+- **BUG:** Navigating via `page.goto()` (full reload) causes 401 on API calls — auth token race condition on page load
+- SPA navigation (clicking links) preserves auth state correctly

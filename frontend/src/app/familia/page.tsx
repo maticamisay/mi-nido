@@ -175,6 +175,15 @@ export default function FamiliaPage() {
   const fetchMyChildren = async () => {
     setLoading(true)
     try {
+      // Admin/owner/teacher: this page is for families only
+      const userRole = user?.gardens?.[0]?.role
+      if (userRole && ['owner', 'admin', 'teacher'].includes(userRole)) {
+        // Staff don't have "their children" — show empty state gracefully
+        setChildren([])
+        setLoading(false)
+        return
+      }
+
       // Use existing /children endpoint - families see their own children via requireGardenAccess
       const response = await apiFetch('/children', { token, gardenId })
 
@@ -801,10 +810,21 @@ export default function FamiliaPage() {
           ) : (
             <div className="text-center py-12 card">
               <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
-              <h3 className="text-xl font-semibold mb-2">Sin niños registrados</h3>
-              <p className="text-[var(--color-text-secondary)]">
-                Contactá al jardín para agregar a tus hijos a tu cuenta
-              </p>
+              {user?.gardens?.[0]?.role && ['owner', 'admin', 'teacher'].includes(user.gardens[0].role) ? (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">Portal Familiar</h3>
+                  <p className="text-[var(--color-text-secondary)]">
+                    Esta sección es para las familias. Como {user.gardens[0].role === 'owner' ? 'director/a' : user.gardens[0].role === 'admin' ? 'administrador/a' : 'docente'}, podés gestionar los nenes desde la sección de Nenes.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">Sin niños registrados</h3>
+                  <p className="text-[var(--color-text-secondary)]">
+                    Contactá al jardín para agregar a tus hijos a tu cuenta
+                  </p>
+                </>
+              )}
             </div>
           )}
         </div>

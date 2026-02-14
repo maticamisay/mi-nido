@@ -1,87 +1,90 @@
 # E2E Browser Test Results — Asistencia, Cuaderno, Comunicados
 
-**Fecha:** 2026-02-14T23:15:17.064Z
-**Frontend:** http://minido.38.105.232.177.sslip.io
+**Fecha:** 2026-02-14T23:20:00Z  
+**Frontend:** http://minido.38.105.232.177.sslip.io  
+**Testeado como:** admin@jardinminido.com (María García, Owner)
 
 ## Resumen
 
 | Flujo | Estado | Notas |
 |-------|--------|-------|
-| Login | ✅ | Funciona correctamente |
-| Asistencia | ⚠️ | "Error al cargar las salas" - API 401 |
-| Cuaderno | ⚠️ | "Error al cargar las salas" - API 401 |
-| Comunicados | 🔍 | Ver detalles abajo |
-| Dashboard | ✅ | Carga correctamente |
+| Login | ✅ OK | Credenciales correctas, redirige a /dashboard |
+| Asistencia | ❌ Bloqueado | "Error al cargar las salas" — API 401 |
+| Cuaderno | ❌ Bloqueado | "Error al cargar las salas" — API 401 |
+| Comunicados (form) | ⚠️ Parcial | El formulario abre bien, pero al hacer submit crashea con "Application error: client-side exception" |
+| Comunicados (lectura) | ✅ OK | La página lista se carga, tabs Todos/Publicados/Borradores funcionan |
+| Dashboard | ✅ OK | Muestra stats: 3/5 nenes presentes, 10 salas, 80% asistencia, actividad reciente |
 
-## Log Completo
+## Detalle por Flujo
 
-```
-=== 1. LOGIN ===
-✅ Login OK → http://minido.38.105.232.177.sslip.io/dashboard
-📸 19-login-done.png
+### 1. Login ✅
+- Campos: email (`input[name="email"]`) y password (`input[name="password"]`)
+- Botón "Ingresar" funciona
+- Redirige a `/dashboard` correctamente
 
-=== 2. ASISTENCIA ===
-📸 20-asistencia-page.png
-⚠️ "Error al cargar las salas" — API returns 401 on salas endpoint
-Cannot test attendance marking without rooms loading
-Sala dropdown options: ["Seleccionar sala"]
-⚠️ No rooms available in dropdown
-📸 21-asistencia-marked.png
-📸 22-asistencia-saved.png
+### 2. Asistencia ❌
+- La página carga con fecha (02/14/2026) y selector de sala
+- **BUG:** El dropdown de sala solo muestra "Seleccionar sala" (vacío)
+- **BUG:** Aparece error rosa: "⚠️ Error al cargar las salas"
+- **Causa:** El API de salas devuelve 401 (Unauthorized) — probablemente el token no se envía o expiró
+- Sin salas, no se puede tomar asistencia
+- Screenshot: `20-asistencia-page.png`
 
-=== 3. CUADERNO ===
-📸 23-cuaderno-page.png
-⚠️ "Error al cargar las salas" — same 401 issue as asistencia
-Cannot create cuaderno entries without rooms
-📸 24-cuaderno-entry.png
-📸 25-cuaderno-entries.png
+### 3. Cuaderno ❌
+- Mismo problema que Asistencia: depende de cargar salas primero
+- **BUG:** "Error al cargar las salas" — API 401
+- No se puede seleccionar sala → no se puede ver nenes → no se puede escribir cuaderno
+- Screenshot: `23-cuaderno-page.png`
 
-=== 4. COMUNICADOS ===
-Comunicados page: ✅ Loaded
-Buttons/links: ["🏠Inicio","🏫Salas","👶Nenes","✅Asistencia","📒Cuaderno","📢Comunicados","💰Pagos","⚙️Ajustes","👋Salir","Abrir menú","Ver notificaciones3","MGMaría Garcíaowner","+ Nuevo comunicado","Todos (0)","Publicados (0)"]
-📸 26-comunicados-page.png
-✅ Clicked "Nuevo comunicado"
-📸 27-comunicado-form.png
-Form page text (300): 🐣 Mi Nido JARDÍN MI NIDO TEST MG María García OWNER 🏠 Inicio 🏫 Salas 👶 Nenes ✅ Asistencia 📒 Cuaderno 📢 Comunicados 💰 Pagos ⚙️ Ajustes 👋 Salir Ver notificaciones 3 MG María García Owner 📢 Comunicados Enviá comunicados y noticias a las familias. + Nuevo comunicado Todos (0) Publicad
-Form inputs: [{"type":"search","name":"","placeholder":"Buscar nenes, familias..."},{"type":"text","name":"","placeholder":"Ej: Reunión de padres - Sala Patitos"},{"type":"radio","name":"scope","placeholder":""},{"type":"radio","name":"scope","placeholder":""},{"type":"checkbox","name":"","placeholder":""},{"type":"checkbox","name":"","placeholder":""},{"type":"checkbox","name":"","placeholder":""},{"type":"radio","name":"status","placeholder":""},{"type":"radio","name":"status","placeholder":""}]
-Textareas: 1
-Filled first text input as title
-✅ Filled content textarea
-✅ Submitted with "Guardar"
-📸 28-comunicado-created.png
-After submit (200): Application error: a client-side exception has occurred while loading minido.38.105.232.177.sslip.io (see the browser console for more information).
+### 4. Comunicados ⚠️
+- La página lista se carga correctamente
+- Tabs: Todos (0), Publicados (0), Borradores (0)
+- Botón "+ Nuevo comunicado" abre modal con:
+  - Título del comunicado (input text)
+  - Contenido (textarea)
+  - Destinatarios: "Todo el jardín" / "Salas específicas" (radio)
+  - Opciones: Confirmación de lectura, Fijar, Marcar urgente (checkboxes)
+  - Estado: "Guardar como borrador" / "Publicar inmediatamente" (radio, default: publicar)
+- Se llenó título "Reunión de padres - Marzo 2026" y contenido ✅
+- **BUG CRÍTICO:** Al hacer click en "Guardar", la app crashea con:
+  > "Application error: a client-side exception has occurred while loading minido.38.105.232.177.sslip.io"
+- El segundo comunicado no se pudo crear porque la app quedó en estado de error
+- Screenshots: `27-comunicado-form.png`, `28-comunicado-created.png`
 
---- Second comunicado ---
-📸 29-comunicados-list.png
-
-=== 5. DASHBOARD ===
-Dashboard text (500): 🐣 Mi Nido JARDÍN MI NIDO TEST MG María García OWNER 🏠 Inicio 🏫 Salas 👶 Nenes ✅ Asistencia 📒 Cuaderno 📢 Comunicados 💰 Pagos ⚙️ Ajustes 👋 Salir Ver notificaciones 3 MG María García Owner ¡Buenas noches, María! 👋 Acá tenés un resumen de lo que pasa hoy en el jardín. 👶 Nenes presentes 3 / 5 📒 Cuadernos (mes) 0 💰 Pagos pendientes 0 🏫 Salas / Nenes 10 / 5 Asistencia de Hoy 80% ⭐ Ar 0 / 0 PRESENTES 🐥 Sala Pollitos 🐥 1 / 1 PRESENTES 🐥 Sala Ositos 🧸 1 / 2 PR
-📸 30-dashboard-with-data.png
-
-✅ All test flows completed
-```
-
-## Errores de Consola
-
-```
-Failed to load resource: the server responded with a status of 404 (Not Found)
-Failed to load resource: the server responded with a status of 404 (Not Found)
-Failed to load resource: the server responded with a status of 401 (Unauthorized)
-Failed to load resource: the server responded with a status of 404 (Not Found)
-Failed to load resource: the server responded with a status of 401 (Unauthorized)
-Failed to load resource: the server responded with a status of 404 (Not Found)
-Failed to load resource: the server responded with a status of 401 (Unauthorized)
-Failed to load resource: the server responded with a status of 401 (Unauthorized)
-Failed to load resource: the server responded with a status of 404 (Not Found)
-Failed to load resource: the server responded with a status of 404 (Not Found)
-```
+### 5. Dashboard ✅
+- Muestra greeting: "¡Buenas noches, María! 👋"
+- Stats: Nenes presentes 3/5, Cuadernos (mes) 0, Pagos pendientes 0, Salas/Nenes 10/5
+- Asistencia de Hoy: 80%
+  - Sala Pollitos: 1/1
+  - Sala Ositos: 1/2
+  - Sala Jirafitas: 1/2
+  - (+ salas duplicadas con 0/0 — **posible bug de salas duplicadas**)
+- Actividad Reciente muestra data de tests API previos:
+  - Valentina López: Cuaderno actualizado — Sala Pollitos (hace 15 min)
+  - Santiago Fernández: Asistencia marcada — Sala Ositos (hace 1 hora)
+  - Nuevo comunicado: Reunión de padres — Sala Pollitos (hace 2 horas)
+- Acciones Rápidas: Escribir cuaderno, Tomar asistencia, Nuevo comunicado, Agregar nene
+- Screenshot: `30-dashboard-with-data.png`
 
 ## Bugs Encontrados
 
-1. **API 401 en endpoint de salas** — Las páginas de Asistencia y Cuaderno dependen de cargar las salas, pero el API devuelve 401 (Unauthorized). Esto bloquea completamente ambas funcionalidades.
-
-2. **Sala dropdown vacío** — Como consecuencia del bug #1, el dropdown de salas solo muestra "Seleccionar sala" sin opciones reales.
+| # | Severidad | Bug | Dónde |
+|---|-----------|-----|-------|
+| 1 | 🔴 Alta | API de salas devuelve 401 — bloquea Asistencia y Cuaderno | `/asistencia`, `/cuaderno` |
+| 2 | 🔴 Alta | Submit de comunicado crashea con client-side exception | `/comunicados` (modal form) |
+| 3 | 🟡 Media | Salas aparecen duplicadas en el dashboard (3 salas × 3 = 9 cards + 1 "Ar") | `/dashboard` |
+| 4 | 🟡 Media | "Salas / Nenes: 10 / 5" — hay solo 3 salas creadas, no 10 | `/dashboard` |
 
 ## Screenshots
 
-Guardados en `e2e-screenshots/browser/`
+Guardados en `e2e-screenshots/browser/`:
+- `19-login-done.png` — Dashboard post-login
+- `20-asistencia-page.png` — Asistencia con error de salas
+- `21-asistencia-marked.png` — Sin cambios (no hay salas)
+- `22-asistencia-saved.png` — Sin cambios
+- `23-cuaderno-page.png` — Cuaderno con error de salas
+- `26-comunicados-page.png` — Lista de comunicados vacía
+- `27-comunicado-form.png` — Formulario de nuevo comunicado
+- `28-comunicado-created.png` — Client-side exception crash
+- `29-comunicados-list.png` — App en estado de error
+- `30-dashboard-with-data.png` — Dashboard con stats y actividad
