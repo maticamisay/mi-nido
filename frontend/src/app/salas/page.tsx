@@ -5,6 +5,10 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import DataRow from '@/components/ui/DataRow'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import { formatCurrency } from '@/lib/utils'
 
 interface Classroom {
   _id: string
@@ -192,21 +196,12 @@ export default function SalasPage() {
     setError('')
   }
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS'
-    }).format(amount)
-  }
-
   if (loading) {
     return (
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -236,12 +231,7 @@ export default function SalasPage() {
 
           {/* Error */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {/* Lista de salas */}
@@ -283,44 +273,14 @@ export default function SalasPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Edades:</span>
-                    <span className="text-sm font-medium">
-                      {classroom.ageRange.from} - {classroom.ageRange.to} años
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Capacidad:</span>
-                    <span className="text-sm font-medium">
-                      {classroom.capacity} nenes
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Cuota:</span>
-                    <span className="text-sm font-medium">
-                      {formatCurrency(classroom.fee.amount)}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Vence el:</span>
-                    <span className="text-sm font-medium">
-                      {classroom.fee.dueDay} de cada mes
-                    </span>
-                  </div>
+                  <DataRow label="Edades:" value={`${classroom.ageRange.from} - ${classroom.ageRange.to} años`} />
+                  <DataRow label="Capacidad:" value={`${classroom.capacity} nenes`} />
+                  <DataRow label="Cuota:" value={formatCurrency(classroom.fee.amount)} />
+                  <DataRow label="Vence el:" value={`${classroom.fee.dueDay} de cada mes`} />
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-[var(--color-warm-100)]">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-[var(--color-text-secondary)]">
-                      Seños asignadas:
-                    </span>
-                    <span className="text-sm font-medium">
-                      {classroom.teacherIds.length || 0}
-                    </span>
-                  </div>
+                  <DataRow label="Seños asignadas:" value={classroom.teacherIds.length || 0} />
                 </div>
               </div>
             ))}

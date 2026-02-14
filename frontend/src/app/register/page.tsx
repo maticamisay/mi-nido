@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -264,7 +265,7 @@ export default function RegisterPage() {
                   <button type="submit" disabled={isLoading} className={`btn btn-primary flex-1 py-3.5 ${isLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
                     {isLoading ? (
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <LoadingSpinner size="sm" variant="white" />
                         Creando...
                       </div>
                     ) : (

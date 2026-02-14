@@ -5,6 +5,9 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import { getInitials, formatCurrency , formatDateMedium } from '@/lib/utils'
 
 interface Child {
   _id: string
@@ -267,47 +270,11 @@ export default function FamiliaPage() {
     }
   }
 
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-  }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-AR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-      minimumFractionDigits: 0
-    }).format(amount)
-  }
-
-  const getStatusBadge = (status: string, dueDate: string) => {
-    const isOverdue = new Date(dueDate) < new Date() && status === 'pending'
-    
-    if (isOverdue) {
-      return <span className="badge error">⏰ Vencida</span>
-    }
-    
-    switch (status) {
-      case 'paid':
-        return <span className="badge success">✅ Pagada</span>
-      case 'partial':
-        return <span className="badge warning">⚡ Parcial</span>
-      case 'pending':
-        return <span className="badge warning">⏰ Pendiente</span>
-      case 'overdue':
-        return <span className="badge error">🔴 Vencida</span>
-      case 'waived':
-        return <span className="badge">🎁 Exonerada</span>
-      default:
-        return <span className="badge">❓ {status}</span>
-    }
+  const getEffectiveStatus = (status: string, dueDate: string) => {
+    if (new Date(dueDate) < new Date() && status === 'pending') return 'overdue'
+    return status
   }
 
   if (loading) {
@@ -315,9 +282,7 @@ export default function FamiliaPage() {
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -387,12 +352,7 @@ export default function FamiliaPage() {
 
           {/* Error */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {/* Contenido principal */}
@@ -475,7 +435,7 @@ export default function FamiliaPage() {
                       <div className="text-6xl mb-4">📖</div>
                       <h3 className="text-xl font-semibold mb-2">Sin entradas para esta fecha</h3>
                       <p className="text-[var(--color-text-secondary)]">
-                        Las seños aún no registraron actividades para {formatDate(selectedDate)}
+                        Las seños aún no registraron actividades para {formatDateMedium(selectedDate)}
                       </p>
                     </div>
                   ) : (
@@ -486,7 +446,7 @@ export default function FamiliaPage() {
                           <div className="flex items-center justify-between mb-8">
                             <div>
                               <h3 className="text-lg font-semibold text-[var(--color-text)] mb-1">
-                                📒 Cuaderno del {formatDate(entry.date)}
+                                📒 Cuaderno del {formatDateMedium(entry.date)}
                               </h3>
                               <p className="text-sm text-[var(--color-text-secondary)]">
                                 Por {entry.author.firstName} {entry.author.lastName}
@@ -705,7 +665,7 @@ export default function FamiliaPage() {
                               <div className="flex items-center gap-4 text-sm text-[var(--color-text-secondary)]">
                                 <span>Por {announcement.author.firstName} {announcement.author.lastName}</span>
                                 <span>•</span>
-                                <span>{formatDate(announcement.createdAt)}</span>
+                                <span>{formatDateMedium(announcement.createdAt)}</span>
                                 {announcement.requiresAck && (
                                   <>
                                     <span>•</span>
@@ -794,17 +754,17 @@ export default function FamiliaPage() {
                                 <h3 className="text-lg font-semibold text-[var(--color-text)]">
                                   {payment.description}
                                 </h3>
-                                {getStatusBadge(payment.status, payment.dueDate)}
+                                <StatusBadge status={getEffectiveStatus(payment.status, payment.dueDate)} />
                               </div>
                               
                               <div className="flex items-center gap-4 text-sm text-[var(--color-text-secondary)]">
                                 <span>💰 {formatCurrency(payment.total)}</span>
-                                <span>📅 Vence: {formatDate(payment.dueDate)}</span>
+                                <span>📅 Vence: {formatDateMedium(payment.dueDate)}</span>
                                 {payment.paidAmount > 0 && (
                                   <span>✅ Pagado: {formatCurrency(payment.paidAmount)}</span>
                                 )}
                                 {payment.paidAt && (
-                                  <span>📆 {formatDate(payment.paidAt)}</span>
+                                  <span>📆 {formatDateMedium(payment.paidAt)}</span>
                                 )}
                               </div>
                               

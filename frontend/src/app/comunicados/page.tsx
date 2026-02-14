@@ -5,6 +5,9 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import { formatDateLong } from '@/lib/utils'
 
 interface Classroom {
   _id: string
@@ -263,15 +266,7 @@ export default function ComunicadosPage() {
     })
   }
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-AR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
+
 
   const filteredAnnouncements = getFilteredAnnouncements()
 
@@ -280,9 +275,7 @@ export default function ComunicadosPage() {
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -294,20 +287,18 @@ export default function ComunicadosPage() {
       <AppLayout>
         <div>
           {/* Header */}
-          <div className="page-header">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1>📢 Comunicados</h1>
-                <p>Enviá comunicados y noticias a las familias.</p>
-              </div>
+          <PageHeader
+            title="📢 Comunicados"
+            description="Enviá comunicados y noticias a las familias."
+            actions={
               <button
                 onClick={handleCreate}
                 className="btn btn-primary"
               >
                 + Nuevo comunicado
               </button>
-            </div>
-
+            }
+          >
             {/* Filtros */}
             <div className="flex gap-3">
               <button
@@ -341,25 +332,15 @@ export default function ComunicadosPage() {
                 Borradores ({announcements.filter(a => a.status === 'draft').length})
               </button>
             </div>
-          </div>
+          </PageHeader>
 
           {/* Mensajes */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {successMessage && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200">
-              <div className="flex items-center gap-2">
-                <span className="text-green-600">✅</span>
-                <p className="text-green-700 text-sm font-medium">{successMessage}</p>
-              </div>
-            </div>
+            <AlertMessage type="success" message={successMessage} />
           )}
 
           {/* Lista de comunicados */}
@@ -416,7 +397,7 @@ export default function ComunicadosPage() {
                       <div className="flex items-center gap-4 text-sm text-[var(--color-text-secondary)]">
                         <span>Por {announcement.author.firstName} {announcement.author.lastName}</span>
                         <span>•</span>
-                        <span>{formatDate(announcement.createdAt)}</span>
+                        <span>{formatDateLong(announcement.createdAt)}</span>
                         <span>•</span>
                         <span className="flex items-center gap-1">
                           {announcement.scope === 'garden' ? (
@@ -707,7 +688,7 @@ export default function ComunicadosPage() {
                     >
                       {saving ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <LoadingSpinner size="sm" variant="white" />
                           Guardando...
                         </div>
                       ) : (

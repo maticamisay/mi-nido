@@ -5,6 +5,10 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import PageHeader from '@/components/ui/PageHeader'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import { getInitials } from '@/lib/utils'
 
 interface Child {
   _id: string
@@ -362,10 +366,6 @@ export default function CuadernoPage() {
     }))
   }
 
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-  }
-
   const getEntryForChild = (childId: string) => {
     return dailyEntries.find(entry => entry.childId === childId)
   }
@@ -377,9 +377,7 @@ export default function CuadernoPage() {
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -391,14 +389,10 @@ export default function CuadernoPage() {
       <AppLayout>
         <div>
           {/* Header */}
-          <div className="page-header">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1>📒 Cuaderno Digital del Día ⭐</h1>
-                <p>Registrá las actividades, comidas, descanso y estado de ánimo de cada niño.</p>
-              </div>
-            </div>
-
+          <PageHeader
+            title="📒 Cuaderno Digital del Día ⭐"
+            description="Registrá las actividades, comidas, descanso y estado de ánimo de cada niño."
+          >
             {/* Filtros */}
             <div className="flex flex-col sm:flex-row gap-5 mb-6">
               <div className="sm:w-48">
@@ -430,25 +424,15 @@ export default function CuadernoPage() {
                 </select>
               </div>
             </div>
-          </div>
+          </PageHeader>
 
           {/* Mensajes */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {successMessage && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200">
-              <div className="flex items-center gap-2">
-                <span className="text-green-600">✅</span>
-                <p className="text-green-700 text-sm font-medium">{successMessage}</p>
-              </div>
-            </div>
+            <AlertMessage type="success" message={successMessage} />
           )}
 
           {/* Contenido principal */}
@@ -481,9 +465,7 @@ export default function CuadernoPage() {
 
               {/* Lista de niños */}
               {loading ? (
-                <div className="flex items-center justify-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-                </div>
+                <LoadingSpinner />
               ) : children.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">👶</div>
@@ -994,7 +976,7 @@ export default function CuadernoPage() {
                     >
                       {saving ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <LoadingSpinner size="sm" variant="white" />
                           Guardando...
                         </div>
                       ) : (

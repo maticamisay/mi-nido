@@ -5,6 +5,11 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import PageHeader from '@/components/ui/PageHeader'
+import LoadingButton from '@/components/ui/LoadingButton'
+import { getInitials } from '@/lib/utils'
 
 interface Child {
   _id: string
@@ -255,10 +260,6 @@ export default function AsistenciaPage() {
     return stats
   }
 
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-  }
-
   const currentClassroom = classrooms.find(c => c._id === selectedClassroom)
   const stats = getAttendanceStats()
 
@@ -267,9 +268,7 @@ export default function AsistenciaPage() {
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -281,33 +280,21 @@ export default function AsistenciaPage() {
       <AppLayout>
         <div>
           {/* Header */}
-          <div className="page-header">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1>✅ Asistencia Diaria</h1>
-                <p>Registrá la asistencia diaria de los niños por sala.</p>
-              </div>
-              
-              {attendance && (
-                <button
+          <PageHeader
+            title="✅ Asistencia Diaria"
+            description="Registrá la asistencia diaria de los niños por sala."
+            actions={
+              attendance ? (
+                <LoadingButton
+                  loading={saving}
                   onClick={saveAttendance}
-                  disabled={saving}
-                  className={`btn btn-primary ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  type="button"
                 >
-                  {saving ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Guardando...
-                    </div>
-                  ) : (
-                    <>
-                      💾 Guardar Asistencia
-                    </>
-                  )}
-                </button>
-              )}
-            </div>
-
+                  💾 Guardar Asistencia
+                </LoadingButton>
+              ) : undefined
+            }
+          >
             {/* Filtros */}
             <div className="flex flex-col sm:flex-row gap-5 mb-6">
               <div className="sm:w-48">
@@ -339,25 +326,15 @@ export default function AsistenciaPage() {
                 </select>
               </div>
             </div>
-          </div>
+          </PageHeader>
 
           {/* Mensajes */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {successMessage && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200">
-              <div className="flex items-center gap-2">
-                <span className="text-green-600">✅</span>
-                <p className="text-green-700 text-sm font-medium">{successMessage}</p>
-              </div>
-            </div>
+            <AlertMessage type="success" message={successMessage} />
           )}
 
           {/* Contenido principal */}
@@ -414,9 +391,7 @@ export default function AsistenciaPage() {
 
               {/* Lista de niños */}
               {loading ? (
-                <div className="flex items-center justify-center h-64">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-                </div>
+                <LoadingSpinner />
               ) : children.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">👶</div>

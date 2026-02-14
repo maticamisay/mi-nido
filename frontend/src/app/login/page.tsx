@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -167,7 +168,7 @@ export default function LoginPage() {
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <LoadingSpinner size="sm" variant="white" />
                     Ingresando...
                   </div>
                 ) : (

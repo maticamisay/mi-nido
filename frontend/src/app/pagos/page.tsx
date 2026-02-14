@@ -5,6 +5,11 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import PageHeader from '@/components/ui/PageHeader'
+import StatCard from '@/components/ui/StatCard'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import AlertMessage from '@/components/ui/AlertMessage'
+import { getInitials, formatCurrency, formatDate } from '@/lib/utils'
 
 interface Child {
   _id: string
@@ -418,18 +423,6 @@ export default function PagosPage() {
     return months[month - 1]
   }
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-      minimumFractionDigits: 0
-    }).format(amount)
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-AR')
-  }
-
   const getStatusBadge = (status: string, dueDate: string) => {
     const isOverdue = new Date(dueDate) < new Date() && status === 'pending'
     
@@ -453,18 +446,12 @@ export default function PagosPage() {
     }
   }
 
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
-  }
-
   if (loading) {
     return (
       <ProtectedRoute>
         <AppLayout>
           <div>
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
-            </div>
+            <LoadingSpinner />
           </div>
         </AppLayout>
       </ProtectedRoute>
@@ -476,54 +463,25 @@ export default function PagosPage() {
       <AppLayout>
         <div>
           {/* Header */}
-          <div className="page-header">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1>💰 Gestión de Pagos</h1>
-                <p>Controlá las cuotas y pagos de las familias.</p>
-              </div>
+          <PageHeader
+            title="💰 Gestión de Pagos"
+            description="Controlá las cuotas y pagos de las familias."
+            actions={
               <button
                 onClick={handleCreate}
                 className="btn btn-primary"
               >
                 + Nuevo pago
               </button>
-            </div>
-
+            }
+          >
             {/* Estadísticas */}
             {stats && (
               <div className="grid-stats mb-8">
-                <div className="card text-center p-6">
-                  <div className="text-3xl mb-2">💚</div>
-                  <p className="text-2xl font-bold text-[var(--color-text)]">
-                    {formatCurrency(stats.totalPaidThisMonth)}
-                  </p>
-                  <p className="text-sm text-[var(--color-text-secondary)]">Pagos del mes</p>
-                </div>
-                
-                <div className="card text-center p-6">
-                  <div className="text-3xl mb-2">⏰</div>
-                  <p className="text-2xl font-bold text-[var(--color-warning-text)]">
-                    {stats.pendingPayments}
-                  </p>
-                  <p className="text-sm text-[var(--color-text-secondary)]">Cuotas pendientes</p>
-                </div>
-                
-                <div className="card text-center p-6">
-                  <div className="text-3xl mb-2">🔴</div>
-                  <p className="text-2xl font-bold text-[var(--color-error-text)]">
-                    {stats.overduePayments}
-                  </p>
-                  <p className="text-sm text-[var(--color-text-secondary)]">Cuotas vencidas</p>
-                </div>
-                
-                <div className="card text-center p-6">
-                  <div className="text-3xl mb-2">📊</div>
-                  <p className="text-2xl font-bold text-[var(--color-text)]">
-                    {Math.round(stats.collectionRate)}%
-                  </p>
-                  <p className="text-sm text-[var(--color-text-secondary)]">Tasa de cobranza</p>
-                </div>
+                <StatCard icon="💚" label="Pagos del mes" value={formatCurrency(stats.totalPaidThisMonth)} bgColor="var(--color-menta-100)" />
+                <StatCard icon="⏰" label="Cuotas pendientes" value={stats.pendingPayments} bgColor="var(--color-pollito-100)" />
+                <StatCard icon="🔴" label="Cuotas vencidas" value={stats.overduePayments} bgColor="#fee2e2" />
+                <StatCard icon="📊" label="Tasa de cobranza" value={`${Math.round(stats.collectionRate)}%`} bgColor="var(--color-celeste-100)" />
               </div>
             )}
 
@@ -575,25 +533,15 @@ export default function PagosPage() {
                 </select>
               </div>
             </div>
-          </div>
+          </PageHeader>
 
           {/* Mensajes */}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
-              <div className="flex items-center gap-2">
-                <span className="text-red-600">⚠️</span>
-                <p className="text-red-700 text-sm font-medium">{error}</p>
-              </div>
-            </div>
+            <AlertMessage type="error" message={error} />
           )}
 
           {successMessage && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200">
-              <div className="flex items-center gap-2">
-                <span className="text-green-600">✅</span>
-                <p className="text-green-700 text-sm font-medium">{successMessage}</p>
-              </div>
-            </div>
+            <AlertMessage type="success" message={successMessage} />
           )}
 
           {/* Lista de pagos */}
@@ -988,7 +936,7 @@ export default function PagosPage() {
                     >
                       {saving ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <LoadingSpinner size="sm" variant="white" />
                           Guardando...
                         </div>
                       ) : (
@@ -1150,7 +1098,7 @@ export default function PagosPage() {
                     >
                       {saving ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <LoadingSpinner size="sm" variant="white" />
                           Guardando...
                         </div>
                       ) : (
