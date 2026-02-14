@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const mongoSanitize = require('express-mongo-sanitize');
+// const mongoSanitize = require('express-mongo-sanitize'); // Disabled: incompatible with Express v5
 const { serveUploads } = require('./middleware/upload');
 require('dotenv').config();
 
