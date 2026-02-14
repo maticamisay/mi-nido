@@ -376,7 +376,7 @@ export default function CuadernoPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -389,10 +389,10 @@ export default function CuadernoPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
                   📒 Cuaderno Digital del Día ⭐
@@ -404,7 +404,7 @@ export default function CuadernoPage() {
             </div>
 
             {/* Filtros */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row gap-5 mb-6">
               <div className="sm:w-48">
                 <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                   Fecha
@@ -460,7 +460,7 @@ export default function CuadernoPage() {
             <div>
               {/* Información de la sala */}
               <div className="card mb-8">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-5 mb-4">
                   <div 
                     className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
                     style={{ backgroundColor: currentClassroom.color }}
@@ -497,7 +497,7 @@ export default function CuadernoPage() {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
                   {children.map((child) => {
                     const entry = getEntryForChild(child._id)
 
@@ -533,7 +533,7 @@ export default function CuadernoPage() {
                         </div>
 
                         {entry ? (
-                          <div className="space-y-3">
+                          <div className="space-y-4">
                             {/* Resumen de la entrada */}
                             <div className="space-y-2">
                               {entry.mood && (
@@ -614,8 +614,8 @@ export default function CuadernoPage() {
         {showModal && selectedChild && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
                     <div className="avatar size-md bg-[var(--color-primary)]">
                       {selectedChild.photo ? (
@@ -641,7 +641,7 @@ export default function CuadernoPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Estado de ánimo */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-3">
@@ -682,7 +682,7 @@ export default function CuadernoPage() {
                     </div>
                     
                     {formData.meals.map((meal, index) => (
-                      <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-3 p-3 border border-[var(--color-warm-100)] rounded-lg">
+                      <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 border border-[var(--color-warm-100)] rounded-lg">
                         <div>
                           <label className="block text-xs font-medium text-[var(--color-text)] mb-1">
                             Tipo
@@ -887,7 +887,7 @@ export default function CuadernoPage() {
                     </div>
                     
                     {formData.activities.map((activity, index) => (
-                      <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-3 p-3 border border-[var(--color-warm-100)] rounded-lg">
+                      <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 border border-[var(--color-warm-100)] rounded-lg">
                         <div>
                           <label className="block text-xs font-medium text-[var(--color-text)] mb-1">
                             Tipo

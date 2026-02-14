@@ -461,7 +461,7 @@ export default function PagosPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -474,10 +474,10 @@ export default function PagosPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
                   💰 Gestión de Pagos
@@ -496,7 +496,7 @@ export default function PagosPage() {
 
             {/* Estadísticas */}
             {stats && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mb-8">
                 <div className="card text-center p-6">
                   <div className="text-3xl mb-2">💚</div>
                   <p className="text-2xl font-bold text-[var(--color-text)]">
@@ -532,7 +532,7 @@ export default function PagosPage() {
             )}
 
             {/* Filtros */}
-            <div className="flex flex-col lg:flex-row gap-4 mb-6">
+            <div className="flex flex-col lg:flex-row gap-5 mb-6">
               <div>
                 <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                   Período
@@ -616,7 +616,7 @@ export default function PagosPage() {
               </button>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-5">
               {payments.map((payment) => (
                 <div key={payment._id} className="card">
                   <div className="flex items-center justify-between">
@@ -725,8 +725,8 @@ export default function PagosPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingPayment ? 'Editar pago' : 'Nuevo pago'}
                   </h2>
@@ -738,7 +738,7 @@ export default function PagosPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Niño */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -759,7 +759,7 @@ export default function PagosPage() {
                     </select>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                     {/* Período */}
                     <div>
                       <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -809,7 +809,7 @@ export default function PagosPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
                     {/* Monto base */}
                     <div>
                       <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -867,7 +867,7 @@ export default function PagosPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                     {/* Fecha de vencimiento */}
                     <div>
                       <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -903,7 +903,7 @@ export default function PagosPage() {
                   {/* Campos de pago (si está marcado como pagado) */}
                   {(formData.status === 'paid' || formData.status === 'partial') && (
                     <>
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                         <div>
                           <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                             Monto pagado
@@ -1010,8 +1010,8 @@ export default function PagosPage() {
         {showPaymentModal && paymentToRecord && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-lg w-full">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     💰 Registrar Pago
                   </h2>
@@ -1025,7 +1025,7 @@ export default function PagosPage() {
 
                 {/* Información del pago */}
                 <div className="bg-[var(--color-warm-50)] p-4 rounded-lg mb-6">
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-4 mb-4">
                     <div className="avatar size-sm bg-[var(--color-primary)]">
                       {paymentToRecord.child?.photo ? (
                         <img src={paymentToRecord.child.photo} alt="Foto" className="w-full h-full object-cover rounded-full" />
@@ -1062,7 +1062,7 @@ export default function PagosPage() {
                   </div>
                 </div>
 
-                <form onSubmit={handlePaymentSubmit} className="space-y-4">
+                <form onSubmit={handlePaymentSubmit} className="space-y-5">
                   {/* Monto pagado */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">

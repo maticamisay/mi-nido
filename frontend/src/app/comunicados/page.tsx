@@ -279,7 +279,7 @@ export default function ComunicadosPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -292,10 +292,10 @@ export default function ComunicadosPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
                   📢 Comunicados
@@ -313,7 +313,7 @@ export default function ComunicadosPage() {
             </div>
 
             {/* Filtros */}
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 onClick={() => setFilter('all')}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -390,14 +390,14 @@ export default function ComunicadosPage() {
               )}
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-8">
               {filteredAnnouncements.map((announcement) => (
                 <div 
                   key={announcement._id} 
                   className={`card ${announcement.pinned ? 'border-l-4 border-l-[var(--color-primary)]' : ''}`}
                 >
                   {/* Header del comunicado */}
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-5">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         {announcement.pinned && <span title="Fijado">📌</span>}
@@ -520,8 +520,8 @@ export default function ComunicadosPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingAnnouncement ? 'Editar comunicado' : 'Nuevo comunicado'}
                   </h2>
@@ -533,7 +533,7 @@ export default function ComunicadosPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Título */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -570,7 +570,7 @@ export default function ComunicadosPage() {
                       Destinatarios
                     </label>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <label className="flex items-center gap-3">
                         <input
                           type="radio"
@@ -624,7 +624,7 @@ export default function ComunicadosPage() {
                       Opciones
                     </label>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <label className="flex items-center gap-3">
                         <input
                           type="checkbox"
@@ -660,7 +660,7 @@ export default function ComunicadosPage() {
                       Estado
                     </label>
                     
-                    <div className="flex gap-4">
+                    <div className="flex gap-5">
                       <label className="flex items-center gap-2">
                         <input
                           type="radio"

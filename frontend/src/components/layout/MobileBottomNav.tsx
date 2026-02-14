@@ -46,7 +46,7 @@ export default function MobileBottomNav() {
               key={item.name}
               href={item.href}
               className={`
-                relative flex flex-col items-center justify-center py-2 px-1 min-h-[56px] transition-all duration-200
+                relative flex flex-col items-center justify-center py-2.5 px-1.5 min-h-[62px] transition-all duration-200
                 ${active
                   ? 'text-[var(--color-nido-500)]'
                   : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'

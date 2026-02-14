@@ -443,7 +443,7 @@ export default function NiñosPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -456,10 +456,10 @@ export default function NiñosPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
                   👶 Administración de Nenes
@@ -478,7 +478,7 @@ export default function NiñosPage() {
             </div>
 
             {/* Filtros */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-5">
               <div className="flex-1">
                 <input
                   type="text"
@@ -516,10 +516,10 @@ export default function NiñosPage() {
           )}
 
           {/* Lista de niños */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
             {filteredChildren.map((child) => (
               <div key={child._id} className="card hover:shadow-lg transition-shadow">
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
                     <div className="avatar size-md bg-[var(--color-primary)]">
                       {child.photo ? (
@@ -553,7 +553,7 @@ export default function NiñosPage() {
                     </div>
                   </div>
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <button
                       onClick={() => handleEdit(child)}
                       className="text-[var(--color-primary)] hover:bg-[var(--color-nido-50)] p-2 rounded-lg transition-colors"
@@ -659,8 +659,8 @@ export default function NiñosPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingChild ? 'Editar nene' : 'Nuevo nene'}
                   </h2>
@@ -679,7 +679,7 @@ export default function NiñosPage() {
                       Datos Personales
                     </h3>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                           Nombre *
@@ -810,7 +810,7 @@ export default function NiñosPage() {
                       Información Médica
                     </h3>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                       <div>
                         <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                           Grupo sanguíneo
@@ -951,7 +951,7 @@ export default function NiñosPage() {
 
                   {/* Contactos de emergencia */}
                   <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-5">
                       <h3 className="text-lg font-semibold text-[var(--color-text)]">
                         Contactos de Emergencia
                       </h3>
@@ -965,7 +965,7 @@ export default function NiñosPage() {
                     </div>
                     
                     {formData.emergencyContacts.map((contact, index) => (
-                      <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 p-4 border border-[var(--color-warm-100)] rounded-lg">
+                      <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-4 p-4 border border-[var(--color-warm-100)] rounded-lg">
                         <div>
                           <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                             Nombre *

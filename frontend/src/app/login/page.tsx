@@ -62,7 +62,7 @@ export default function LoginPage() {
             Todo tu jardín maternal en un solo lugar. Gestión simple, cálida y profesional.
           </p>
           
-          <div className="mt-12 flex items-center justify-center gap-6">
+          <div className="mt-12 flex items-center justify-center gap-7">
             {['📒', '✅', '💰', '📢'].map((emoji, i) => (
               <div
                 key={i}
@@ -93,8 +93,8 @@ export default function LoginPage() {
           </div>
 
           {/* Form card */}
-          <div className="card p-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="card p-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
                 <div className="p-4 rounded-xl bg-[var(--color-nido-50)] border border-[var(--color-nido-200)] animate-scale-in">
                   <div className="flex items-center gap-3">

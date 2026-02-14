@@ -66,7 +66,7 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
           <div className="mb-8 animate-fade-in-up">
             <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
@@ -78,7 +78,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Stats cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 stagger-children">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8 stagger-children">
             {[
               { icon: '👶', label: 'Nenes presentes', value: attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
               { icon: '📒', label: 'Cuadernos (mes)', value: stats ? `${stats.dailyEntries.lastMonth}` : '—', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
@@ -104,7 +104,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-8">
             {/* Attendance */}
             <div className="card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
               <div className="flex items-center justify-between mb-5">
@@ -114,7 +114,7 @@ export default function DashboardPage() {
                 <span className="badge success">{attendance ? `${attendance.gardenSummary.attendanceRate}%` : '—'}</span>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {(attendance?.classrooms || []).map((sala) => (
                   <div key={sala.classroom.id} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[var(--color-warm-50)]" style={{ backgroundColor: (sala.classroom.color || 'var(--color-pollito-100)') + '60' }}>
                     <div className="flex items-center gap-3">
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                 </h3>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {[
                   { initials: 'VL', name: 'Valentina López', action: 'Cuaderno actualizado — Sala Pollitos', time: 'Hace 15 min', bg: 'var(--color-pollito-300)' },
                   { initials: 'SF', name: 'Santiago Fernández', action: 'Asistencia marcada — Sala Ositos', time: 'Hace 1 hora', bg: 'var(--color-menta-300)' },

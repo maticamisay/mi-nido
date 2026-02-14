@@ -266,7 +266,7 @@ export default function AsistenciaPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -279,10 +279,10 @@ export default function AsistenciaPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-5">
               <div>
                 <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
                   ✅ Asistencia Diaria
@@ -313,7 +313,7 @@ export default function AsistenciaPage() {
             </div>
 
             {/* Filtros */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row gap-5 mb-6">
               <div className="sm:w-48">
                 <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                   Fecha
@@ -368,7 +368,7 @@ export default function AsistenciaPage() {
           {selectedClassroom && currentClassroom && (
             <div>
               {/* Estadísticas */}
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
                 <div className="card text-center">
                   <div className="text-2xl font-bold text-[var(--color-text)]">{stats.total}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Total niños</div>
@@ -393,7 +393,7 @@ export default function AsistenciaPage() {
 
               {/* Información de la sala */}
               <div className="card mb-8">
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-5 mb-4">
                   <div 
                     className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
                     style={{ backgroundColor: currentClassroom.color }}
@@ -430,14 +430,14 @@ export default function AsistenciaPage() {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-5">
                   {children.map((child) => {
                     const record = attendance?.records.find(r => r.childId === child._id)
                     if (!record) return null
 
                     return (
                       <div key={child._id} className="card">
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex items-center gap-5 mb-4">
                           <div className="avatar size-md bg-[var(--color-primary)]">
                             {child.photo ? (
                               <img src={child.photo} alt="Foto" className="w-full h-full object-cover rounded-full" />
@@ -461,7 +461,7 @@ export default function AsistenciaPage() {
                         </div>
 
                         {/* Botones de estado */}
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
                           <button
                             onClick={() => handleStatusChange(child._id, 'present')}
                             className={`p-3 rounded-lg border-2 transition-colors ${
@@ -506,7 +506,7 @@ export default function AsistenciaPage() {
 
                         {/* Campos adicionales */}
                         {(record.status === 'present' || record.status === 'late') && (
-                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-4">
                             <div>
                               <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
                                 Hora de llegada

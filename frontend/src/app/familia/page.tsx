@@ -314,7 +314,7 @@ export default function FamiliaPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-8">
+          <div className="py-10">
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -327,11 +327,11 @@ export default function FamiliaPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
+        <div className="py-10">
           {/* Header familiar */}
-          <div className="mb-8">
+          <div className="mb-10">
             <div className="card p-6">
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-5 mb-4">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-nido-400)] flex items-center justify-center text-white text-2xl font-bold">
                   👨‍👩‍👧‍👦
                 </div>
@@ -399,8 +399,8 @@ export default function FamiliaPage() {
           {selectedChild ? (
             <div>
               {/* Información del niño seleccionado */}
-              <div className="card mb-6 p-6">
-                <div className="flex items-center gap-4">
+              <div className="card mb-8 p-6">
+                <div className="flex items-center gap-5">
                   <div 
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
                     style={{ backgroundColor: selectedChild.classroom.color }}
@@ -457,7 +457,7 @@ export default function FamiliaPage() {
               {activeTab === 'cuaderno' && (
                 <div>
                   {/* Selector de fecha */}
-                  <div className="mb-6">
+                  <div className="mb-8">
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                       Fecha del cuaderno:
                     </label>
@@ -479,11 +479,11 @@ export default function FamiliaPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       {dailyEntries.map((entry) => (
                         <div key={entry._id} className="card p-6">
                           {/* Header de la entrada */}
-                          <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center justify-between mb-8">
                             <div>
                               <h3 className="text-lg font-semibold text-[var(--color-text)] mb-1">
                                 📒 Cuaderno del {formatDate(entry.date)}
@@ -503,11 +503,11 @@ export default function FamiliaPage() {
 
                           {/* Comidas */}
                           {entry.meals.length > 0 && (
-                            <div className="mb-6">
-                              <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                            <div className="mb-8">
+                              <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                                 🍽️ Comidas del día
                               </h4>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {entry.meals.map((meal, index) => (
                                   <div key={index} className="bg-[var(--color-warm-50)] p-4 rounded-lg">
                                     <div className="flex items-center gap-2 mb-2">
@@ -536,13 +536,13 @@ export default function FamiliaPage() {
                           )}
 
                           {/* Siesta */}
-                          <div className="mb-6">
-                            <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                          <div className="mb-8">
+                            <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                               😴 Descanso
                             </h4>
                             <div className="bg-[var(--color-warm-50)] p-4 rounded-lg">
                               {entry.nap.slept ? (
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-5">
                                   <span className="text-2xl">😴</span>
                                   <div>
                                     <p className="font-medium text-[var(--color-text)]">
@@ -559,7 +559,7 @@ export default function FamiliaPage() {
                                   </div>
                                 </div>
                               ) : (
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-5">
                                   <span className="text-2xl">👀</span>
                                   <div>
                                     <p className="font-medium text-[var(--color-text)]">No durmió siesta</p>
@@ -575,12 +575,12 @@ export default function FamiliaPage() {
                           </div>
 
                           {/* Higiene */}
-                          <div className="mb-6">
-                            <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                          <div className="mb-8">
+                            <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                               🧻 Higiene
                             </h4>
                             <div className="bg-[var(--color-warm-50)] p-4 rounded-lg">
-                              <div className="flex items-center gap-6">
+                              <div className="flex items-center gap-7">
                                 {entry.hygiene.diaperChanges > 0 && (
                                   <div className="flex items-center gap-2">
                                     <span className="text-lg">🧷</span>
@@ -608,11 +608,11 @@ export default function FamiliaPage() {
 
                           {/* Actividades */}
                           {entry.activities.length > 0 && (
-                            <div className="mb-6">
-                              <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                            <div className="mb-8">
+                              <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                                 🎨 Actividades
                               </h4>
-                              <div className="space-y-3">
+                              <div className="space-y-4">
                                 {entry.activities.map((activity, index) => (
                                   <div key={index} className="bg-[var(--color-warm-50)] p-4 rounded-lg">
                                     <div className="flex items-center gap-2 mb-2">
@@ -633,8 +633,8 @@ export default function FamiliaPage() {
 
                           {/* Observaciones generales */}
                           {entry.observations && (
-                            <div className="mb-6">
-                              <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                            <div className="mb-8">
+                              <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                                 📝 Observaciones de la seño
                               </h4>
                               <div className="bg-[var(--color-nido-50)] p-4 rounded-lg border-l-4 border-l-[var(--color-primary)]">
@@ -646,10 +646,10 @@ export default function FamiliaPage() {
                           {/* Fotos del día */}
                           {entry.photos.length > 0 && (
                             <div>
-                              <h4 className="font-semibold text-[var(--color-text)] mb-3 flex items-center gap-2">
+                              <h4 className="font-semibold text-[var(--color-text)] mb-4 flex items-center gap-2">
                                 📸 Fotos del día
                               </h4>
-                              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                              <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
                                 {entry.photos.map((photo, index) => (
                                   <div key={index} className="bg-white p-2 rounded-lg shadow-sm">
                                     <img 
@@ -685,14 +685,14 @@ export default function FamiliaPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       {announcements.map((announcement) => (
                         <div 
                           key={announcement._id} 
                           className={`card ${announcement.pinned ? 'border-l-4 border-l-[var(--color-primary)]' : ''}`}
                         >
                           {/* Header del comunicado */}
-                          <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-start justify-between mb-5">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
                                 {announcement.pinned && <span title="Fijado">📌</span>}
@@ -785,7 +785,7 @@ export default function FamiliaPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       {payments.map((payment) => (
                         <div key={payment._id} className="card">
                           <div className="flex items-center justify-between">

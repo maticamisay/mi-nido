@@ -19,7 +19,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const primaryGarden = user?.gardens?.[0]
 
   return (
-    <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-[var(--color-warm-100)] bg-white/80 backdrop-blur-xl px-4 sm:px-6 lg:px-8">
+    <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-[var(--color-warm-100)] bg-white/80 backdrop-blur-xl px-5 sm:px-8 lg:px-10">
       {/* Hamburger — mobile only */}
       <button
         type="button"

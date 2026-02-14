@@ -54,7 +54,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
   }
 
   return (
-    <div className="flex grow flex-col gap-y-4 overflow-y-auto bg-white border-r border-[var(--color-warm-100)] px-5 py-6">
+    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-[var(--color-warm-100)] px-6 py-7">
       {/* Logo */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-3">
@@ -79,7 +79,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
       </div>
 
       {/* User card */}
-      <div className="flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-[var(--color-nido-50)] to-[var(--color-melocoton-100)]">
+      <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-[var(--color-nido-50)] to-[var(--color-melocoton-100)]">
         <div className="avatar size-md" style={{ background: 'linear-gradient(135deg, var(--color-nido-300), var(--color-nido-500))' }}>
           {user?.profile.avatar ? (
             <img src={user.profile.avatar} alt="Avatar" className="w-full h-full object-cover rounded-full" />
@@ -101,14 +101,14 @@ export default function Sidebar({ onClose }: SidebarProps) {
       <nav className="flex flex-1 flex-col mt-2">
         <ul role="list" className="flex flex-1 flex-col gap-y-6">
           <li>
-            <ul role="list" className="space-y-1">
+            <ul role="list" className="space-y-1.5">
               {navigation.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
                     onClick={onClose}
                     className={`
-                      group flex items-center gap-x-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200
+                      group flex items-center gap-x-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200
                       ${isActiveLink(item.href)
                         ? 'bg-gradient-to-r from-[var(--color-nido-300)] to-[var(--color-nido-400)] text-white shadow-md'
                         : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-warm-50)]'
@@ -125,11 +125,11 @@ export default function Sidebar({ onClose }: SidebarProps) {
           </li>
           
           {/* Bottom section */}
-          <li className="mt-auto space-y-1">
+          <li className="mt-auto space-y-1.5">
             <Link
               href="/configuracion"
               onClick={onClose}
-              className={`group flex items-center gap-x-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 ${
+              className={`group flex items-center gap-x-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
                 isActiveLink('/configuracion')
                   ? 'bg-gradient-to-r from-[var(--color-nido-300)] to-[var(--color-nido-400)] text-white shadow-md'
                   : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text)] hover:bg-[var(--color-warm-50)]'
@@ -142,7 +142,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
             
             <button
               onClick={handleLogout}
-              className="group flex w-full items-center gap-x-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-error-text)] hover:bg-[var(--color-nido-50)] transition-all duration-200"
+              className="group flex w-full items-center gap-x-3 rounded-xl px-4 py-3 text-sm font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-error-text)] hover:bg-[var(--color-nido-50)] transition-all duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               <span className="text-lg w-7 text-center">👋</span>

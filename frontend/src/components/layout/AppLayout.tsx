@@ -33,8 +33,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
       <div className="lg:pl-[260px]">
         <Header onMenuClick={() => setSidebarOpen(true)} />
         
-        <main className="pb-20 lg:pb-8">
-          <div className="px-4 sm:px-6 lg:px-8">
+        <main className="pb-24 lg:pb-10 pt-2">
+          <div className="px-5 sm:px-8 lg:px-10">
             {children}
           </div>
         </main>

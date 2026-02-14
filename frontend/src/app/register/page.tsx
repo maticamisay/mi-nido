@@ -150,7 +150,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Form card */}
-          <div className="card p-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="card p-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             {error && (
               <div className="p-4 rounded-xl bg-[var(--color-nido-50)] border border-[var(--color-nido-200)] mb-6 animate-scale-in">
                 <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ export default function RegisterPage() {
             )}
 
             {step === 1 ? (
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div className="text-center mb-2">
                   <h2 className="text-lg font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
                     Tus datos personales
@@ -171,7 +171,7 @@ export default function RegisterPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Nombre *</label>
                     <input name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} className="input" placeholder="María" />
@@ -187,7 +187,7 @@ export default function RegisterPage() {
                   <input name="email" type="email" required value={formData.email} onChange={handleInputChange} className="input" placeholder="maria@mijardin.com" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Teléfono</label>
                     <input name="phone" type="tel" value={formData.phone} onChange={handleInputChange} className="input" placeholder="2644123456" />
@@ -213,7 +213,7 @@ export default function RegisterPage() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="text-center mb-2">
                   <h2 className="text-lg font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
                     Datos del jardín
@@ -233,7 +233,7 @@ export default function RegisterPage() {
                   <input name="gardenAddress.street" type="text" value={formData.gardenAddress.street} onChange={handleInputChange} className="input" placeholder="Av. San Martín 1234" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Ciudad</label>
                     <input name="gardenAddress.city" type="text" value={formData.gardenAddress.city} onChange={handleInputChange} className="input" placeholder="San Juan" />

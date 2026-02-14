@@ -17,8 +17,8 @@ export default function MasPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-8">
-          <div className="mb-8">
+        <div className="py-10">
+          <div className="mb-10">
             <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
               ⋯ Más Opciones
             </h1>
@@ -27,7 +27,7 @@ export default function MasPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             {moreOptions.map((option) => (
               <Link
                 key={option.name}
@@ -49,7 +49,7 @@ export default function MasPage() {
 
           {/* Sección de ayuda */}
           <div className="mt-12 card p-6">
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-5">
               <div className="text-3xl">💡</div>
               <div>
                 <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
