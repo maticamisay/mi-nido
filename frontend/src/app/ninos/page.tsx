@@ -468,7 +468,7 @@ export default function NiñosPage() {
               </div>
             ))}
             
-            {filteredChildren.length === 0 && (
+            {filteredChildren.length === 0 && !error && (
               <div className="col-span-full">
                 <EmptyState
                   icon="👶"

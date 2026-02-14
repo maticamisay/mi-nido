@@ -171,7 +171,7 @@ export default function SalasPage() {
               </Card>
             ))}
             
-            {classrooms.length === 0 && (
+            {classrooms.length === 0 && !error && (
               <div className="col-span-full text-center py-12">
                 <div className="text-6xl mb-4">🏫</div>
                 <h3 className="text-xl font-semibold mb-2">Todavía no hay salas 🏫</h3>
