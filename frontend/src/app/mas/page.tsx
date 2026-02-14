@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 
 const moreOptions = [
   { name: 'Salas', href: '/salas', icon: '🏫', description: 'Administrar salas y seños' },
-  { name: 'Nenes', href: '/niños', icon: '👶', description: 'Fichas y legajos de los nenes' },
+  { name: 'Nenes', href: '/ninos', icon: '👶', description: 'Fichas y legajos de los nenes' },
   { name: 'Asistencia', href: '/asistencia', icon: '✅', description: 'Controlar la asistencia diaria' },
   { name: 'Mensajes', href: '/mensajes', icon: '💬', description: 'Comunicación con familias' },
   { name: 'Calendario', href: '/calendario', icon: '📅', description: 'Eventos y actividades' },

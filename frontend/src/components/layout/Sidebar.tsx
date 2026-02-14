@@ -21,7 +21,7 @@ const getNavigationByRole = (role?: string) => {
   return [
     { name: 'Inicio', href: '/dashboard', icon: '🏠' },
     { name: 'Salas', href: '/salas', icon: '🏫' },
-    { name: 'Nenes', href: '/niños', icon: '👶' },
+    { name: 'Nenes', href: '/ninos', icon: '👶' },
     { name: 'Asistencia', href: '/asistencia', icon: '✅' },
     { name: 'Cuaderno', href: '/cuaderno', icon: '📒' },
     { name: 'Comunicados', href: '/comunicados', icon: '📢' },

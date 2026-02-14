@@ -156,7 +156,7 @@ export default function DashboardPage() {
               <ActionCard emoji="📒" label="Escribir cuaderno" href="/cuaderno" className="animate-fade-in-up" />
               <ActionCard emoji="✅" label="Tomar asistencia" href="/asistencia" className="animate-fade-in-up" />
               <ActionCard emoji="📢" label="Nuevo comunicado" href="/comunicados" className="animate-fade-in-up" />
-              <ActionCard emoji="👶" label="Agregar nene" href="/niños" className="animate-fade-in-up" />
+              <ActionCard emoji="👶" label="Agregar nene" href="/ninos" className="animate-fade-in-up" />
             </div>
           </div>
         </div>
