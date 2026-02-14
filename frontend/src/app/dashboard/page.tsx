@@ -6,6 +6,9 @@ import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { apiFetch } from '@/lib/api'
 import Link from 'next/link'
+import StatCard from '@/components/ui/StatCard'
+import ActionCard from '@/components/ui/ActionCard'
+import ActivityItem from '@/components/ui/ActivityItem'
 
 interface GardenStats {
   classrooms: number
