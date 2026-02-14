@@ -9,6 +9,9 @@ import Link from 'next/link'
 import StatCard from '@/components/ui/StatCard'
 import ActionCard from '@/components/ui/ActionCard'
 import ActivityItem from '@/components/ui/ActivityItem'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface GardenStats {
   classrooms: number
@@ -91,48 +94,56 @@ export default function DashboardPage() {
           {/* Main content grid */}
           <div className="grid-cards page-section">
             {/* Attendance */}
-            <div className="card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-              <div className="flex items-center justify-between mb-5">
-                <h3 className="text-lg font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                  Asistencia de Hoy
-                </h3>
-                <span className="badge success">{attendance ? `${attendance.gardenSummary.attendanceRate}%` : '—'}</span>
-              </div>
-              
-              <div className="space-y-4">
-                {(attendance?.classrooms || []).map((sala) => (
-                  <div key={sala.classroom.id} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[var(--color-warm-50)]" style={{ backgroundColor: (sala.classroom.color || 'var(--color-pollito-100)') + '60' }}>
-                    <div className="flex items-center gap-3">
-                      <span className="text-lg">{sala.classroom.emoji}</span>
-                      <span className="font-semibold text-sm" style={{ fontFamily: 'var(--font-display)' }}>{sala.classroom.name}</span>
+            <Card className="animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>
+                    Asistencia de Hoy
+                  </CardTitle>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800 hover:bg-green-100">
+                    {attendance ? `${attendance.gardenSummary.attendanceRate}%` : '—'}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {(attendance?.classrooms || []).map((sala) => (
+                    <div key={sala.classroom.id} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-warm-50" style={{ backgroundColor: (sala.classroom.color || 'var(--color-pollito-100)') + '60' }}>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">{sala.classroom.emoji}</span>
+                        <span className="font-semibold text-sm" style={{ fontFamily: 'var(--font-display)' }}>{sala.classroom.name}</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-bold">{sala.attendance.present} / {sala.totalChildren}</p>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">presentes</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold">{sala.attendance.present} / {sala.totalChildren}</p>
-                      <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">presentes</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <Link href="/asistencia" className="btn btn-secondary w-full mt-5 text-sm">
-                Ver toda la asistencia
-              </Link>
-            </div>
+                  ))}
+                </div>
+                
+                <Button variant="outline" className="w-full mt-5" asChild>
+                  <Link href="/asistencia">
+                    Ver toda la asistencia
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
 
             {/* Recent activity */}
-            <div className="card animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="flex items-center justify-between mb-5">
-                <h3 className="text-lg font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+            <Card className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>
                   Actividad Reciente
-                </h3>
-              </div>
-              
-              <div className="space-y-5">
-                <ActivityItem initials="VL" name="Valentina López" description="Cuaderno actualizado — Sala Pollitos" time="Hace 15 min" color="var(--color-pollito-300)" />
-                <ActivityItem initials="SF" name="Santiago Fernández" description="Asistencia marcada — Sala Ositos" time="Hace 1 hora" color="var(--color-menta-300)" />
-                <ActivityItem emoji="📢" name="Nuevo comunicado" description="Reunión de padres — Sala Pollitos" time="Hace 2 horas" color="var(--color-nido-300)" />
-              </div>
-            </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-5">
+                  <ActivityItem initials="VL" name="Valentina López" description="Cuaderno actualizado — Sala Pollitos" time="Hace 15 min" color="var(--color-pollito-300)" />
+                  <ActivityItem initials="SF" name="Santiago Fernández" description="Asistencia marcada — Sala Ositos" time="Hace 1 hora" color="var(--color-menta-300)" />
+                  <ActivityItem emoji="📢" name="Nuevo comunicado" description="Reunión de padres — Sala Pollitos" time="Hace 2 horas" color="var(--color-nido-300)" />
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Quick actions */}

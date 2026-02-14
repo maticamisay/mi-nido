@@ -5,6 +5,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -26,9 +32,8 @@ export default function RegisterPage() {
     acceptTerms: false
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target
-    const checked = (e.target as HTMLInputElement).checked
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target
 
     if (name.startsWith('gardenAddress.')) {
       const field = name.split('.')[1]
@@ -125,10 +130,10 @@ export default function RegisterPage() {
             <div className="lg:hidden inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6" style={{ background: 'linear-gradient(135deg, var(--color-nido-300), var(--color-lila-600))' }}>
               <span className="text-4xl">🏡</span>
             </div>
-            <h1 className="text-2xl font-bold text-[var(--color-text)] mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+            <h1 className="text-2xl font-bold text-foreground mb-2" style={{ fontFamily: 'var(--font-display)' }}>
               Registrá tu jardín
             </h1>
-            <p className="text-[var(--color-text-secondary)] text-sm">
+            <p className="text-muted-foreground text-sm">
               Creá tu cuenta y empezá a gestionar
             </p>
           </div>
@@ -137,149 +142,163 @@ export default function RegisterPage() {
           <div className="flex items-center mb-8 px-4 animate-fade-in-up" style={{ animationDelay: '0.05s' }}>
             <div className="flex items-center gap-2">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                step >= 1 ? 'bg-[var(--color-nido-300)] text-white shadow-md' : 'bg-[var(--color-warm-100)] text-[var(--color-text-muted)]'
+                step >= 1 ? 'bg-[var(--color-nido-300)] text-white shadow-md' : 'bg-muted text-muted-foreground'
               }`} style={{ fontFamily: 'var(--font-display)' }}>1</div>
-              <span className="text-xs font-semibold text-[var(--color-text-secondary)] hidden sm:inline" style={{ fontFamily: 'var(--font-display)' }}>Tus datos</span>
+              <span className="text-xs font-semibold text-muted-foreground hidden sm:inline" style={{ fontFamily: 'var(--font-display)' }}>Tus datos</span>
             </div>
-            <div className={`h-0.5 flex-1 mx-3 rounded-full transition-all duration-500 ${step >= 2 ? 'bg-[var(--color-nido-300)]' : 'bg-[var(--color-warm-200)]'}`} />
+            <div className={`h-0.5 flex-1 mx-3 rounded-full transition-all duration-500 ${step >= 2 ? 'bg-[var(--color-nido-300)]' : 'bg-border'}`} />
             <div className="flex items-center gap-2">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                step >= 2 ? 'bg-[var(--color-nido-300)] text-white shadow-md' : 'bg-[var(--color-warm-100)] text-[var(--color-text-muted)]'
+                step >= 2 ? 'bg-[var(--color-nido-300)] text-white shadow-md' : 'bg-muted text-muted-foreground'
               }`} style={{ fontFamily: 'var(--font-display)' }}>2</div>
-              <span className="text-xs font-semibold text-[var(--color-text-secondary)] hidden sm:inline" style={{ fontFamily: 'var(--font-display)' }}>Tu jardín</span>
+              <span className="text-xs font-semibold text-muted-foreground hidden sm:inline" style={{ fontFamily: 'var(--font-display)' }}>Tu jardín</span>
             </div>
           </div>
 
           {/* Form card */}
-          <div className="card p-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            {error && (
-              <div className="p-4 rounded-xl bg-[var(--color-nido-50)] border border-[var(--color-nido-200)] mb-6 animate-scale-in">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">😕</span>
-                  <p className="text-[var(--color-error-text)] text-sm font-medium">{error}</p>
-                </div>
-              </div>
-            )}
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <CardContent className="p-8 sm:p-10">
+              {error && (
+                <Alert className="bg-[var(--color-nido-50)] border-[var(--color-nido-200)] mb-6 animate-scale-in">
+                  <AlertDescription className="flex items-center gap-3">
+                    <span className="text-lg">😕</span>
+                    <p className="text-[var(--color-error-text)] text-sm font-medium">{error}</p>
+                  </AlertDescription>
+                </Alert>
+              )}
 
-            {step === 1 ? (
-              <div className="space-y-6">
-                <div className="text-center mb-2">
-                  <h2 className="text-lg font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                    Tus datos personales
-                  </h2>
-                  <p className="text-xs text-[var(--color-text-secondary)] mt-1">
-                    Como directora/propietaria del jardín
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Nombre *</label>
-                    <input name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} className="input" placeholder="María" />
+              {step === 1 ? (
+                <div className="space-y-6">
+                  <div className="text-center mb-2">
+                    <h2 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-display)' }}>
+                      Tus datos personales
+                    </h2>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Como directora/propietaria del jardín
+                    </p>
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Apellido *</label>
-                    <input name="lastName" type="text" required value={formData.lastName} onChange={handleInputChange} className="input" placeholder="González" />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>Nombre *</Label>
+                      <Input name="firstName" type="text" required value={formData.firstName} onChange={handleInputChange} placeholder="María" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>Apellido *</Label>
+                      <Input name="lastName" type="text" required value={formData.lastName} onChange={handleInputChange} placeholder="González" />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Email *</label>
-                  <input name="email" type="email" required value={formData.email} onChange={handleInputChange} className="input" placeholder="maria@mijardin.com" />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Teléfono</label>
-                    <input name="phone" type="tel" value={formData.phone} onChange={handleInputChange} className="input" placeholder="2644123456" />
+                  <div className="space-y-2">
+                    <Label style={{ fontFamily: 'var(--font-display)' }}>Email *</Label>
+                    <Input name="email" type="email" required value={formData.email} onChange={handleInputChange} placeholder="maria@mijardin.com" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>DNI</label>
-                    <input name="dni" type="text" value={formData.dni} onChange={handleInputChange} className="input" placeholder="30123456" />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>Teléfono</Label>
+                      <Input name="phone" type="tel" value={formData.phone} onChange={handleInputChange} placeholder="2644123456" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>DNI</Label>
+                      <Input name="dni" type="text" value={formData.dni} onChange={handleInputChange} placeholder="30123456" />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Contraseña *</label>
-                  <input name="password" type="password" required value={formData.password} onChange={handleInputChange} className="input" placeholder="Mínimo 6 caracteres" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Confirmar contraseña *</label>
-                  <input name="confirmPassword" type="password" required value={formData.confirmPassword} onChange={handleInputChange} className="input" placeholder="Repetí tu contraseña" />
-                </div>
-
-                <button type="button" onClick={handleNext} className="btn btn-primary w-full text-base py-3.5">
-                  Siguiente →
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="text-center mb-2">
-                  <h2 className="text-lg font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                    Datos del jardín
-                  </h2>
-                  <p className="text-xs text-[var(--color-text-secondary)] mt-1">
-                    Información de tu institución
-                  </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Nombre del jardín *</label>
-                  <input name="gardenName" type="text" required value={formData.gardenName} onChange={handleInputChange} className="input" placeholder="Ej: Jardín Rayito de Sol 🌟" />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Dirección</label>
-                  <input name="gardenAddress.street" type="text" value={formData.gardenAddress.street} onChange={handleInputChange} className="input" placeholder="Av. San Martín 1234" />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Ciudad</label>
-                    <input name="gardenAddress.city" type="text" value={formData.gardenAddress.city} onChange={handleInputChange} className="input" placeholder="San Juan" />
+                  <div className="space-y-2">
+                    <Label style={{ fontFamily: 'var(--font-display)' }}>Contraseña *</Label>
+                    <Input name="password" type="password" required value={formData.password} onChange={handleInputChange} placeholder="Mínimo 6 caracteres" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5" style={{ fontFamily: 'var(--font-display)' }}>Provincia</label>
-                    <select name="gardenAddress.province" value={formData.gardenAddress.province} onChange={handleInputChange} className="input">
-                      <option value="">Seleccionar...</option>
-                      {provinces.map(p => <option key={p} value={p}>{p}</option>)}
-                    </select>
+
+                  <div className="space-y-2">
+                    <Label style={{ fontFamily: 'var(--font-display)' }}>Confirmar contraseña *</Label>
+                    <Input name="confirmPassword" type="password" required value={formData.confirmPassword} onChange={handleInputChange} placeholder="Repetí tu contraseña" />
                   </div>
-                </div>
 
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-[var(--color-warm-50)]">
-                  <input id="acceptTerms" name="acceptTerms" type="checkbox" checked={formData.acceptTerms} onChange={handleInputChange} className="mt-0.5 h-4 w-4 rounded border-[var(--color-warm-300)]" />
-                  <label htmlFor="acceptTerms" className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-                    Acepto los{' '}
-                    <Link href="/terminos" className="text-[var(--color-nido-500)] hover:underline font-medium">términos y condiciones</Link>{' '}
-                    y la{' '}
-                    <Link href="/privacidad" className="text-[var(--color-nido-500)] hover:underline font-medium">política de privacidad</Link>
-                  </label>
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    className="w-full py-6 bg-gradient-to-r from-[var(--color-nido-300)] to-[var(--color-nido-400)] hover:from-[var(--color-nido-400)] hover:to-[var(--color-nido-500)] text-white"
+                  >
+                    Siguiente →
+                  </Button>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="text-center mb-2">
+                    <h2 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-display)' }}>
+                      Datos del jardín
+                    </h2>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Información de tu institución
+                    </p>
+                  </div>
 
-                <div className="flex gap-3">
-                  <button type="button" onClick={() => setStep(1)} className="btn btn-secondary flex-1 py-3.5">
-                    ← Atrás
-                  </button>
-                  <button type="submit" disabled={isLoading} className={`btn btn-primary flex-1 py-3.5 ${isLoading ? 'opacity-60 cursor-not-allowed' : ''}`}>
-                    {isLoading ? (
-                      <div className="flex items-center gap-2">
-                        <LoadingSpinner size="sm" variant="white" />
-                        Creando...
-                      </div>
-                    ) : (
-                      '¡Crear mi jardín! 🎉'
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+                  <div className="space-y-2">
+                    <Label style={{ fontFamily: 'var(--font-display)' }}>Nombre del jardín *</Label>
+                    <Input name="gardenName" type="text" required value={formData.gardenName} onChange={handleInputChange} placeholder="Ej: Jardín Rayito de Sol 🌟" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label style={{ fontFamily: 'var(--font-display)' }}>Dirección</Label>
+                    <Input name="gardenAddress.street" type="text" value={formData.gardenAddress.street} onChange={handleInputChange} placeholder="Av. San Martín 1234" />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>Ciudad</Label>
+                      <Input name="gardenAddress.city" type="text" value={formData.gardenAddress.city} onChange={handleInputChange} placeholder="San Juan" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label style={{ fontFamily: 'var(--font-display)' }}>Provincia</Label>
+                      <Select value={formData.gardenAddress.province} onValueChange={(value) => setFormData(prev => ({ ...prev, gardenAddress: { ...prev.gardenAddress, province: value } }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleccionar..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {provinces.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 p-4 rounded-xl bg-muted">
+                    <input id="acceptTerms" name="acceptTerms" type="checkbox" checked={formData.acceptTerms} onChange={handleInputChange} className="mt-0.5 h-4 w-4 rounded border-border" />
+                    <label htmlFor="acceptTerms" className="text-sm text-muted-foreground leading-relaxed">
+                      Acepto los{' '}
+                      <Link href="/terminos" className="text-[var(--color-nido-500)] hover:underline font-medium">términos y condiciones</Link>{' '}
+                      y la{' '}
+                      <Link href="/privacidad" className="text-[var(--color-nido-500)] hover:underline font-medium">política de privacidad</Link>
+                    </label>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1 py-6">
+                      ← Atrás
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="flex-1 py-6 bg-gradient-to-r from-[var(--color-nido-300)] to-[var(--color-nido-400)] hover:from-[var(--color-nido-400)] hover:to-[var(--color-nido-500)] text-white"
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <LoadingSpinner size="sm" variant="white" />
+                          Creando...
+                        </div>
+                      ) : (
+                        '¡Crear mi jardín! 🎉'
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </CardContent>
+          </Card>
 
           {/* Login link */}
           <div className="text-center mt-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <p className="text-sm text-[var(--color-text-secondary)]">
+            <p className="text-sm text-muted-foreground">
               ¿Ya tenés cuenta?{' '}
               <Link href="/login" className="text-[var(--color-nido-500)] font-bold hover:text-[var(--color-nido-600)] transition-colors">
                 Ingresar

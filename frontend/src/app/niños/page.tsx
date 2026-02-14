@@ -10,7 +10,7 @@ import SearchInput from '@/components/ui/SearchInput'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import AlertMessage from '@/components/ui/AlertMessage'
 import EmptyState from '@/components/ui/EmptyState'
-import Avatar from '@/components/ui/Avatar'
+import NidoAvatar from '@/components/ui/NidoAvatar'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
 import DataRow from '@/components/ui/DataRow'
@@ -410,7 +410,7 @@ export default function NiñosPage() {
               <div key={child._id} className="card hover:shadow-lg transition-shadow">
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <Avatar name={`${child.firstName} ${child.lastName}`} photo={child.photo} size="md" />
+                    <NidoAvatar name={`${child.firstName} ${child.lastName}`} photo={child.photo} size="md" />
                     <div>
                       <h3 className="text-lg font-semibold text-[var(--color-text)]">
                         {child.firstName} {child.lastName}

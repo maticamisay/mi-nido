@@ -6,6 +6,13 @@ import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
 import PageHeader from '@/components/ui/PageHeader'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Textarea } from '@/components/ui/textarea'
+import { Select as ShadSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import AlertMessage from '@/components/ui/AlertMessage'
 import { getInitials } from '@/lib/utils'
@@ -589,35 +596,26 @@ export default function CuadernoPage() {
         </div>
 
         {/* Modal para crear/editar entrada */}
-        {showModal && selectedChild && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="card-spacious">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="avatar size-md bg-[var(--color-primary)]">
-                      {selectedChild.photo ? (
-                        <img src={selectedChild.photo} alt="Foto" className="w-full h-full object-cover rounded-full" />
-                      ) : (
-                        getInitials(selectedChild.firstName, selectedChild.lastName)
-                      )}
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold text-[var(--color-text)]">
-                        {selectedChild.firstName} {selectedChild.lastName}
-                      </h2>
-                      <p className="text-sm text-[var(--color-text-secondary)]">
-                        Cuaderno del {new Date(selectedDate).toLocaleDateString('es-AR')}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleCloseModal}
-                    className="text-[var(--color-text-muted)] hover:text-[var(--color-text)]"
-                  >
-                    ✕
-                  </button>
+        <Dialog open={showModal && !!selectedChild} onOpenChange={(open) => { if (!open) handleCloseModal() }}>
+          <DialogContent className="sm:max-w-2xl rounded-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="font-display flex items-center gap-3">
+                <div className="avatar size-md bg-[var(--color-nido-primary)]">
+                  {selectedChild?.photo ? (
+                    <img src={selectedChild.photo} alt="Foto" className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    selectedChild ? getInitials(selectedChild.firstName, selectedChild.lastName) : ''
+                  )}
                 </div>
+                <div>
+                  <div>{selectedChild?.firstName} {selectedChild?.lastName}</div>
+                  <p className="text-sm text-muted-foreground font-normal">
+                    Cuaderno del {new Date(selectedDate).toLocaleDateString('es-AR')}
+                  </p>
+                </div>
+              </DialogTitle>
+            </DialogHeader>
+            {selectedChild && (
 
                 <form onSubmit={handleSubmit} className="form-group">
                   {/* Estado de ánimo */}
@@ -985,10 +983,9 @@ export default function CuadernoPage() {
                     </button>
                   </div>
                 </form>
-              </div>
-            </div>
-          </div>
-        )}
+            )}
+          </DialogContent>
+        </Dialog>
       </AppLayout>
     </ProtectedRoute>
   )

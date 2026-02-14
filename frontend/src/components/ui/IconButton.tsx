@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
+import { Button } from './button'
 import { cn } from '@/lib/utils'
 
 interface IconButtonProps {
@@ -13,15 +14,10 @@ interface IconButtonProps {
   disabled?: boolean
 }
 
-const variantStyles = {
-  ghost: 'text-gray-500 hover:bg-gray-100 hover:text-gray-700',
-  outline: 'border border-gray-300 text-gray-500 hover:bg-gray-50 hover:text-gray-700',
-  danger: 'text-red-400 hover:bg-red-50 hover:text-red-600',
-}
-
-const sizeStyles = {
-  sm: 'h-8 w-8 text-sm',
-  md: 'h-10 w-10 text-base',
+const variantMap = {
+  ghost: 'ghost' as const,
+  outline: 'outline' as const,
+  danger: 'ghost' as const,
 }
 
 export default function IconButton({
@@ -34,19 +30,21 @@ export default function IconButton({
   disabled,
 }: IconButtonProps) {
   return (
-    <button
+    <Button
       type="button"
+      variant={variantMap[variant]}
+      size="icon"
       onClick={onClick}
       aria-label={label}
       disabled={disabled}
       className={cn(
-        'inline-flex items-center justify-center rounded-lg transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed',
-        variantStyles[variant],
-        sizeStyles[size],
+        size === 'sm' && 'h-8 w-8',
+        size === 'md' && 'h-10 w-10',
+        variant === 'danger' && 'text-destructive hover:text-destructive hover:bg-destructive/10',
         className
       )}
     >
       {icon}
-    </button>
+    </Button>
   )
 }

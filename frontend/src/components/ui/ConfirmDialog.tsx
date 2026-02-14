@@ -1,6 +1,15 @@
 'use client'
 
-import Modal from './Modal'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from './alert-dialog'
 import { cn } from '@/lib/utils'
 
 interface ConfirmDialogProps {
@@ -23,29 +32,28 @@ export default function ConfirmDialog({
   variant = 'danger',
 }: ConfirmDialogProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
-      <p className="text-gray-600 mb-6 leading-relaxed">{message}</p>
-      <div className="flex justify-end gap-3">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-        >
-          Cancelar
-        </button>
-        <button
-          onClick={() => {
-            onConfirm()
-            onClose()
-          }}
-          className={cn(
-            'px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors',
-            variant === 'danger' && 'bg-red-600 hover:bg-red-700',
-            variant === 'warning' && 'bg-amber-500 hover:bg-amber-600'
-          )}
-        >
-          {confirmText}
-        </button>
-      </div>
-    </Modal>
+    <AlertDialog open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
+      <AlertDialogContent className="rounded-2xl">
+        <AlertDialogHeader>
+          <AlertDialogTitle className="font-display">{title}</AlertDialogTitle>
+          <AlertDialogDescription className="leading-relaxed">{message}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={onClose}>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              onConfirm()
+              onClose()
+            }}
+            className={cn(
+              variant === 'danger' && 'bg-destructive text-white hover:bg-destructive/90',
+              variant === 'warning' && 'bg-amber-500 text-white hover:bg-amber-600'
+            )}
+          >
+            {confirmText}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

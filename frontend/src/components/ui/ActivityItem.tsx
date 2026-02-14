@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import Avatar from './Avatar'
+import NidoAvatar from './NidoAvatar'
 
 interface ActivityItemProps {
   initials?: string
@@ -22,16 +22,16 @@ export default function ActivityItem({ initials, emoji, name, description, time,
           {emoji}
         </div>
       ) : (
-        <Avatar
+        <NidoAvatar
           name={initials || '??'}
           size="sm"
           color={color}
         />
       )}
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold text-gray-900 truncate">{name}</p>
-        <p className="text-xs text-gray-500 truncate mt-0.5">{description}</p>
-        <p className="text-[10px] text-gray-400 mt-1">{time}</p>
+        <p className="text-sm font-semibold text-foreground truncate">{name}</p>
+        <p className="text-xs text-muted-foreground truncate mt-0.5">{description}</p>
+        <p className="text-[10px] text-muted-foreground/60 mt-1">{time}</p>
       </div>
     </div>
   )

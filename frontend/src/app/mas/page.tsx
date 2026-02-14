@@ -3,6 +3,8 @@
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
 import Link from 'next/link'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 const moreOptions = [
   { name: 'Salas', href: '/salas', icon: '🏫', description: 'Administrar salas y seños' },
@@ -25,46 +27,37 @@ export default function MasPage() {
 
           <div className="grid-cards">
             {moreOptions.map((option) => (
-              <Link
-                key={option.name}
-                href={option.href}
-                className="card hover:shadow-lg transition-shadow p-6 text-center group"
-              >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
-                  {option.icon}
-                </div>
-                <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
-                  {option.name}
-                </h3>
-                <p className="text-sm text-[var(--color-text-secondary)]">
-                  {option.description}
-                </p>
+              <Link key={option.name} href={option.href}>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer group">
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                      {option.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">{option.name}</h3>
+                    <p className="text-sm text-muted-foreground">{option.description}</p>
+                  </CardContent>
+                </Card>
               </Link>
             ))}
           </div>
 
-          {/* Sección de ayuda */}
-          <div className="mt-12 card p-6">
-            <div className="flex items-start gap-5">
-              <div className="text-3xl">💡</div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2 text-[var(--color-text)]">
-                  ¿Necesitás ayuda?
-                </h3>
-                <p className="text-[var(--color-text-secondary)] mb-4">
-                  Si tenés dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button className="btn btn-secondary">
-                    📖 Guía de uso
-                  </button>
-                  <button className="btn btn-secondary">
-                    📞 Contactar soporte
-                  </button>
+          <Card className="mt-12">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-5">
+                <div className="text-3xl">💡</div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">¿Necesitás ayuda?</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Si tenés dudas sobre cómo usar Mi Nido, no dudes en contactarnos.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button variant="outline">📖 Guía de uso</Button>
+                    <Button variant="outline">📞 Contactar soporte</Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </AppLayout>
     </ProtectedRoute>

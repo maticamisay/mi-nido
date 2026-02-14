@@ -1,5 +1,6 @@
 'use client'
 
+import { Alert, AlertDescription } from './alert'
 import { cn } from '@/lib/utils'
 
 interface AlertMessageProps {
@@ -10,23 +11,23 @@ interface AlertMessageProps {
 }
 
 const styles = {
-  success: { bg: 'bg-green-50 border-green-200', text: 'text-green-700', icon: '✅', iconColor: 'text-green-600' },
-  error: { bg: 'bg-red-50 border-red-200', text: 'text-red-700', icon: '⚠️', iconColor: 'text-red-600' },
-  warning: { bg: 'bg-yellow-50 border-yellow-200', text: 'text-yellow-700', icon: '⚠️', iconColor: 'text-yellow-600' },
-  info: { bg: 'bg-blue-50 border-blue-200', text: 'text-blue-700', icon: 'ℹ️', iconColor: 'text-blue-600' },
+  success: { bg: 'bg-green-50 border-green-200 text-green-700', icon: '✅' },
+  error: { bg: 'bg-red-50 border-red-200 text-red-700', icon: '⚠️' },
+  warning: { bg: 'bg-yellow-50 border-yellow-200 text-yellow-700', icon: '⚠️' },
+  info: { bg: 'bg-blue-50 border-blue-200 text-blue-700', icon: 'ℹ️' },
 }
 
 export default function AlertMessage({ type, message, onClose, className }: AlertMessageProps) {
   const s = styles[type]
   return (
-    <div className={cn('mb-6 p-4 rounded-lg border', s.bg, className)}>
-      <div className="flex items-center gap-2">
-        <span className={s.iconColor}>{s.icon}</span>
-        <p className={cn('text-sm font-medium flex-1', s.text)}>{message}</p>
+    <Alert className={cn('mb-6', s.bg, className)}>
+      <AlertDescription className="flex items-center gap-2">
+        <span>{s.icon}</span>
+        <span className="flex-1 text-sm font-medium">{message}</span>
         {onClose && (
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 ml-2">✕</button>
+          <button onClick={onClose} className="text-current/40 hover:text-current/60 ml-2">✕</button>
         )}
-      </div>
-    </div>
+      </AlertDescription>
+    </Alert>
   )
 }
