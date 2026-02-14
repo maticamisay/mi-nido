@@ -8,6 +8,9 @@ require('dotenv').config();
 
 const app = express();
 
+// Ensure query parser is set (Express 5 compatibility)
+app.set('query parser', 'simple');
+
 // CORS configuration
 const corsOptions = {
   origin: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : '*',

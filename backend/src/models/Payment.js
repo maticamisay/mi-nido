@@ -146,7 +146,7 @@ paymentSchema.virtual('periodDisplay').get(function() {
 });
 
 // Middleware para calcular total automáticamente
-paymentSchema.pre('save', function() {
+paymentSchema.pre('save', function(next) {
   this.total = this.amount + this.lateFee - this.discount;
   
   // Actualizar estado según pagos
@@ -157,6 +157,7 @@ paymentSchema.pre('save', function() {
   } else if (this.isOverdue && this.status === 'pending') {
     this.status = 'overdue';
   }
+  next();
 });
 
 // Método para registrar un pago

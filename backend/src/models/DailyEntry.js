@@ -252,10 +252,11 @@ dailyEntrySchema.statics.getEntriesByDateRange = function(childId, startDate, en
 };
 
 // Middleware para actualizar publishedAt al cambiar status a published
-dailyEntrySchema.pre('save', function() {
+dailyEntrySchema.pre('save', function(next) {
   if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
     this.publishedAt = new Date();
   }
+  next();
 });
 
 module.exports = mongoose.model('DailyEntry', dailyEntrySchema);

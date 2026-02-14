@@ -171,19 +171,16 @@ childSchema.virtual('isDeleted').get(function() {
   return this.deletedAt !== null;
 });
 
-// Validación: debe tener al menos un contacto de emergencia
-childSchema.pre('validate', function() {
+// Validación: debe tener al menos un contacto de emergencia + solo un contacto primario
+childSchema.pre('validate', function(next) {
   if (this.emergencyContacts.length === 0) {
-    throw new Error('Debe tener al menos un contacto de emergencia');
+    return next(new Error('Debe tener al menos un contacto de emergencia'));
   }
-});
-
-// Validación: solo un contacto primario
-childSchema.pre('validate', function() {
   const primaryContacts = this.emergencyContacts.filter(contact => contact.isPrimary);
   if (primaryContacts.length > 1) {
-    throw new Error('Solo puede haber un contacto de emergencia primario');
+    return next(new Error('Solo puede haber un contacto de emergencia primario'));
   }
+  next();
 });
 
 // Método para soft delete
