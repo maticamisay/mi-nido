@@ -84,7 +84,8 @@ export default function SalasPage() {
       const method = editingClassroom ? 'PUT' : 'POST'
       const response = await apiFetch(url, { method, token, gardenId, body: formData })
       if (!response.ok) { const error = await response.json(); throw new Error(error.message || 'Error al guardar') }
-      const classroom = await response.json()
+      const data = await response.json()
+      const classroom = data.classroom || data
       if (editingClassroom) {
         setClassrooms(prev => prev.map(c => c._id === classroom._id ? classroom : c))
       } else {

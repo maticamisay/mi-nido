@@ -178,7 +178,8 @@ export default function ComunicadosPage() {
         throw new Error(error.message || 'Error al guardar el comunicado')
       }
 
-      const savedAnnouncement = await response.json()
+      const data = await response.json()
+      const savedAnnouncement = data.announcement || data
       
       if (editingAnnouncement) {
         setAnnouncements(prev => prev.map(a => a._id === savedAnnouncement._id ? savedAnnouncement : a))
@@ -235,7 +236,8 @@ export default function ComunicadosPage() {
         throw new Error('Error al marcar como leído')
       }
 
-      const updatedAnnouncement = await response.json()
+      const dataRead = await response.json()
+      const updatedAnnouncement = dataRead.announcement || dataRead
       setAnnouncements(prev => prev.map(a => a._id === updatedAnnouncement._id ? updatedAnnouncement : a))
       setSuccessMessage('Marcado como leído ✅')
       setTimeout(() => setSuccessMessage(''), 3000)

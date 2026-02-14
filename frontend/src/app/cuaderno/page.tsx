@@ -319,7 +319,8 @@ export default function CuadernoPage() {
         throw new Error(error.message || 'Error al guardar la entrada del cuaderno')
       }
 
-      const savedEntry = await response.json()
+      const data = await response.json()
+      const savedEntry = data.entry || data
       
       if (editingEntry) {
         setDailyEntries(prev => prev.map(e => e._id === savedEntry._id ? savedEntry : e))

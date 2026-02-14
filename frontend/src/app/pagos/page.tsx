@@ -301,7 +301,8 @@ export default function PagosPage() {
         throw new Error(error.message || 'Error al guardar el pago')
       }
 
-      const savedPayment = await response.json()
+      const dataCreate = await response.json()
+      const savedPayment = dataCreate.payment || dataCreate
       
       if (editingPayment) {
         setPayments(prev => prev.map(p => p._id === savedPayment._id ? savedPayment : p))
@@ -348,7 +349,8 @@ export default function PagosPage() {
         throw new Error(error.message || 'Error al registrar el pago')
       }
 
-      const updatedPayment = await response.json()
+      const dataUpdate = await response.json()
+      const updatedPayment = dataUpdate.payment || dataUpdate
       setPayments(prev => prev.map(p => p._id === updatedPayment._id ? updatedPayment : p))
 
       handleClosePaymentModal()

@@ -205,7 +205,8 @@ export default function AsistenciaPage() {
         throw new Error(error.message || 'Error al guardar la asistencia')
       }
 
-      const savedAttendance = await response.json()
+      const data = await response.json()
+      const savedAttendance = data.attendance || data
       setAttendance(savedAttendance)
       setSuccessMessage('Asistencia guardada correctamente ✅')
       

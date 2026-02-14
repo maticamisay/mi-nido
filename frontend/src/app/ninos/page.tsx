@@ -209,7 +209,8 @@ export default function NiñosPage() {
         const error = await response.json()
         throw new Error(error.message || 'Ups, no pudimos guardar los datos del nene. Intentá de nuevo 🤔')
       }
-      const child = await response.json()
+      const data = await response.json()
+      const child = data.child || data
       if (editingChild) {
         setChildren(prev => prev.map(c => c._id === child._id ? child : c))
       } else {
