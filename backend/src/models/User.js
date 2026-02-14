@@ -106,11 +106,10 @@ userSchema.virtual('isDeleted').get(function() {
 });
 
 // Método para hashear password antes de guardar
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('passwordHash')) return next();
+userSchema.pre('save', async function() {
+  if (!this.isModified('passwordHash')) return;
   
   this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
-  next();
 });
 
 // Método para comparar passwords

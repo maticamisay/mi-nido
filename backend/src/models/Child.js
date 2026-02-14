@@ -172,15 +172,14 @@ childSchema.virtual('isDeleted').get(function() {
 });
 
 // Validación: debe tener al menos un contacto de emergencia + solo un contacto primario
-childSchema.pre('validate', function(next) {
+childSchema.pre('validate', function() {
   if (this.emergencyContacts.length === 0) {
-    return next(new Error('Debe tener al menos un contacto de emergencia'));
+    throw new Error('Debe tener al menos un contacto de emergencia');
   }
   const primaryContacts = this.emergencyContacts.filter(contact => contact.isPrimary);
   if (primaryContacts.length > 1) {
-    return next(new Error('Solo puede haber un contacto de emergencia primario'));
+    throw new Error('Solo puede haber un contacto de emergencia primario');
   }
-  next();
 });
 
 // Método para soft delete

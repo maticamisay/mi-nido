@@ -11,6 +11,9 @@ const app = express();
 // Ensure query parser is set (Express 5 compatibility)
 app.set('query parser', 'simple');
 
+// Trust proxy (behind Traefik reverse proxy)
+app.set('trust proxy', 1);
+
 // CORS configuration
 const corsOptions = {
   origin: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : '*',

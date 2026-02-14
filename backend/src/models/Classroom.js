@@ -99,11 +99,10 @@ classroomSchema.virtual('displayName').get(function() {
 });
 
 // Validación: ageRange.from debe ser menor o igual a ageRange.to
-classroomSchema.pre('validate', function(next) {
+classroomSchema.pre('validate', function() {
   if (this.ageRange && this.ageRange.from > this.ageRange.to) {
-    return next(new Error('La edad mínima no puede ser mayor a la edad máxima'));
+    throw new Error('La edad mínima no puede ser mayor a la edad máxima');
   }
-  next();
 });
 
 // Método para soft delete
