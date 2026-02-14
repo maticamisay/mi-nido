@@ -24,7 +24,22 @@ const authLimiter = rateLimit({
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(mongoSanitize());
+// Custom mongo sanitize (express-mongo-sanitize is incompatible with Express 5)
+app.use((req, res, next) => {
+  const sanitize = (obj) => {
+    if (typeof obj !== 'object' || obj === null) return obj;
+    for (const key in obj) {
+      if (key.startsWith('$') || key.includes('.')) {
+        delete obj[key];
+      } else if (typeof obj[key] === 'object') {
+        sanitize(obj[key]);
+      }
+    }
+    return obj;
+  };
+  if (req.body) sanitize(req.body);
+  next();
+});
 
 // Servir archivos estáticos (uploads)
 serveUploads(app);
