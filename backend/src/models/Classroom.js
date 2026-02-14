@@ -100,8 +100,8 @@ classroomSchema.virtual('displayName').get(function() {
 
 // Validación: ageRange.from debe ser menor o igual a ageRange.to
 classroomSchema.pre('validate', function(next) {
-  if (this.ageRange.from > this.ageRange.to) {
-    next(new Error('La edad mínima no puede ser mayor a la edad máxima'));
+  if (this.ageRange && this.ageRange.from > this.ageRange.to) {
+    return next(new Error('La edad mínima no puede ser mayor a la edad máxima'));
   }
   next();
 });

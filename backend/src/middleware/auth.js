@@ -69,7 +69,7 @@ const authenticate = async (req, res, next) => {
 const requireGardenAccess = (gardenIdParam = 'gardenId') => {
   return async (req, res, next) => {
     try {
-      const gardenId = req.params[gardenIdParam] || req.body.gardenId || req.query.gardenId;
+      const gardenId = req.params[gardenIdParam] || (req.body && req.body.gardenId) || req.query.gardenId;
       
       if (!gardenId) {
         return res.status(400).json({

@@ -189,22 +189,20 @@ calendarEventSchema.virtual('dateRange').get(function() {
 });
 
 // Validación: endDate debe ser posterior a date
-calendarEventSchema.pre('validate', function(next) {
+calendarEventSchema.pre('validate', function() {
   if (this.endDate && this.endDate <= this.date) {
-    next(new Error('La fecha de fin debe ser posterior a la fecha de inicio'));
+    throw new Error('La fecha de fin debe ser posterior a la fecha de inicio');
   }
   
   // Si scope es 'classroom', debe tener classroomIds
   if (this.scope === 'classroom' && (!this.classroomIds || this.classroomIds.length === 0)) {
-    next(new Error('Los eventos por sala deben especificar al menos una sala'));
+    throw new Error('Los eventos por sala deben especificar al menos una sala');
   }
   
   // Limpiar classroomIds si es para todo el jardín
   if (this.scope === 'garden') {
     this.classroomIds = [];
   }
-  
-  next();
 });
 
 // Método para marcar como completado

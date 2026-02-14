@@ -138,14 +138,13 @@ announcementSchema.virtual('preview').get(function() {
 });
 
 // Validación: si scope es 'classroom', debe tener classroomIds
-announcementSchema.pre('validate', function(next) {
+announcementSchema.pre('validate', function() {
   if (this.scope === 'classroom' && (!this.classroomIds || this.classroomIds.length === 0)) {
-    return next(new Error('Los comunicados por sala deben especificar al menos una sala'));
+    throw new Error('Los comunicados por sala deben especificar al menos una sala');
   }
   if (this.scope === 'garden') {
-    this.classroomIds = []; // Limpiar classroomIds si es para todo el jardín
+    this.classroomIds = [];
   }
-  next();
 });
 
 // Método para publicar el comunicado
@@ -226,11 +225,10 @@ announcementSchema.statics.getPendingAcknowledgements = function(userId, gardenI
 };
 
 // Middleware para actualizar publishedAt al cambiar status a published
-announcementSchema.pre('save', function(next) {
+announcementSchema.pre('save', function() {
   if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
     this.publishedAt = new Date();
   }
-  next();
 });
 
 module.exports = mongoose.model('Announcement', announcementSchema);
