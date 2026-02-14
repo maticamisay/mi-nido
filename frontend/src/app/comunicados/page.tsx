@@ -377,7 +377,7 @@ export default function ComunicadosPage() {
                   {/* Header del comunicado */}
                   <div className="flex items-start justify-between mb-5">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-2.5">
                         {announcement.pinned && <span title="Fijado">📌</span>}
                         {announcement.urgent && <span title="Urgente">🚨</span>}
                         <h2 className="text-lg font-semibold text-[var(--color-text)]">
@@ -438,15 +438,15 @@ export default function ComunicadosPage() {
                   </div>
 
                   {/* Contenido */}
-                  <div className="mb-4">
-                    <p className="text-[var(--color-text)] whitespace-pre-wrap">
+                  <div className="mb-5">
+                    <p className="text-[var(--color-text)] whitespace-pre-wrap leading-relaxed">
                       {announcement.body}
                     </p>
                   </div>
 
                   {/* Adjuntos */}
                   {announcement.attachments.length > 0 && (
-                    <div className="mb-4">
+                    <div className="mb-5">
                       <p className="text-sm font-medium text-[var(--color-text)] mb-2">
                         Adjuntos:
                       </p>

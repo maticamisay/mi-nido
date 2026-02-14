@@ -343,24 +343,24 @@ export default function AsistenciaPage() {
             <div>
               {/* Estadísticas */}
               <div className="grid grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-[var(--color-text)]">{stats.total}</div>
+                <div className="card text-center py-5">
+                  <div className="text-2xl font-bold text-[var(--color-text)] mb-1">{stats.total}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Total niños</div>
                 </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-green-600">{stats.present}</div>
+                <div className="card text-center py-5">
+                  <div className="text-2xl font-bold text-green-600 mb-1">{stats.present}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Presentes</div>
                 </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-yellow-600">{stats.late}</div>
+                <div className="card text-center py-5">
+                  <div className="text-2xl font-bold text-yellow-600 mb-1">{stats.late}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Tardanzas</div>
                 </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-blue-600">{stats.justified}</div>
+                <div className="card text-center py-5">
+                  <div className="text-2xl font-bold text-blue-600 mb-1">{stats.justified}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Justificados</div>
                 </div>
-                <div className="card text-center">
-                  <div className="text-2xl font-bold text-red-600">{stats.absent}</div>
+                <div className="card text-center py-5">
+                  <div className="text-2xl font-bold text-red-600 mb-1">{stats.absent}</div>
                   <div className="text-sm text-[var(--color-text-secondary)]">Ausentes</div>
                 </div>
               </div>
@@ -444,7 +444,7 @@ export default function AsistenciaPage() {
                         {(record.status === 'present' || record.status === 'late') && (
                           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-4">
                             <div>
-                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
+                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5">
                                 Hora de llegada
                               </label>
                               <input
@@ -455,7 +455,7 @@ export default function AsistenciaPage() {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
+                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5">
                                 Hora de retiro
                               </label>
                               <input
@@ -466,7 +466,7 @@ export default function AsistenciaPage() {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
+                              <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5">
                                 Retirado por
                               </label>
                               <input
@@ -482,7 +482,7 @@ export default function AsistenciaPage() {
 
                         {record.status === 'justified' && (
                           <div className="mb-4">
-                            <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
+                            <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5">
                               Motivo de justificación
                             </label>
                             <input
@@ -497,7 +497,7 @@ export default function AsistenciaPage() {
 
                         {/* Notas */}
                         <div>
-                          <label className="block text-sm font-semibold text-[var(--color-text)] mb-1">
+                          <label className="block text-sm font-semibold text-[var(--color-text)] mb-1.5">
                             Observaciones
                           </label>
                           <textarea

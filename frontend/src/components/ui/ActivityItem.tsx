@@ -30,8 +30,8 @@ export default function ActivityItem({ initials, emoji, name, description, time,
       )}
       <div className="min-w-0 flex-1">
         <p className="text-sm font-semibold text-gray-900 truncate">{name}</p>
-        <p className="text-xs text-gray-500 truncate">{description}</p>
-        <p className="text-[10px] text-gray-400 mt-0.5">{time}</p>
+        <p className="text-xs text-gray-500 truncate mt-0.5">{description}</p>
+        <p className="text-[10px] text-gray-400 mt-1">{time}</p>
       </div>
     </div>
   )

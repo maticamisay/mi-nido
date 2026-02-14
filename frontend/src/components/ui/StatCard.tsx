@@ -17,10 +17,10 @@ export default function StatCard({ icon, label, value, bgColor, className }: Sta
       <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
         <EmojiIconBox emoji={icon} size="sm" bgColor={bgColor} className="shrink-0" />
         <div className="min-w-0">
-          <p className="text-[11px] sm:text-xs font-medium text-gray-500 mb-1">
+          <p className="text-[11px] sm:text-xs font-medium text-gray-500 mb-1.5">
             {label}
           </p>
-          <p className="text-lg sm:text-xl font-bold text-gray-900">
+          <p className="text-lg sm:text-xl font-bold text-gray-900 leading-tight">
             {value}
           </p>
         </div>

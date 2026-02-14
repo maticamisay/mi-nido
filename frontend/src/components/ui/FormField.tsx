@@ -11,7 +11,7 @@ interface FormFieldProps {
 
 export default function FormField({ label, error, required, children, className }: FormFieldProps) {
   return (
-    <div className={cn('space-y-1', className)}>
+    <div className={cn('space-y-1.5', className)}>
       <label className="block text-sm font-medium text-gray-700">
         {label}
         {required && <span className="text-red-500 ml-0.5">*</span>}

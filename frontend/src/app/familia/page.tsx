@@ -678,8 +678,8 @@ export default function FamiliaPage() {
                           </div>
 
                           {/* Contenido */}
-                          <div className="mb-4">
-                            <p className="text-[var(--color-text)] whitespace-pre-wrap">
+                          <div className="mb-5">
+                            <p className="text-[var(--color-text)] whitespace-pre-wrap leading-relaxed">
                               {announcement.body}
                             </p>
                           </div>
@@ -751,7 +751,7 @@ export default function FamiliaPage() {
                         <div key={payment._id} className="card">
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="flex items-center gap-2 mb-1.5">
                                 <h3 className="text-lg font-semibold text-[var(--color-text)]">
                                   {payment.description}
                                 </h3>

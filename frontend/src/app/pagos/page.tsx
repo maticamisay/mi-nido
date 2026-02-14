@@ -576,14 +576,14 @@ export default function PagosPage() {
                       
                       {/* Información del pago */}
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-1.5">
                           <h3 className="text-lg font-semibold text-[var(--color-text)]">
                             {payment.child?.firstName} {payment.child?.lastName}
                           </h3>
                           {getStatusBadge(payment.status, payment.dueDate)}
                         </div>
                         
-                        <p className="text-sm text-[var(--color-text-secondary)] mb-1">
+                        <p className="text-sm text-[var(--color-text-secondary)] mb-2">
                           {payment.description}
                         </p>
                         
@@ -989,11 +989,11 @@ export default function PagosPage() {
                   
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <p className="text-[var(--color-text-secondary)]">Total:</p>
+                      <p className="text-[var(--color-text-secondary)] mb-1">Total:</p>
                       <p className="font-semibold">{formatCurrency(paymentToRecord.total)}</p>
                     </div>
                     <div>
-                      <p className="text-[var(--color-text-secondary)]">Ya pagado:</p>
+                      <p className="text-[var(--color-text-secondary)] mb-1">Ya pagado:</p>
                       <p className="font-semibold">{formatCurrency(paymentToRecord.paidAmount || 0)}</p>
                     </div>
                   </div>

@@ -9,7 +9,7 @@ interface DataRowProps {
 
 export default function DataRow({ label, value, className }: DataRowProps) {
   return (
-    <div className={cn('flex justify-between items-center', className)}>
+    <div className={cn('flex justify-between items-center py-1', className)}>
       <span className="text-sm text-gray-500">{label}</span>
       <span className="text-sm font-medium text-gray-900">{value}</span>
     </div>

@@ -13,8 +13,8 @@ interface EmptyStateProps {
 export default function EmptyState({ icon, title, description, action, className }: EmptyStateProps) {
   return (
     <div className={cn('text-center py-12', className)}>
-      {icon && <div className="text-6xl mb-4">{icon}</div>}
-      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      {icon && <div className="text-6xl mb-5">{icon}</div>}
+      <h3 className="text-xl font-semibold mb-3">{title}</h3>
       {description && (
         <p className="text-[var(--color-text-secondary)] mb-6">{description}</p>
       )}

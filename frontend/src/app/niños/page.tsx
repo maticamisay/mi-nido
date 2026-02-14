@@ -437,7 +437,7 @@ export default function NiñosPage() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <DataRow label="Edad:" value={`${calculateAge(child.birthDate)} años`} />
                   <DataRow label="Turno:" value={<span className="capitalize">{child.shift}</span>} />
                   <DataRow label="Sexo:" value={child.gender === 'F' ? 'Femenino' : child.gender === 'M' ? 'Masculino' : 'Otro'} />

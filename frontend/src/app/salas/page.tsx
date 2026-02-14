@@ -272,7 +272,7 @@ export default function SalasPage() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-1">
                   <DataRow label="Edades:" value={`${classroom.ageRange.from} - ${classroom.ageRange.to} años`} />
                   <DataRow label="Capacidad:" value={`${classroom.capacity} nenes`} />
                   <DataRow label="Cuota:" value={formatCurrency(classroom.fee.amount)} />
