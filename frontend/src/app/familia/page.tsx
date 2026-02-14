@@ -8,6 +8,7 @@ import { apiFetch } from '@/lib/api'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import AlertMessage from '@/components/ui/AlertMessage'
 import { getInitials, formatCurrency , formatDateMedium } from '@/lib/utils'
+import StatusBadge from '@/components/ui/StatusBadge'
 
 interface Child {
   _id: string

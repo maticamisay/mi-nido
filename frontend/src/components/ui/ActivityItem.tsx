@@ -23,8 +23,7 @@ export default function ActivityItem({ initials, emoji, name, description, time,
         </div>
       ) : (
         <Avatar
-          firstName={initials?.[0] || '?'}
-          lastName={initials?.[1] || ''}
+          name={initials || '??'}
           size="sm"
           color={color}
         />

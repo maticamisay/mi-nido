@@ -8,6 +8,7 @@ import { apiFetch } from '@/lib/api'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import AlertMessage from '@/components/ui/AlertMessage'
 import { formatDateLong } from '@/lib/utils'
+import PageHeader from '@/components/ui/PageHeader'
 
 interface Classroom {
   _id: string

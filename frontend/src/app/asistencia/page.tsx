@@ -10,6 +10,7 @@ import AlertMessage from '@/components/ui/AlertMessage'
 import PageHeader from '@/components/ui/PageHeader'
 import LoadingButton from '@/components/ui/LoadingButton'
 import { getInitials } from '@/lib/utils'
+import AttendanceStatusButton from '@/components/ui/AttendanceStatusButton'
 
 interface Child {
   _id: string
@@ -433,46 +434,10 @@ export default function AsistenciaPage() {
 
                         {/* Botones de estado */}
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-                          <button
-                            onClick={() => handleStatusChange(child._id, 'present')}
-                            className={`p-3 rounded-lg border-2 transition-colors ${
-                              record.status === 'present'
-                                ? 'bg-green-100 border-green-300 text-green-800'
-                                : 'border-[var(--color-warm-100)] hover:border-green-300 hover:bg-green-50'
-                            }`}
-                          >
-                            ✅ Presente
-                          </button>
-                          <button
-                            onClick={() => handleStatusChange(child._id, 'late')}
-                            className={`p-3 rounded-lg border-2 transition-colors ${
-                              record.status === 'late'
-                                ? 'bg-yellow-100 border-yellow-300 text-yellow-800'
-                                : 'border-[var(--color-warm-100)] hover:border-yellow-300 hover:bg-yellow-50'
-                            }`}
-                          >
-                            ⏰ Tardanza
-                          </button>
-                          <button
-                            onClick={() => handleStatusChange(child._id, 'justified')}
-                            className={`p-3 rounded-lg border-2 transition-colors ${
-                              record.status === 'justified'
-                                ? 'bg-blue-100 border-blue-300 text-blue-800'
-                                : 'border-[var(--color-warm-100)] hover:border-blue-300 hover:bg-blue-50'
-                            }`}
-                          >
-                            📄 Justificado
-                          </button>
-                          <button
-                            onClick={() => handleStatusChange(child._id, 'absent')}
-                            className={`p-3 rounded-lg border-2 transition-colors ${
-                              record.status === 'absent'
-                                ? 'bg-red-100 border-red-300 text-red-800'
-                                : 'border-[var(--color-warm-100)] hover:border-red-300 hover:bg-red-50'
-                            }`}
-                          >
-                            ❌ Ausente
-                          </button>
+                          <AttendanceStatusButton status="present" selected={record.status === 'present'} onClick={() => handleStatusChange(child._id, 'present')} />
+                          <AttendanceStatusButton status="late" selected={record.status === 'late'} onClick={() => handleStatusChange(child._id, 'late')} />
+                          <AttendanceStatusButton status="excused" selected={record.status === 'justified'} onClick={() => handleStatusChange(child._id, 'justified')} />
+                          <AttendanceStatusButton status="absent" selected={record.status === 'absent'} onClick={() => handleStatusChange(child._id, 'absent')} />
                         </div>
 
                         {/* Campos adicionales */}

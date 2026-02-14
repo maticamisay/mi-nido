@@ -82,28 +82,10 @@ export default function DashboardPage() {
 
           {/* Stats cards */}
           <div className="grid-stats page-section stagger-children">
-            {[
-              { icon: '👶', label: 'Nenes presentes', value: attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
-              { icon: '📒', label: 'Cuadernos (mes)', value: stats ? `${stats.dailyEntries.lastMonth}` : '—', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
-              { icon: '💰', label: 'Pagos pendientes', value: stats ? `${stats.payments.pending}` : '—', color: 'var(--color-celeste-100)', accent: 'var(--color-celeste-300)' },
-              { icon: '🏫', label: 'Salas / Nenes', value: stats ? `${stats.classrooms} / ${stats.children.active}` : '—', color: 'var(--color-lila-100)', accent: 'var(--color-lila-300)' },
-            ].map((stat) => (
-              <div key={stat.label} className="card animate-fade-in-up group cursor-default p-4 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
-                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl flex items-center justify-center text-lg sm:text-xl shrink-0" style={{ backgroundColor: stat.color }}>
-                    {stat.icon}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[11px] sm:text-xs font-medium text-[var(--color-text-secondary)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-                      {stat.label}
-                    </p>
-                    <p className="text-lg sm:text-xl font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                      {stat.value}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <StatCard icon="👶" label="Nenes presentes" value={attendance ? `${attendance.gardenSummary.present} / ${attendance.gardenSummary.totalChildren}` : '—'} bgColor="var(--color-menta-100)" className="animate-fade-in-up" />
+            <StatCard icon="📒" label="Cuadernos (mes)" value={stats ? `${stats.dailyEntries.lastMonth}` : '—'} bgColor="var(--color-pollito-100)" className="animate-fade-in-up" />
+            <StatCard icon="💰" label="Pagos pendientes" value={stats ? `${stats.payments.pending}` : '—'} bgColor="var(--color-celeste-100)" className="animate-fade-in-up" />
+            <StatCard icon="🏫" label="Salas / Nenes" value={stats ? `${stats.classrooms} / ${stats.children.active}` : '—'} bgColor="var(--color-lila-100)" className="animate-fade-in-up" />
           </div>
 
           {/* Main content grid */}
@@ -146,22 +128,9 @@ export default function DashboardPage() {
               </div>
               
               <div className="space-y-5">
-                {[
-                  { initials: 'VL', name: 'Valentina López', action: 'Cuaderno actualizado — Sala Pollitos', time: 'Hace 15 min', bg: 'var(--color-pollito-300)' },
-                  { initials: 'SF', name: 'Santiago Fernández', action: 'Asistencia marcada — Sala Ositos', time: 'Hace 1 hora', bg: 'var(--color-menta-300)' },
-                  { initials: '📢', name: 'Nuevo comunicado', action: 'Reunión de padres — Sala Pollitos', time: 'Hace 2 horas', bg: 'var(--color-nido-300)', isEmoji: true },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3 group">
-                    <div className="avatar size-sm shrink-0" style={{ background: item.bg }}>
-                      {item.isEmoji ? item.initials : <span className="text-[11px]">{item.initials}</span>}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-[var(--color-text)] truncate">{item.name}</p>
-                      <p className="text-xs text-[var(--color-text-secondary)] truncate">{item.action}</p>
-                      <p className="text-[10px] text-[var(--color-text-muted)] mt-0.5">{item.time}</p>
-                    </div>
-                  </div>
-                ))}
+                <ActivityItem initials="VL" name="Valentina López" description="Cuaderno actualizado — Sala Pollitos" time="Hace 15 min" color="var(--color-pollito-300)" />
+                <ActivityItem initials="SF" name="Santiago Fernández" description="Asistencia marcada — Sala Ositos" time="Hace 1 hora" color="var(--color-menta-300)" />
+                <ActivityItem emoji="📢" name="Nuevo comunicado" description="Reunión de padres — Sala Pollitos" time="Hace 2 horas" color="var(--color-nido-300)" />
               </div>
             </div>
           </div>
@@ -173,25 +142,10 @@ export default function DashboardPage() {
             </h3>
             
             <div className="grid-actions stagger-children">
-              {[
-                { emoji: '📒', label: 'Escribir cuaderno', href: '/cuaderno' },
-                { emoji: '✅', label: 'Tomar asistencia', href: '/asistencia' },
-                { emoji: '📢', label: 'Nuevo comunicado', href: '/comunicados' },
-                { emoji: '👶', label: 'Agregar nene', href: '/niños' },
-              ].map((action) => (
-                <Link
-                  key={action.label}
-                  href={action.href}
-                  className="card text-center p-5 group hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 animate-fade-in-up"
-                >
-                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                    {action.emoji}
-                  </div>
-                  <p className="text-sm font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
-                    {action.label}
-                  </p>
-                </Link>
-              ))}
+              <ActionCard emoji="📒" label="Escribir cuaderno" href="/cuaderno" className="animate-fade-in-up" />
+              <ActionCard emoji="✅" label="Tomar asistencia" href="/asistencia" className="animate-fade-in-up" />
+              <ActionCard emoji="📢" label="Nuevo comunicado" href="/comunicados" className="animate-fade-in-up" />
+              <ActionCard emoji="👶" label="Agregar nene" href="/niños" className="animate-fade-in-up" />
             </div>
           </div>
         </div>

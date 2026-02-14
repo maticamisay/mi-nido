@@ -13,6 +13,7 @@ import EmptyState from '@/components/ui/EmptyState'
 import Avatar from '@/components/ui/Avatar'
 import { useAuth } from '@/contexts/AuthContext'
 import { apiFetch } from '@/lib/api'
+import DataRow from '@/components/ui/DataRow'
 
 interface Child {
   _id: string
@@ -409,7 +410,7 @@ export default function NiñosPage() {
               <div key={child._id} className="card hover:shadow-lg transition-shadow">
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <Avatar firstName={child.firstName} lastName={child.lastName} photo={child.photo} size="md" />
+                    <Avatar name={`${child.firstName} ${child.lastName}`} photo={child.photo} size="md" />
                     <div>
                       <h3 className="text-lg font-semibold text-[var(--color-text)]">
                         {child.firstName} {child.lastName}
@@ -437,20 +438,9 @@ export default function NiñosPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Edad:</span>
-                    <span className="text-sm font-medium">{calculateAge(child.birthDate)} años</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Turno:</span>
-                    <span className="text-sm font-medium capitalize">{child.shift}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-[var(--color-text-secondary)]">Sexo:</span>
-                    <span className="text-sm font-medium">
-                      {child.gender === 'F' ? 'Femenino' : child.gender === 'M' ? 'Masculino' : 'Otro'}
-                    </span>
-                  </div>
+                  <DataRow label="Edad:" value={`${calculateAge(child.birthDate)} años`} />
+                  <DataRow label="Turno:" value={<span className="capitalize">{child.shift}</span>} />
+                  <DataRow label="Sexo:" value={child.gender === 'F' ? 'Femenino' : child.gender === 'M' ? 'Masculino' : 'Otro'} />
                   {child.medical.allergies.length > 0 && (
                     <div>
                       <span className="text-sm text-[var(--color-text-secondary)]">Alergias:</span>
