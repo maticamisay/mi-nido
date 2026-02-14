@@ -64,7 +64,7 @@ export default function SalasPage() {
 
   const emojiOptions = ['🐥', '🐻', '⭐', '🦋', '🌈', '🌸', '🐰', '🦊', '🐼', '🌞']
 
-  useEffect(() => { fetchClassrooms() }, [])
+  useEffect(() => { if (token && gardenId) fetchClassrooms() }, [token, gardenId])
 
   const fetchClassrooms = async () => {
     try {

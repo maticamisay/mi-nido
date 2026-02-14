@@ -140,12 +140,11 @@ export default function PagosPage() {
   }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if (token && gardenId) fetchData()
+  }, [token, gardenId])
 
   useEffect(() => {
-    fetchPayments()
-    fetchStats()
+    if (token && gardenId) { fetchPayments(); fetchStats() }
   }, [filterPeriod, filterStatus, filterClassroom])
 
   const fetchData = async () => {

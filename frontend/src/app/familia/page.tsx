@@ -155,8 +155,8 @@ export default function FamiliaPage() {
   }
 
   useEffect(() => {
-    fetchMyChildren()
-  }, [])
+    if (token && gardenId) fetchMyChildren()
+  }, [token, gardenId])
 
   useEffect(() => {
     if (selectedChild) {

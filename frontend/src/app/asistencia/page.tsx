@@ -61,8 +61,8 @@ export default function AsistenciaPage() {
   const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
-    fetchClassrooms()
-  }, [])
+    if (token && gardenId) fetchClassrooms()
+  }, [token, gardenId])
 
   useEffect(() => {
     if (selectedClassroom) {

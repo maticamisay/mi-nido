@@ -180,11 +180,11 @@ export default function CuadernoPage() {
   ]
 
   useEffect(() => {
-    fetchClassrooms()
-  }, [])
+    if (token && gardenId) fetchClassrooms()
+  }, [token, gardenId])
 
   useEffect(() => {
-    if (selectedClassroom) {
+    if (selectedClassroom && token && gardenId) {
       fetchChildrenAndEntries()
     }
   }, [selectedClassroom, selectedDate])

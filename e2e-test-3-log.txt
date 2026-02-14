@@ -1,0 +1,30 @@
+=== 1. LOGIN ===
+Current URL after login: http://minido.38.105.232.177.sslip.io/dashboard
+
+=== 2. PAGOS ===
+Pagos page text (first 500): (self.__next_f=self.__next_f||[]).push([0])self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[57951,[\"/_next/static/chunks/292f4316a318c527.js\"],\"AuthProvider\"]\n3:I[39756,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n5:I[47257,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],
+No generate button found
+No cuota rows found for payment
+
+=== 3. FAMILIA ===
+Familia page text (first 500): (self.__next_f=self.__next_f||[]).push([0])self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[57951,[\"/_next/static/chunks/292f4316a318c527.js\"],\"AuthProvider\"]\n3:I[39756,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n5:I[47257,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],
+
+=== 4. MÁS ===
+Más page text (first 500): (self.__next_f=self.__next_f||[]).push([0])self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[57951,[\"/_next/static/chunks/292f4316a318c527.js\"],\"AuthProvider\"]\n3:I[39756,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n4:I[37457,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],\"default\"]\n5:I[47257,[\"/_next/static/chunks/ff1a16fafef87110.js\",\"/_next/static/chunks/d2be314c3ece3fbe.js\"],
+Found 43 clickable elements in Más
+Links in Más: [{"href":"/dashboard","text":"🏠Inicio"},{"href":"/salas","text":"🏫Salas"},{"href":"/ninos","text":"👶Nenes"},{"href":"/asistencia","text":"✅Asistencia"},{"href":"/cuaderno","text":"📒Cuaderno"},{"href":"/comunicados","text":"📢Comunicados"},{"href":"/pagos","text":"💰Pagos"},{"href":"/configuracion","text":"⚙️Ajustes"},{"href":"/salas","text":"🏫SalasAdministrar salas y seños"},{"href":"/ninos","text":"👶NenesFichas y legajos de los nenes"},{"href":"/asistencia","text":"✅AsistenciaControlar la asistencia diaria"},{"href":"/mensajes","text":"💬MensajesComunicación con familias"},{"href":"/calendario","text":"📅CalendarioEventos y actividades"},{"href":"/configuracion","text":"⚙️AjustesConfiguración del jardín"},{"href":"/dashboard","text":"🏠Inicio"},{"href":"/cuaderno","text":"📒Cuaderno"},{"href":"/comunicados","text":"📢Comunicados"},{"href":"/pagos","text":"💰Pagos"},{"href":"/mas","text":"⋯Más"}]
+Navigating to /configuracion (⚙️Ajustes)
+Navigating to /mensajes (💬MensajesComunicación con familias)
+Navigating to /calendario (📅CalendarioEventos y actividades)
+Navigating to /configuracion (⚙️AjustesConfiguración del jardín)
+
+=== 5. MOBILE REVIEW ===
+[dashboard] navbar=false, brokenIcons=false, scrollH=2484, viewH=812
+[salas] navbar=false, brokenIcons=false, scrollH=812, viewH=812
+[ninos] navbar=false, brokenIcons=false, scrollH=938, viewH=812
+[asistencia] navbar=false, brokenIcons=false, scrollH=830, viewH=812
+[cuaderno] navbar=false, brokenIcons=false, scrollH=890, viewH=812
+[comunicados] navbar=false, brokenIcons=false, scrollH=812, viewH=812
+[pagos] navbar=false, brokenIcons=false, scrollH=992, viewH=812
+[familia] navbar=false, brokenIcons=false, scrollH=812, viewH=812
+[mas] navbar=false, brokenIcons=false, scrollH=1982, viewH=812

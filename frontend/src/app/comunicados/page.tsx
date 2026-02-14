@@ -89,8 +89,8 @@ export default function ComunicadosPage() {
   })
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if (token && gardenId) fetchData()
+  }, [token, gardenId])
 
   const fetchData = async () => {
     setLoading(true)

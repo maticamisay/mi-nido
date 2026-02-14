@@ -171,8 +171,8 @@ export default function NiñosPage() {
   const [newCondition, setNewCondition] = useState('')
 
   useEffect(() => {
-    Promise.all([fetchChildren(), fetchClassrooms()])
-  }, [])
+    if (token && gardenId) Promise.all([fetchChildren(), fetchClassrooms()])
+  }, [token, gardenId])
 
   const fetchChildren = async () => {
     try {
