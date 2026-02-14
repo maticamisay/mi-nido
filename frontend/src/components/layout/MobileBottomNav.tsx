@@ -8,7 +8,6 @@ export default function MobileBottomNav() {
   const pathname = usePathname()
   const { user } = useAuth()
 
-  // Verificar si el usuario es familia
   const isFamily = user?.gardens?.[0]?.role === 'family'
 
   const bottomNavigation = isFamily ? [
@@ -26,14 +25,9 @@ export default function MobileBottomNav() {
   ]
 
   const isActiveLink = (href: string) => {
-    if (href === '/dashboard') {
-      return pathname === '/dashboard' || pathname === '/'
-    }
-    if (href === '/familia') {
-      return pathname === '/familia' || pathname === '/'
-    }
+    if (href === '/dashboard') return pathname === '/dashboard' || pathname === '/'
+    if (href === '/familia') return pathname === '/familia' || pathname === '/'
     if (href === '/mas') {
-      // "Más" es activo para todas las páginas que no están en el bottom nav
       const mainPaths = isFamily 
         ? ['/familia', '/cuaderno', '/comunicados', '/pagos']
         : ['/dashboard', '/cuaderno', '/comunicados', '/pagos']
@@ -43,30 +37,35 @@ export default function MobileBottomNav() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--color-warm-100)] bg-white">
+    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-[var(--color-warm-100)] bg-white/90 backdrop-blur-xl safe-area-bottom">
       <div className="grid grid-cols-5">
-        {bottomNavigation.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={`
-              flex flex-col items-center justify-center py-2 px-1 min-h-[60px] transition-colors
-              ${
-                isActiveLink(item.href)
-                  ? 'text-[var(--color-primary)]'
-                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text)]'
-              }
-            `}
-          >
-            <span className="text-xl mb-1">{item.icon}</span>
-            <span className="text-xs font-medium leading-none">{item.name}</span>
-            
-            {/* Indicador activo */}
-            {isActiveLink(item.href) && (
-              <div className="absolute -top-px left-1/2 -translate-x-1/2 w-8 h-1 bg-[var(--color-primary)] rounded-b-full" />
-            )}
-          </Link>
-        ))}
+        {bottomNavigation.map((item) => {
+          const active = isActiveLink(item.href)
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`
+                relative flex flex-col items-center justify-center py-2 px-1 min-h-[56px] transition-all duration-200
+                ${active
+                  ? 'text-[var(--color-nido-500)]'
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+                }
+              `}
+            >
+              <span className={`text-xl mb-0.5 transition-transform duration-200 ${active ? 'scale-110' : ''}`}>
+                {item.icon}
+              </span>
+              <span className="text-[10px] font-semibold leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+                {item.name}
+              </span>
+              
+              {active && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full" style={{ background: 'linear-gradient(90deg, var(--color-nido-300), var(--color-nido-400))' }} />
+              )}
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

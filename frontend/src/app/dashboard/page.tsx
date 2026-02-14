@@ -1,230 +1,155 @@
+'use client'
+
+import { useAuth } from '@/contexts/AuthContext'
 import AppLayout from '@/components/layout/AppLayout'
 import ProtectedRoute from '@/components/ui/ProtectedRoute'
+import Link from 'next/link'
 
 export default function DashboardPage() {
+  const { user } = useAuth()
+  const firstName = user?.profile.firstName || 'María'
+
+  const getGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) return '¡Buen día'
+    if (hour < 18) return '¡Buenas tardes'
+    return '¡Buenas noches'
+  }
+
   return (
     <ProtectedRoute>
       <AppLayout>
-      <div className="py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-            ¡Buen día, María! 🌅
-          </h1>
-          <p className="text-[var(--color-text-secondary)]">
-            Acá tenés un resumen de lo que está pasando en el jardín hoy.
-          </p>
-        </div>
-
-        {/* Estadísticas rápidas */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-          <div className="card">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-menta-100)]">
-                <span className="text-xl">👶</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Nenes presentes
-                </p>
-                <p className="text-2xl font-bold text-[var(--color-text)]">
-                  28 / 35
-                </p>
-              </div>
-            </div>
+        <div className="py-8">
+          {/* Header */}
+          <div className="mb-8 animate-fade-in-up">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[var(--color-text)] mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+              {getGreeting()}, {firstName}! 👋
+            </h1>
+            <p className="text-[var(--color-text-secondary)]">
+              Acá tenés un resumen de lo que pasa hoy en el jardín.
+            </p>
           </div>
 
-          <div className="card">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-pollito-100)]">
-                <span className="text-xl">📒</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Cuadernos completados
-                </p>
-                <p className="text-2xl font-bold text-[var(--color-text)]">
-                  12 / 28
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-celeste-100)]">
-                <span className="text-xl">💰</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Pagos pendientes
-                </p>
-                <p className="text-2xl font-bold text-[var(--color-text)]">
-                  7
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-lila-100)]">
-                <span className="text-xl">📢</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-[var(--color-text-secondary)]">
-                  Comunicados nuevos
-                </p>
-                <p className="text-2xl font-bold text-[var(--color-text)]">
-                  2
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Secciones principales */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Asistencia de hoy */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-[var(--color-text)]">
-                Asistencia de Hoy
-              </h3>
-              <span className="badge success">80%</span>
-            </div>
-            
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-[var(--color-nido-50)]">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">🐥</span>
-                  <span className="font-medium">Pollitos</span>
+          {/* Stats cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 stagger-children">
+            {[
+              { icon: '👶', label: 'Nenes presentes', value: '28 / 35', color: 'var(--color-menta-100)', accent: 'var(--color-menta-300)' },
+              { icon: '📒', label: 'Cuadernos hoy', value: '12 / 28', color: 'var(--color-pollito-100)', accent: 'var(--color-pollito-300)' },
+              { icon: '💰', label: 'Pagos pendientes', value: '7', color: 'var(--color-celeste-100)', accent: 'var(--color-celeste-300)' },
+              { icon: '📢', label: 'Comunicados', value: '2', color: 'var(--color-lila-100)', accent: 'var(--color-lila-300)' },
+            ].map((stat) => (
+              <div key={stat.label} className="card animate-fade-in-up group cursor-default">
+                <div className="flex items-start gap-3">
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0" style={{ backgroundColor: stat.color }}>
+                    {stat.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-[var(--color-text-secondary)] mb-0.5 truncate" style={{ fontFamily: 'var(--font-display)' }}>
+                      {stat.label}
+                    </p>
+                    <p className="text-xl font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+                      {stat.value}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold">8 / 10</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">presentes</p>
-                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Main content grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Attendance */}
+            <div className="card animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
+              <div className="flex items-center justify-between mb-5">
+                <h3 className="text-lg font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+                  Asistencia de Hoy
+                </h3>
+                <span className="badge success">80%</span>
               </div>
               
-              <div className="flex items-center justify-between p-3 rounded-lg bg-[var(--color-nido-50)]">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">🐻</span>
-                  <span className="font-medium">Ositos</span>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold">12 / 15</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">presentes</p>
-                </div>
+              <div className="space-y-3">
+                {[
+                  { emoji: '🐥', name: 'Pollitos', count: '8 / 10', color: 'var(--color-pollito-100)' },
+                  { emoji: '🐻', name: 'Ositos', count: '12 / 15', color: 'var(--color-menta-100)' },
+                  { emoji: '⭐', name: 'Estrellitas', count: '8 / 10', color: 'var(--color-celeste-100)' },
+                ].map((sala) => (
+                  <div key={sala.name} className="flex items-center justify-between p-3 rounded-xl transition-colors hover:bg-[var(--color-warm-50)]" style={{ backgroundColor: sala.color + '60' }}>
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg">{sala.emoji}</span>
+                      <span className="font-semibold text-sm" style={{ fontFamily: 'var(--font-display)' }}>{sala.name}</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold">{sala.count}</p>
+                      <p className="text-[10px] text-[var(--color-text-muted)] uppercase tracking-wider">presentes</p>
+                    </div>
+                  </div>
+                ))}
               </div>
               
-              <div className="flex items-center justify-between p-3 rounded-lg bg-[var(--color-nido-50)]">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">⭐</span>
-                  <span className="font-medium">Estrellitas</span>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold">8 / 10</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">presentes</p>
-                </div>
+              <Link href="/asistencia" className="btn btn-secondary w-full mt-5 text-sm">
+                Ver toda la asistencia
+              </Link>
+            </div>
+
+            {/* Recent activity */}
+            <div className="card animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="flex items-center justify-between mb-5">
+                <h3 className="text-lg font-bold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+                  Actividad Reciente
+                </h3>
+              </div>
+              
+              <div className="space-y-4">
+                {[
+                  { initials: 'VL', name: 'Valentina López', action: 'Cuaderno actualizado — Sala Pollitos', time: 'Hace 15 min', bg: 'var(--color-pollito-300)' },
+                  { initials: 'SF', name: 'Santiago Fernández', action: 'Asistencia marcada — Sala Ositos', time: 'Hace 1 hora', bg: 'var(--color-menta-300)' },
+                  { initials: '📢', name: 'Nuevo comunicado', action: 'Reunión de padres — Sala Pollitos', time: 'Hace 2 horas', bg: 'var(--color-nido-300)', isEmoji: true },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-3 group">
+                    <div className="avatar size-sm shrink-0" style={{ background: item.bg }}>
+                      {item.isEmoji ? item.initials : <span className="text-[11px]">{item.initials}</span>}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-[var(--color-text)] truncate">{item.name}</p>
+                      <p className="text-xs text-[var(--color-text-secondary)] truncate">{item.action}</p>
+                      <p className="text-[10px] text-[var(--color-text-muted)] mt-0.5">{item.time}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            
-            <button className="btn btn-secondary w-full mt-4">
-              Ver toda la asistencia
-            </button>
           </div>
 
-          {/* Actividades recientes */}
-          <div className="card">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-[var(--color-text)]">
-                Actividades Recientes
-              </h3>
-            </div>
+          {/* Quick actions */}
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            <h3 className="text-lg font-bold text-[var(--color-text)] mb-4" style={{ fontFamily: 'var(--font-display)' }}>
+              Acciones Rápidas
+            </h3>
             
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <div className="avatar size-sm bg-[var(--color-pollito-300)]">
-                  VA
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Valentina López</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">
-                    Cuaderno actualizado - Sala Pollitos
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+              {[
+                { emoji: '📒', label: 'Escribir cuaderno', href: '/cuaderno' },
+                { emoji: '✅', label: 'Tomar asistencia', href: '/asistencia' },
+                { emoji: '📢', label: 'Nuevo comunicado', href: '/comunicados' },
+                { emoji: '👶', label: 'Agregar nene', href: '/niños' },
+              ].map((action) => (
+                <Link
+                  key={action.label}
+                  href={action.href}
+                  className="card text-center p-5 group hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 animate-fade-in-up"
+                >
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {action.emoji}
+                  </div>
+                  <p className="text-sm font-semibold text-[var(--color-text)]" style={{ fontFamily: 'var(--font-display)' }}>
+                    {action.label}
                   </p>
-                  <p className="text-xs text-[var(--color-text-muted)]">
-                    Hace 15 minutos
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <div className="avatar size-sm bg-[var(--color-menta-300)]">
-                  SA
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Santiago Fernández</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">
-                    Asistencia marcada - Sala Ositos
-                  </p>
-                  <p className="text-xs text-[var(--color-text-muted)]">
-                    Hace 1 hora
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <div className="avatar size-sm bg-[var(--color-primary)]">
-                  📢
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Nuevo comunicado</p>
-                  <p className="text-xs text-[var(--color-text-secondary)]">
-                    Reunión de padres - Sala Pollitos
-                  </p>
-                  <p className="text-xs text-[var(--color-text-muted)]">
-                    Hace 2 horas
-                  </p>
-                </div>
-              </div>
+                </Link>
+              ))}
             </div>
-            
-            <button className="btn btn-secondary w-full mt-4">
-              Ver todo
-            </button>
           </div>
         </div>
-
-        {/* Acciones rápidas */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-[var(--color-text)] mb-4">
-            Acciones Rápidas
-          </h3>
-          
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <button className="card hover:shadow-lg transition-shadow text-center p-6">
-              <div className="text-2xl mb-2">📒</div>
-              <p className="text-sm font-medium">Escribir en el cuaderno</p>
-            </button>
-            
-            <button className="card hover:shadow-lg transition-shadow text-center p-6">
-              <div className="text-2xl mb-2">✅</div>
-              <p className="text-sm font-medium">Marcar asistencia</p>
-            </button>
-            
-            <button className="card hover:shadow-lg transition-shadow text-center p-6">
-              <div className="text-2xl mb-2">📢</div>
-              <p className="text-sm font-medium">Nuevo comunicado</p>
-            </button>
-            
-            <button className="card hover:shadow-lg transition-shadow text-center p-6">
-              <div className="text-2xl mb-2">👶</div>
-              <p className="text-sm font-medium">Agregar nene</p>
-            </button>
-          </div>
-        </div>
-      </div>
-    </AppLayout>
+      </AppLayout>
     </ProtectedRoute>
   )
 }

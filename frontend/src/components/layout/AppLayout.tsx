@@ -14,36 +14,34 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)]">
-      {/* Sidebar para desktop */}
-      <div className="hidden tablet-up lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      {/* Desktop sidebar */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-[260px] lg:flex-col">
         <Sidebar />
       </div>
 
-      {/* Sidebar móvil overlay */}
+      {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
-          <div className="fixed inset-y-0 left-0 w-72">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setSidebarOpen(false)} />
+          <div className="fixed inset-y-0 left-0 w-[280px] animate-slide-in-left">
             <Sidebar onClose={() => setSidebarOpen(false)} />
           </div>
         </div>
       )}
 
-      {/* Contenido principal */}
-      <div className="lg:pl-72">
-        {/* Header con menú hamburguesa para móvil */}
+      {/* Main content */}
+      <div className="lg:pl-[260px]">
         <Header onMenuClick={() => setSidebarOpen(true)} />
         
-        {/* Contenido */}
-        <main className="pb-16 lg:pb-8">
+        <main className="pb-20 lg:pb-8">
           <div className="px-4 sm:px-6 lg:px-8">
             {children}
           </div>
         </main>
       </div>
 
-      {/* Bottom navigation para móvil */}
-      <div className="tablet-up:hidden">
+      {/* Mobile bottom nav */}
+      <div className="lg:hidden">
         <MobileBottomNav />
       </div>
     </div>
