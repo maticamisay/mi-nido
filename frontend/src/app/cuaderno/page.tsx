@@ -376,7 +376,7 @@ export default function CuadernoPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -389,17 +389,13 @@ export default function CuadernoPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-5">
+          <div className="page-header">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-                  📒 Cuaderno Digital del Día ⭐
-                </h1>
-                <p className="text-[var(--color-text-secondary)]">
-                  Registrá las actividades, comidas, descanso y estado de ánimo de cada niño.
-                </p>
+                <h1>📒 Cuaderno Digital del Día ⭐</h1>
+                <p>Registrá las actividades, comidas, descanso y estado de ánimo de cada niño.</p>
               </div>
             </div>
 
@@ -459,7 +455,7 @@ export default function CuadernoPage() {
           {selectedClassroom && currentClassroom && (
             <div>
               {/* Información de la sala */}
-              <div className="card mb-8">
+              <div className="card page-section">
                 <div className="flex items-center gap-5 mb-4">
                   <div 
                     className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
@@ -497,7 +493,7 @@ export default function CuadernoPage() {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <div className="grid-cards">
                   {children.map((child) => {
                     const entry = getEntryForChild(child._id)
 
@@ -614,7 +610,7 @@ export default function CuadernoPage() {
         {showModal && selectedChild && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-8">
+              <div className="card-spacious">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-3">
                     <div className="avatar size-md bg-[var(--color-primary)]">
@@ -641,7 +637,7 @@ export default function CuadernoPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="form-group">
                   {/* Estado de ánimo */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-3">
@@ -983,7 +979,7 @@ export default function CuadernoPage() {
                   </div>
 
                   {/* Botones de acción */}
-                  <div className="flex gap-3 pt-4 border-t border-[var(--color-warm-100)]">
+                  <div className="form-actions pt-4 border-t border-[var(--color-warm-100)]">
                     <button
                       type="button"
                       onClick={handleCloseModal}

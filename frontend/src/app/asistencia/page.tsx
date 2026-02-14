@@ -266,7 +266,7 @@ export default function AsistenciaPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -279,17 +279,13 @@ export default function AsistenciaPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-5">
+          <div className="page-header">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-                  ✅ Asistencia Diaria
-                </h1>
-                <p className="text-[var(--color-text-secondary)]">
-                  Registrá la asistencia diaria de los niños por sala.
-                </p>
+                <h1>✅ Asistencia Diaria</h1>
+                <p>Registrá la asistencia diaria de los niños por sala.</p>
               </div>
               
               {attendance && (
@@ -392,7 +388,7 @@ export default function AsistenciaPage() {
               </div>
 
               {/* Información de la sala */}
-              <div className="card mb-8">
+              <div className="card page-section">
                 <div className="flex items-center gap-5 mb-4">
                   <div 
                     className="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
@@ -425,7 +421,7 @@ export default function AsistenciaPage() {
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">👶</div>
                   <h3 className="text-xl font-semibold mb-2">No hay niños en esta sala</h3>
-                  <p className="text-[var(--color-text-secondary)]">
+                  <p>
                     Agregá niños a la sala para poder tomar asistencia
                   </p>
                 </div>
@@ -585,7 +581,7 @@ export default function AsistenciaPage() {
             <div className="text-center py-12">
               <div className="text-6xl mb-4">✅</div>
               <h3 className="text-xl font-semibold mb-2">Seleccioná una sala</h3>
-              <p className="text-[var(--color-text-secondary)]">
+              <p>
                 Elegí una sala y fecha para comenzar a tomar asistencia
               </p>
             </div>

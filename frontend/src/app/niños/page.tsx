@@ -443,7 +443,7 @@ export default function NiñosPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -456,17 +456,13 @@ export default function NiñosPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-5">
+          <div className="page-header">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-                  👶 Administración de Nenes
-                </h1>
-                <p className="text-[var(--color-text-secondary)]">
-                  Administrá los nenes del jardín con sus fichas médicas y datos de contacto.
-                </p>
+                <h1>👶 Administración de Nenes</h1>
+                <p>Administrá los nenes del jardín con sus fichas médicas y datos de contacto.</p>
               </div>
               <button
                 onClick={() => setShowModal(true)}
@@ -516,7 +512,7 @@ export default function NiñosPage() {
           )}
 
           {/* Lista de niños */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+          <div className="grid-cards">
             {filteredChildren.map((child) => (
               <div key={child._id} className="card hover:shadow-lg transition-shadow">
                 <div className="flex items-start justify-between mb-5">
@@ -659,7 +655,7 @@ export default function NiñosPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-8">
+              <div className="card-spacious">
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingChild ? 'Editar nene' : 'Nuevo nene'}
@@ -672,7 +668,7 @@ export default function NiñosPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="form-group">
                   {/* Datos personales */}
                   <div>
                     <h3 className="text-lg font-semibold text-[var(--color-text)] mb-4">
@@ -1057,7 +1053,7 @@ export default function NiñosPage() {
                   </div>
 
                   {/* Botones de acción */}
-                  <div className="flex gap-3 pt-4 border-t border-[var(--color-warm-100)]">
+                  <div className="form-actions pt-4 border-t border-[var(--color-warm-100)]">
                     <button
                       type="button"
                       onClick={handleCloseModal}

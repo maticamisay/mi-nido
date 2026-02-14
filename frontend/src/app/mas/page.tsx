@@ -17,17 +17,13 @@ export default function MasPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-              ⋯ Más Opciones
-            </h1>
-            <p className="text-[var(--color-text-secondary)]">
-              Accedé a todas las funciones de Mi Nido.
-            </p>
+        <div>
+          <div className="page-header">
+            <h1>⋯ Más Opciones</h1>
+            <p>Accedé a todas las funciones de Mi Nido.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+          <div className="grid-cards">
             {moreOptions.map((option) => (
               <Link
                 key={option.name}

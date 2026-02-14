@@ -203,7 +203,7 @@ export default function SalasPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -216,17 +216,13 @@ export default function SalasPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-5">
+          <div className="page-header">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-                  🏫 Gestión de Salas
-                </h1>
-                <p className="text-[var(--color-text-secondary)]">
-                  Administrá las salas del jardín, sus seños y configuraciones.
-                </p>
+                <h1>🏫 Gestión de Salas</h1>
+                <p>Administrá las salas del jardín, sus seños y configuraciones.</p>
               </div>
               <button
                 onClick={() => setShowModal(true)}
@@ -249,7 +245,7 @@ export default function SalasPage() {
           )}
 
           {/* Lista de salas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+          <div className="grid-cards">
             {classrooms.map((classroom) => (
               <div key={classroom._id} className="card hover:shadow-lg transition-shadow">
                 <div className="flex items-center justify-between mb-5">
@@ -355,7 +351,7 @@ export default function SalasPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-8">
+              <div className="card-spacious">
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingClassroom ? 'Editar Sala' : 'Nueva Sala'}
@@ -368,7 +364,7 @@ export default function SalasPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="form-group">
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
                       Nombre de la sala
@@ -553,7 +549,7 @@ export default function SalasPage() {
                     />
                   </div>
 
-                  <div className="flex gap-3 pt-4">
+                  <div className="form-actions pt-4">
                     <button
                       type="button"
                       onClick={handleCloseModal}

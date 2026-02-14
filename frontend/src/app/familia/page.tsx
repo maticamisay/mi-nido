@@ -314,7 +314,7 @@ export default function FamiliaPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -327,9 +327,9 @@ export default function FamiliaPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header familiar */}
-          <div className="mb-10">
+          <div className="page-header">
             <div className="card p-6">
               <div className="flex items-center gap-5 mb-4">
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-nido-400)] flex items-center justify-center text-white text-2xl font-bold">

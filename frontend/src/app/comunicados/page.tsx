@@ -279,7 +279,7 @@ export default function ComunicadosPage() {
     return (
       <ProtectedRoute>
         <AppLayout>
-          <div className="py-10">
+          <div>
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--color-primary)]"></div>
             </div>
@@ -292,17 +292,13 @@ export default function ComunicadosPage() {
   return (
     <ProtectedRoute>
       <AppLayout>
-        <div className="py-10">
+        <div>
           {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-5">
+          <div className="page-header">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-[var(--color-text)] mb-2">
-                  📢 Comunicados
-                </h1>
-                <p className="text-[var(--color-text-secondary)]">
-                  Enviá comunicados y noticias a las familias.
-                </p>
+                <h1>📢 Comunicados</h1>
+                <p>Enviá comunicados y noticias a las familias.</p>
               </div>
               <button
                 onClick={handleCreate}
@@ -390,7 +386,7 @@ export default function ComunicadosPage() {
               )}
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="form-group">
               {filteredAnnouncements.map((announcement) => (
                 <div 
                   key={announcement._id} 
@@ -520,7 +516,7 @@ export default function ComunicadosPage() {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-8">
+              <div className="card-spacious">
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-xl font-bold text-[var(--color-text)]">
                     {editingAnnouncement ? 'Editar comunicado' : 'Nuevo comunicado'}
@@ -533,7 +529,7 @@ export default function ComunicadosPage() {
                   </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="form-group">
                   {/* Título */}
                   <div>
                     <label className="block text-sm font-semibold text-[var(--color-text)] mb-2">
@@ -696,7 +692,7 @@ export default function ComunicadosPage() {
                   )}
 
                   {/* Botones */}
-                  <div className="flex gap-3 pt-4 border-t border-[var(--color-warm-100)]">
+                  <div className="form-actions pt-4 border-t border-[var(--color-warm-100)]">
                     <button
                       type="button"
                       onClick={handleCloseModal}
